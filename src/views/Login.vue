@@ -23,6 +23,12 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import { login, user } from "../services/api";
+import {
+  USER_EMAIL,
+  USER_PASSWORD,
+  REMEMBER_STATUS,
+  TOKEN
+} from "../utils/Constants";
 
 export default {
   name: "Login",
@@ -33,22 +39,45 @@ export default {
   }),
   methods: {
     async login() {
-      this.$Loading.start();
-      let loginData = {};
-      loginData.email = this.email;
-      loginData.password = this.password;
-      await login(loginData)
-        .then(res => {
-          localStorage.setItem("token", res.data);
-          setTimeout(() => {
-            this.$Loading.finish();
-          }, 500);
-          return res;
-        })
-        .catch(err => {
-          this.$Loading.error();
-          console.log("err :", err);
-        });
+      if (this.email && this.password) {
+        if (this.single) {
+          localStorage.setItem(REMEMBER_STATUS, this.single);
+          localStorage.setItem(USER_EMAIL, this.email);
+          localStorage.setItem(USER_PASSWORD, this.password);
+        } else {
+          localStorage.removeItem(USER_EMAIL);
+          localStorage.removeItem(USER_PASSWORD);
+          localStorage.removeItem(REMEMBER_STATUS);
+        }
+        this.$Loading.start();
+        let loginData = {};
+        loginData.email = this.email;
+        loginData.password = this.password;
+        await login(loginData)
+          .then(res => {
+            localStorage.setItem(TOKEN, res.data);
+            setTimeout(() => {
+              this.$Loading.finish();
+              this.$Message.success("登陆成功");
+            }, 500);
+            return res;
+          })
+          .catch(err => {
+            this.$Loading.error();
+            console.log("err :", err);
+          });
+      } else {
+        this.$Message.info("请完成表单");
+      }
+    }
+  },
+  mounted() {
+    if (localStorage.getItem(REMEMBER_STATUS)) {
+      this.single = true;
+      if (localStorage.getItem(USER_PASSWORD)) {
+        this.email = localStorage.getItem(USER_EMAIL);
+        this.password = localStorage.getItem(USER_PASSWORD);
+      }
     }
   }
 };

@@ -12,7 +12,8 @@ Vue.config.productionTip = false;
 
 ViewUI.LoadingBar.config({
   height: 4,
-  color: "#3399FF"
+  color: "#3399FF",
+  duration: 350
 });
 
 router.beforeEach((to, from, next) => {

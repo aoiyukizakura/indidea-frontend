@@ -3,8 +3,9 @@ import axios from "axios";
 import Qs from "qs";
 import { autoMatch, checkStatus } from "./utils";
 import { Message } from "view-design";
+import { TOKEN } from "../utils/Constants";
 
-const token = localStorage.getItem("token");
+const token = localStorage.getItem(TOKEN);
 
 const instance = axios.create({
   timeout: 3000,

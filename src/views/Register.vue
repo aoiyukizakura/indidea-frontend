@@ -5,9 +5,13 @@
     </div>
     <div class="register">
       <p>注册</p>
-      <input v-model="username" type="text" placeholder="姓名" />
-      <input v-model="email" type="text" placeholder="电子邮箱" />
-      <input v-model="password" type="password" placeholder="密码" />
+      <input v-model="registerData.username" type="text" placeholder="姓名" />
+      <input v-model="registerData.email" type="text" placeholder="电子邮箱" />
+      <input
+        v-model="registerData.password"
+        type="password"
+        placeholder="密码"
+      />
 
       <div class="checkbox">
         <Checkbox v-model="single"
@@ -24,20 +28,48 @@
   </div>
 </template>
 <script>
+import { register } from "../services/api";
 export default {
   name: "Register",
   data: () => ({
     single: false,
-    username: "",
-    email: "",
-    password: ""
+    registerData: {
+      username: "",
+      email: "",
+      password: ""
+    }
   }),
   methods: {
-    register() {
-      this.$Loading.start();
-      setTimeout(() => {
-        this.$Loading.finish();
-      }, 5000);
+    async register() {
+      if (
+        this.registerData.username &&
+        this.registerData.email &&
+        this.registerData.password
+      ) {
+        if (this.single) {
+          this.$Loading.start();
+          await register(this.registerData)
+            .then(res => {
+              if (res.data) {
+                this.$Loading.finish();
+                this.$Message.success("注册成功，正在为您跳转到登录界面...");
+                this.$router.push("/login");
+              } else {
+                this.$Loading.error();
+                this.$Message.error(res.msg);
+              }
+            })
+            .catch(err => {
+              this.$Loading.error();
+              this.$Message.error("出现错误");
+              console.log("err :", err);
+            });
+        } else {
+          this.$Message.info("请阅读并勾选用户与服务条款");
+        }
+      } else {
+        this.$Message.info("请完成表单");
+      }
     }
   }
 };
