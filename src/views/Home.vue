@@ -1,15 +1,5 @@
 <template>
-  <div class="home">
-    <input v-model="website" type="text" placeholder="邮箱" />
-    <input v-model="token" type="text" />
-    {{ msg }}
-    <button @click="getMsg">
-      get
-    </button>
-    <button @click="me">
-      me
-    </button>
-  </div>
+  <div class="home"></div>
 </template>
 
 <script>
