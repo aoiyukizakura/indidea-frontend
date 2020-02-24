@@ -4,10 +4,13 @@ import router from "./router";
 import axios from "axios";
 import ViewUI from "view-design";
 import "view-design/dist/styles/iview.css";
+import { TOKEN } from "./utils/Constants";
+import BaseUrl from "./utils/BaseUrl";
 
 Vue.use(ViewUI);
 
 Vue.prototype.$axios = axios;
+Vue.prototype.$url = BaseUrl;
 Vue.config.productionTip = false;
 
 ViewUI.LoadingBar.config({
@@ -18,14 +21,35 @@ ViewUI.LoadingBar.config({
 
 router.beforeEach((to, from, next) => {
   ViewUI.LoadingBar.start();
-  next();
+
+  if (localStorage.getItem(TOKEN) !== null) {
+    if (to.name === "login" || to.name === "register") {
+      // ViewUI.LoadingBar.finish();
+      location.href = "/";
+    }
+  }
+
+  if (to.matched.some(record => record.meta.auth)) {
+    if (localStorage.getItem(TOKEN) !== null) {
+      next();
+    } else {
+      if (to.name === "login") {
+        next();
+        return;
+      }
+      ViewUI.LoadingBar.finish();
+      next({
+        path: "/login"
+      });
+    }
+  } else {
+    next();
+  }
 });
 
 // eslint-disable-next-line no-unused-vars
 router.afterEach(route => {
-  setTimeout(() => {
-    ViewUI.LoadingBar.finish();
-  }, 500);
+  ViewUI.LoadingBar.finish();
 });
 
 new Vue({

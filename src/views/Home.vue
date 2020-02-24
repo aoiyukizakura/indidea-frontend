@@ -1,11 +1,14 @@
 <template>
-  <div class="home"></div>
+  <div class="home">
+    <Button @click="logout">注销</Button>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
-
+// eslint-disable-next-line no-unused-vars
+import { TOKEN, USER_INFO } from "../utils/Constants";
 export default {
   name: "Home",
   components: {},
@@ -14,7 +17,9 @@ export default {
     token: "",
     website: ""
   }),
-  mounted() {},
+  mounted() {
+    console.log("object :", JSON.parse(localStorage.getItem(USER_INFO)));
+  },
   methods: {
     getMsg() {
       this.$axios
@@ -43,7 +48,16 @@ export default {
         .then(({ data }) => {
           console.log("data :", data);
         });
+    },
+    logout() {
+      localStorage.removeItem(TOKEN);
+      location.href = "/";
     }
   }
 };
 </script>
+<style lang="css" scoped>
+.home {
+  height: 150vh;
+}
+</style>

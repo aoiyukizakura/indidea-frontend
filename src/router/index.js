@@ -28,11 +28,36 @@ const routes = [
     path: "/register",
     name: "register",
     component: () => import("../views/Register.vue")
+  },
+  {
+    path: "/mine",
+    name: "mine",
+    component: () => import("../views/Mine.vue"),
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: "*",
+    redirect: "/404",
+    name: "notfound"
+  },
+  {
+    path: "/404",
+    name: "page404",
+    component: () => import("../views/404.vue")
   }
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
+  // eslint-disable-next-line no-unused-vars
+  scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    };
+  }
 });
 
 export default router;

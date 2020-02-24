@@ -18,6 +18,7 @@
         </p>
       </div>
     </div>
+    <!-- <Button @click="logout">注销</Button> -->
   </div>
 </template>
 <script>
@@ -27,7 +28,8 @@ import {
   USER_EMAIL,
   USER_PASSWORD,
   REMEMBER_STATUS,
-  TOKEN
+  TOKEN,
+  USER_INFO
 } from "../utils/Constants";
 
 export default {
@@ -55,11 +57,23 @@ export default {
         loginData.password = this.password;
         await login(loginData)
           .then(res => {
-            localStorage.setItem(TOKEN, res.data);
-            setTimeout(() => {
-              this.$Loading.finish();
-              this.$Message.success("登陆成功");
-            }, 500);
+            if (res.data) {
+              localStorage.setItem(TOKEN, res.data.token);
+              localStorage.setItem(
+                USER_INFO,
+                JSON.stringify(res.data.userInfo)
+              );
+              setTimeout(() => {
+                this.$Loading.finish();
+                this.$Message.success("登录成功!");
+              }, 500);
+              setTimeout(() => {
+                location.href = "/";
+              }, 1500);
+            } else {
+              this.$Loading.error();
+              this.$Message.error("登录失败，请稍候重试！");
+            }
             return res;
           })
           .catch(err => {
@@ -69,6 +83,9 @@ export default {
       } else {
         this.$Message.info("请完成表单");
       }
+    },
+    logout() {
+      localStorage.removeItem(TOKEN);
     }
   },
   mounted() {
