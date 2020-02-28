@@ -26,110 +26,104 @@
         </div>
       </i-col>
     </Row>
-    <Drawer :closable="false" width="640" v-model="show">
-      <p :style="pStyle">User Profile</p>
-      <p :style="pStyle">Personal</p>
-      <div class="demo-drawer-profile">
-        <Row>
-          <i-col span="12">
-            Full Name: Aresn
+
+    <div class="sort">
+      <Row type="flex" justify="center">
+        <template v-for="(category, index) in categories">
+          <i-col span="2" :key="index">
+            <p style="text-align: center;">
+              <router-link class="hvr-outline-out" :to="'/sort/' + category.id">
+                {{ category.name }}
+              </router-link>
+            </p>
           </i-col>
-          <i-col span="12">
-            Account: aresn@aresn.com
-          </i-col>
-        </Row>
-        <Row>
-          <i-col span="12">
-            City: BeiJing
-          </i-col>
-          <i-col span="12">
-            Country: China
-          </i-col>
-        </Row>
-        <Row>
-          <i-col span="12">
-            Birthday: May 14, 1991
-          </i-col>
-          <i-col span="12">
-            Website:
-            <a href="https://dev.iviewui.com" target="_blank"
-              >https://dev.iviewui.com</a
-            >
-          </i-col>
-        </Row>
-        Message: Hello, Developer
-      </div>
-      <Divider />
-      <p :style="pStyle">Company</p>
-      <div class="demo-drawer-profile">
-        <Row>
-          <i-col span="12">
-            Position: Programmer
-          </i-col>
-          <i-col span="12">
-            Responsibilities:Coding
-          </i-col>
-        </Row>
-        <Row>
-          <i-col span="12">
-            Department: Map visualization
-          </i-col>
-        </Row>
-        Skills:C / C + +, data structures, software engineering, operating
-        systems, computer networks, databases, compiler theory, computer
-        architecture, Microcomputer Principle and Interface Technology, Computer
-        English, Java, ASP, etc.
-      </div>
-      <Divider />
-      <p :style="pStyle">Contacts</p>
-      <div class="demo-drawer-profile">
-        <Row>
-          <i-col span="12">
-            Email: admin@aresn.com
-          </i-col>
-          <i-col span="12">
-            Phone Number: +86 18888888888
-          </i-col>
-        </Row>
-        <Row>
-          <i-col span="12">
-            GitHub:
-            <a href="https://github.com/view-design/ViewUI" target="_blank"
-              >https://github.com/view-design/ViewUI</a
-            >
-          </i-col>
-        </Row>
-      </div>
-    </Drawer>
-    <router-view></router-view>
+        </template>
+      </Row>
+    </div>
+
+    <router-view class="routerView"></router-view>
     <div class="footer">
       Copyright © 2019-2020
     </div>
+    <Modal v-model="modal" title="注销" :loading="loading" @on-ok="logout">
+      <p>确认登出？</p>
+    </Modal>
+    <Drawer :closable="false" width="360" v-model="show">
+      <p class="pstyle">你的账户</p>
+      <div class="drawer-profile">
+        <Row>
+          <i-col span="24">
+            <router-link to="/savedProject">已保存的方案</router-link>
+          </i-col>
+        </Row>
+        <Row>
+          <i-col span="24">
+            <router-link to="/setting">设定</router-link>
+          </i-col>
+        </Row>
+        <Row>
+          <i-col span="24">
+            <router-link to="/myInfo">我的信息</router-link>
+          </i-col>
+        </Row>
+      </div>
+      <Divider />
+      <p class="pstyle">我发起的方案</p>
+      <div class="drawer-profile">
+        <Row>
+          <i-col span="4">
+            <img src="./assets/logo.png" />
+          </i-col>
+          <i-col span="16" push="1">
+            <router-link to="/editproject">某某类型专案</router-link>
+          </i-col>
+        </Row>
+      </div>
+      <div class="btn-logout">
+        <Divider />
+        <Button type="warning" @click="modal = true" ghost long>注销</Button>
+      </div>
+    </Drawer>
   </div>
 </template>
 
 <script>
 import { TOKEN, USER_INFO } from "./utils/Constants";
+import { logout, category } from "./services/api";
 export default {
   name: "App",
+  data: () => ({
+    show: false,
+    modal: false,
+    loading: true,
+    sort: {},
+    categories: []
+  }),
   methods: {
     toLogin() {
       this.$router.push("/login");
     },
     logout() {
-      localStorage.removeItem(TOKEN);
+      logout().then(res => {
+        if (res.data) {
+          localStorage.removeItem(TOKEN);
+        } else {
+          this.$Message.info("网络异常，请稍后再试");
+        }
+        setTimeout(() => {
+          this.modal = false;
+          location.href = "/";
+        }, 1000);
+      });
+    },
+    sortTrigger() {
+      if (this.sort.height === "0") {
+        this.sort.height = "50px";
+      } else {
+        this.sort.height = "0";
+      }
     }
   },
-  data: () => ({
-    show: true,
-    pStyle: {
-      fontSize: "16px",
-      color: "rgba(0,0,0,0.85)",
-      lineHeight: "24px",
-      display: "block",
-      marginBottom: "16px"
-    }
-  }),
   computed: {
     isLogin() {
       return localStorage.getItem(TOKEN) ? true : false;
@@ -137,6 +131,11 @@ export default {
     avatar() {
       return JSON.parse(localStorage.getItem(USER_INFO)).avatar;
     }
+  },
+  mounted() {
+    category().then(res => {
+      this.categories = res.data;
+    });
   }
 };
 </script>
@@ -203,10 +202,65 @@ export default {
   height: 5rem;
   line-height: 5rem;
 }
-.demo-drawer-profile {
+.drawer-profile {
   font-size: 14px;
+  margin-top: 2.4rem;
 }
-.demo-drawer-profile .ivu-col {
+.drawer-profile a {
+  color: #000;
+  width: 100%;
+}
+.drawer-profile a:hover {
+  text-decoration: #2d8cf0;
+  text-decoration-line: underline;
+}
+.drawer-profile:first-of-type .ivu-col {
   margin-bottom: 12px;
+}
+.drawer-profile:nth-of-type(3) {
+  line-height: 2rem;
+}
+.drawer-profile:nth-of-type(3) img {
+  height: 2rem;
+  width: 100%;
+  background-color: #2c3e50;
+  cursor: pointer;
+}
+.btn-logout {
+  position: absolute;
+  bottom: 2rem;
+  width: 90%;
+}
+.sort {
+  height: 4rem;
+  overflow: hidden;
+  transition: all 0.3s;
+  line-height: 4rem;
+  border-bottom: 1px solid #dcdee2;
+  font-size: 1rem;
+  padding: 0 5rem;
+  background-color: white;
+}
+.pstyle {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 24px;
+  display: block;
+  margin-bottom: 16px;
+  font-weight: 550;
+}
+.hvr-outline-out {
+  display: inline !important;
+  color: #656969;
+  font-weight: 550;
+}
+.hvr-outline-out:before {
+  border: none !important;
+}
+.hvr-outline-out:hover:before {
+  border-bottom: 2px solid !important;
+}
+.hvr-outline-out:hover {
+  color: #656969;
 }
 </style>

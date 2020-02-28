@@ -4,6 +4,7 @@ import router from "./router";
 import axios from "axios";
 import ViewUI from "view-design";
 import "view-design/dist/styles/iview.css";
+import "./assets/css/hover.css";
 import { TOKEN } from "./utils/Constants";
 import BaseUrl from "./utils/BaseUrl";
 

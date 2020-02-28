@@ -49,7 +49,6 @@ instance.interceptors.request.use(
         }
       }
     }
-    console.log("config :", config);
     return Promise.resolve(config);
   },
   error => {

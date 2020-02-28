@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-22 16:21:37
- * @LastEditTime: 2020-02-24 16:28:25
+ * @LastEditTime: 2020-02-25 17:36:31
  * @FilePath: \indidea-frontend\src\services\api.js
  * @Description: api接口文件
  */
@@ -27,9 +27,21 @@ export const user = userId => {
     method: "get"
   });
 };
-export const userInfo = () => {
+export const myInfo = () => {
   return request({
-    url: "/api/me",
+    url: "/api/users",
+    method: "get"
+  });
+};
+export const logout = () => {
+  return request({
+    url: "/api/users/logout",
+    method: "get"
+  });
+};
+export const category = () => {
+  return request({
+    url: "/api/category",
     method: "get"
   });
 };
