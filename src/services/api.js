@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-22 16:21:37
- * @LastEditTime: 2020-02-25 17:36:31
+ * @LastEditTime: 2020-02-29 22:57:05
  * @FilePath: \indidea-frontend\src\services\api.js
  * @Description: api接口文件
  */
@@ -42,6 +42,12 @@ export const logout = () => {
 export const category = () => {
   return request({
     url: "/api/category",
+    method: "get"
+  });
+};
+export const getMyProjects = () => {
+  return request({
+    url: "/api/users/getMyProjects",
     method: "get"
   });
 };

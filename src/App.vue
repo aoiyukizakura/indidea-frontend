@@ -1,27 +1,20 @@
 <template>
   <div id="app">
     <Row class="nav">
-      <i-col
-        :md="{ span: 18, push: 3 }"
-        :sm="{ span: 24 }"
-        :xs="24"
-        class="logo"
-      >
+      <i-col :md="{ span: 18, push: 3 }" :sm="{ span: 24 }" :xs="24" class="logo">
         <img @click="$router.push('/')" src="./assets/text-logo.png" />
       </i-col>
-      <i-col
-        :md="{ span: 3, pull: 18 }"
-        :sm="{ span: 12 }"
-        :xs="12"
-        class="left-nav"
-      >
+      <i-col :md="{ span: 3, pull: 18 }" :sm="{ span: 12 }" :xs="12" class="left-nav">
         <div>发现</div>
         <div>发起众筹</div>
       </i-col>
       <i-col :md="3" :sm="{ span: 12 }" :xs="12" class="nav-right">
-        <div>搜索<Icon type="md-search" style="margin-left:5px;" /></div>
+        <div>
+          搜索
+          <Icon type="md-search" style="margin-left:5px;" />
+        </div>
         <div @click="toLogin" v-show="!isLogin">登录</div>
-        <div @click="show = !show">
+        <div @click="openDrawer">
           <Avatar v-show="isLogin" :src="$url.imgUrl + avatar" />
         </div>
       </i-col>
@@ -32,9 +25,7 @@
         <template v-for="(category, index) in categories">
           <i-col span="2" :key="index">
             <p style="text-align: center;">
-              <router-link class="hvr-outline-out" :to="'/sort/' + category.id">
-                {{ category.name }}
-              </router-link>
+              <router-link class="hvr-outline-out" :to="'/sort/' + category.id">{{ category.name }}</router-link>
             </p>
           </i-col>
         </template>
@@ -42,9 +33,7 @@
     </div>
 
     <router-view class="routerView"></router-view>
-    <div class="footer">
-      Copyright © 2019-2020
-    </div>
+    <div class="footer">Copyright © 2019-2020</div>
     <Modal v-model="modal" title="注销" :loading="loading" @on-ok="logout">
       <p>确认登出？</p>
     </Modal>
@@ -70,14 +59,37 @@
       <Divider />
       <p class="pstyle">我发起的方案</p>
       <div class="drawer-profile">
-        <Row>
+        <Row v-for="(project, index) in myProjects" :key="index">
           <i-col span="4">
-            <img src="./assets/logo.png" />
+            <img
+              src="./assets/img/Snipaste_2020-02-29_21-47-01 (1).png"
+              v-real-img="project.pic"
+            />
           </i-col>
-          <i-col span="16" push="1">
-            <router-link to="/editproject">某某类型专案</router-link>
-          </i-col>
+          <template v-if="project.status === 0">
+            <i-col span="16" push="1">
+              <router-link :to="'/editproject/' + project.id"
+                >{{ project.category.name }} 的方案</router-link
+              >
+            </i-col>
+            <Icon size="18" type="md-create" />
+          </template>
+          <template v-else>
+            <i-col span="16" push="1">
+              <router-link :to="'/projectDetail/' + project.id"
+                >{{ project.category.name }} 的方案</router-link
+              >
+            </i-col>
+          </template>
         </Row>
+      </div>
+      <Divider />
+      <div class="btn-create-project">
+        <Tooltip style="width: 100%;" content="我也要来一发" theme="light" placement="top">
+          <Button type="info" @click="modal = true" ghost long>
+            <Icon size="16" type="md-add" />
+          </Button>
+        </Tooltip>
       </div>
       <div class="btn-logout">
         <Divider />
@@ -89,7 +101,7 @@
 
 <script>
 import { TOKEN, USER_INFO } from "./utils/Constants";
-import { logout, category } from "./services/api";
+import { logout, category, getMyProjects } from "./services/api";
 export default {
   name: "App",
   data: () => ({
@@ -97,7 +109,8 @@ export default {
     modal: false,
     loading: true,
     sort: {},
-    categories: []
+    categories: ["独立游戏", "电影"],
+    myProjects: []
   }),
   methods: {
     toLogin() {
@@ -122,6 +135,9 @@ export default {
       } else {
         this.sort.height = "0";
       }
+    },
+    openDrawer() {
+      this.show = !this.show;
     }
   },
   computed: {
@@ -134,7 +150,16 @@ export default {
   },
   mounted() {
     category().then(res => {
-      this.categories = res.data;
+      if (!res.data) {
+        this.categories = ["独立游戏", "电影"];
+      } else {
+        this.categories = res.data;
+      }
+    });
+    getMyProjects().then(res => {
+      if (res.data) {
+        this.myProjects = res.data;
+      }
     });
   }
 };

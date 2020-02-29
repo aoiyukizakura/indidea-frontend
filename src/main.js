@@ -7,6 +7,7 @@ import "view-design/dist/styles/iview.css";
 import "./assets/css/hover.css";
 import { TOKEN } from "./utils/Constants";
 import BaseUrl from "./utils/BaseUrl";
+import { imageIsExist } from "./utils/FunctionUtils";
 
 Vue.use(ViewUI);
 
@@ -51,6 +52,16 @@ router.beforeEach((to, from, next) => {
 // eslint-disable-next-line no-unused-vars
 router.afterEach(route => {
   ViewUI.LoadingBar.finish();
+});
+
+Vue.directive("real-img", async (el, binding) => {
+  let imgUrl = binding.value;
+  if (imgUrl) {
+    let exist = imageIsExist(imgUrl);
+    if (exist) {
+      el.setAttribute("src", imgUrl);
+    }
+  }
 });
 
 new Vue({
