@@ -66,7 +66,7 @@
       <div class="s-container">
         <div class="s-content">
           <div>
-            <Row type="flex">
+            <Row type="flex" class="s-content-title">
               <i-col span="12">
                 <div>
                   <h3>当前最热</h3>
@@ -94,28 +94,50 @@
             </Row> -->
             <template>
               <!-- Make a div wrapped slider,set height and width -->
-              <div style="width:100%;margin:0px auto;height:300px">
+              <div style="width:100%;margin:0px auto;height: 600px">
                 <!-- Using the slider component -->
                 <slider ref="slider1" :options="options">
                   <!-- slideritem wrapped package with the components you need -->
                   <!-- eslint-disable-next-line vue/no-unused-vars -->
                   <template slot-scope="coverflow">
                     <slideritem :pageLength="3" :index="0">
-                      <Row class="slider-row">
-                        <i-col span="8"> <HotCard></HotCard> </i-col>
-                        <i-col span="8"> <HotCard></HotCard> </i-col>
-                        <i-col span="8"> <HotCard></HotCard> </i-col>
+                      <Row
+                        class="slider-row"
+                        type="flex"
+                        justify="space-between"
+                        :gutter="16"
+                      >
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
                       </Row>
                     </slideritem>
                     <slideritem :pageLength="3" :index="1">
-                      <HotCard></HotCard>
-                      <HotCard></HotCard>
-                      <HotCard></HotCard>
+                      <Row
+                        class="slider-row"
+                        type="flex"
+                        justify="space-between"
+                        :gutter="16"
+                      >
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                      </Row>
                     </slideritem>
                     <slideritem :pageLength="3" :index="2">
-                      <HotCard></HotCard>
-                      <HotCard></HotCard>
-                      <HotCard></HotCard>
+                      <Row
+                        class="slider-row"
+                        type="flex"
+                        justify="space-between"
+                        :gutter="16"
+                      >
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                        <i-col span="6"> <HotCard></HotCard> </i-col>
+                      </Row>
                     </slideritem>
                   </template>
                   <!-- Customizable loading -->
@@ -449,36 +471,36 @@ export default {
   overflow: hidden;
   position: relative;
 }
-.s-content .ivu-row-flex:first-of-type {
+.s-content-title {
   margin-bottom: 1.2rem;
 }
-.s-content > div .ivu-row-flex:first-of-type .ivu-col {
+.s-content-title .ivu-col {
   /* background-color: white; */
   /* height: 1rem; */
   line-height: 24px;
   font-size: 13px;
 }
-.s-content > div .ivu-row-flex:first-of-type .ivu-col:first-child h3 {
+.s-content-title .ivu-col:first-child h3 {
   float: left;
   margin-right: 24px;
   font-size: 16px;
   font-weight: 700px;
   color: #656969;
 }
-.s-content > div .ivu-row-flex:first-of-type .ivu-col:first-child a {
+.s-content-title .ivu-col:first-child a {
   color: #a860c7;
 }
-.s-content > div .ivu-row-flex:first-of-type .ivu-col:first-child a:hover {
+.s-content-title .ivu-col:first-child a:hover {
   color: #a860c7;
   text-decoration-line: underline;
 }
-.s-content > div .ivu-row-flex:first-of-type .ivu-col:last-child div {
+.s-content-title .ivu-col:last-child div {
   /* background-color: white; */
   display: flex;
   justify-content: flex-end;
   justify-items: flex-end;
 }
-.s-content > div .ivu-row-flex:first-of-type .ivu-col:last-child .ivu-icon {
+.s-content-title .ivu-col:last-child .ivu-icon {
   margin-left: 24px;
   cursor: pointer;
   transition: all 200ms;
@@ -491,36 +513,20 @@ export default {
   .ivu-icon:hover {
   transform: scale(1.5);
 }
-.s-content .ivu-row-flex:last-of-type {
-  width: 4000px;
-  height: 100px;
-  background-color: rebeccapurple;
-  position: absolute;
-  /* left: 0; */
-  transition: all 300ms;
-}
-.s-content .ivu-row-flex:last-of-type .ivu-col {
-  height: 100%;
-  background-color: white;
-}
 .slider-item {
-  width: 80%;
+  width: 100%;
   /* height: 98%; */
-  background-color: #eee;
-  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  /* -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-  border-color: #eee;
+  border-color: #eee; */
 }
-/* .slider-item:nth-of-type(even) {
-  width: 99%;
-  background-color: crimson;
-} */
 .slider-row {
   width: 100%;
   height: 100%;
+  margin: 0 !important;
 }
 .slider-row > .ivu-col {
-  background-color: #587058;
   height: 100%;
 }
 </style>
