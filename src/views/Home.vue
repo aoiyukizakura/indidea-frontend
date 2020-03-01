@@ -7,30 +7,41 @@
             <div class="main-content">
               <h3>精选内容</h3>
               <div class="hover-target">
-                <div class="img-content">
+                <div
+                  class="img-content"
+                  @click="
+                    $router.push('/project-detail/' + featuredProjectData.id)
+                  "
+                >
                   <img
-                    src="../assets/img/8edd64db7dda10315a61d8fe412410a3_original.jpg"
-                    alt=""
+                    src="../assets/default.png"
+                    v-real-img="imgUrl + featuredProjectData.pic"
+                    alt
                   />
                   <i-progress
-                    :percent="20"
+                    :percent="
+                      (featuredProjectData.getpoint /
+                        featuredProjectData.targetpoint) *
+                        100
+                    "
                     :stroke-width="14"
                     hide-info
                   ></i-progress>
                 </div>
-                <div class="sub-btn">
+                <div
+                  class="sub-btn"
+                  @click="saveProject(featuredProjectData.id)"
+                >
                   <Icon size="20" type="md-heart-outline" />
                 </div>
-                <router-link to="/project-detail">
-                  <h3 class="title">Rocketbook Orbit: Reusable Notepad</h3>
-                  <p class="subtitle">
-                    A 21st-century upgrade to the humble legal pad.
-                  </p>
+                <router-link :to="'/project-detail/' + featuredProjectData.id">
+                  <h3 class="title">{{ featuredProjectData.title }}</h3>
+                  <p class="subtitle">{{ featuredProjectData.subtitle }}</p>
                 </router-link>
                 <div class="owner-title">
                   <div>
                     <span>发起人：</span>
-                    <span>不知名的亚楠居民</span>
+                    <span>{{ featuredProjectData.owner.username }}</span>
                   </div>
                 </div>
               </div>
@@ -91,60 +102,39 @@
             </Row>
             <!-- <Row type="flex" :style="ListStyle">
               <i-col span="1"></i-col>
-            </Row> -->
-            <template>
-              <!-- Make a div wrapped slider,set height and width -->
-              <div style="width:100%;margin:0px auto;height: 600px">
-                <!-- Using the slider component -->
-                <slider ref="slider1" :options="options">
-                  <!-- slideritem wrapped package with the components you need -->
-                  <!-- eslint-disable-next-line vue/no-unused-vars -->
-                  <template slot-scope="coverflow">
-                    <slideritem :pageLength="3" :index="0">
-                      <Row
-                        class="slider-row"
-                        type="flex"
-                        justify="space-between"
-                        :gutter="16"
-                      >
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                      </Row>
-                    </slideritem>
-                    <slideritem :pageLength="3" :index="1">
-                      <Row
-                        class="slider-row"
-                        type="flex"
-                        justify="space-between"
-                        :gutter="16"
-                      >
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                      </Row>
-                    </slideritem>
-                    <slideritem :pageLength="3" :index="2">
-                      <Row
-                        class="slider-row"
-                        type="flex"
-                        justify="space-between"
-                        :gutter="16"
-                      >
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                        <i-col span="6"> <HotCard></HotCard> </i-col>
-                      </Row>
-                    </slideritem>
-                  </template>
-                  <!-- Customizable loading -->
-                  <div slot="loading">loading...</div>
-                </slider>
-              </div>
-            </template>
+            </Row>-->
+            <div style="width:100%;margin:0px auto;height: 600px">
+              <!-- Using the slider component -->
+              <slider ref="slider1" :options="options">
+                <!-- slideritem wrapped package with the components you need -->
+                <!-- eslint-disable-next-line vue/no-unused-vars -->
+                <template slot-scope="coverflow">
+                  <slideritem
+                    v-for="n in 3"
+                    :key="n"
+                    :pageLength="3"
+                    :index="n - 1"
+                  >
+                    <Row
+                      class="slider-row"
+                      type="flex"
+                      justify="space-between"
+                      :gutter="16"
+                    >
+                      <i-col v-for="m in 4" :key="m" span="6">
+                        <template v-if="topHitData.length">
+                          <HotCard
+                            :project="topHitData[(n - 1) * 4 + m - 1]"
+                          ></HotCard>
+                        </template>
+                      </i-col>
+                    </Row>
+                  </slideritem>
+                </template>
+                <!-- Customizable loading -->
+                <div slot="loading">loading...</div>
+              </slider>
+            </div>
           </div>
         </div>
       </div>
@@ -159,9 +149,14 @@
 import { TOKEN, USER_INFO } from "../utils/Constants";
 import ProjectList from "../components/ProjectList";
 // eslint-disable-next-line no-unused-vars
-import { myInfo } from "../services/api";
+import {
+  getTop9Projects,
+  getFeatured,
+  getTopHitProject
+} from "../services/api";
 import { slider, slideritem } from "vue-concise-slider";
 import HotCard from "../components/HotCard";
+import BaseUrl from "../utils/BaseUrl";
 
 export default {
   name: "Home",
@@ -169,6 +164,7 @@ export default {
     ProjectList,
     slider,
     slideritem,
+    // eslint-disable-next-line vue/no-unused-components
     HotCard
   },
   data: () => ({
@@ -302,14 +298,32 @@ export default {
       slidesToScroll: 1,
       loop: true,
       pagination: false
-    }
+    },
+    featuredProjectData: { owner: {} },
+    imgUrl: BaseUrl.imgUrl,
+    topHitData: []
   }),
-  mounted() {},
+  mounted() {
+    getTop9Projects().then(res => {
+      this.projectListData = res.data;
+    });
+    getFeatured().then(res => {
+      this.featuredProjectData = res.data;
+    });
+    getTopHitProject().then(res => {
+      this.topHitData = res.data;
+      console.log("object :", res.data.length);
+    });
+  },
   methods: {
     changeeeeeeee($event) {
       this.page = $event;
+    },
+    saveProject(projectId) {
+      console.log("saved", projectId);
     }
-  }
+  },
+  computed: {}
 };
 </script>
 <style lang="css" scoped>

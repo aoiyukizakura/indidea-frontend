@@ -1,38 +1,50 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-02-29 00:17:40
- * @LastEditTime: 2020-02-29 16:16:02
+ * @LastEditTime: 2020-03-01 16:46:05
  * @FilePath: \indidea-frontend\src\components\HotCard.vue
  * @Description: 首页的最近最热 卡片组件
  -->
 <template>
   <div class="hover-targer-list">
     <div class="img-target">
-      <img src="../assets/img/8edd64db7dda10315a61d8fe412410a3_original.jpg" />
-      <i-progress :percent="20" :stroke-width="6" hide-info></i-progress>
+      <img src="../assets/default.png" v-real-img="imgUrl + project.pic" />
+      <i-progress
+        :percent="(project.getpoint / project.targetpoint) * 100"
+        :stroke-width="6"
+        hide-info
+      ></i-progress>
       <div class="sub-btn">
         <Icon size="20" type="md-heart-outline" />
       </div>
     </div>
     <div class="title">
       <h3>
-        狠人巧克力，不仅可以吃，还吃，还吃，还吃，还吃，还吃，还吃，还吃，还吃，还
+        {{ project.title }}
       </h3>
       <p>
-        你不知道的美味在等着你，还在等什么，赶紧来一起做巧克力吧，你给钱，我来做你不知道的美味在等着你，还在等什么，赶紧来一起做巧克力吧，你给钱，我来做你不知道的美味在等着你，还在等什么，赶紧来一起做巧克力吧，你给钱，我来做你不知道的美味在等着你，还在等什么，赶紧来一起做巧克力吧，你给钱，我来做你不知道的美味在等着你，还在等什么，赶紧来一起做巧克力吧，你给钱，我来做
+        {{ project.subtitle }}
       </p>
     </div>
     <div class="owner-title-list">
       <div>
         <span>发起人：</span>
-        <span>不知名的亚楠居民</span>
+        <span>{{ project.owner.username }}</span>
       </div>
     </div>
   </div>
 </template>
 <script>
+import BaseUrl from "../utils/BaseUrl";
+
 export default {
-  name: "HotCard"
+  name: "HotCard",
+  props: {
+    project: Object
+  },
+  data: () => ({
+    imgUrl: BaseUrl.imgUrl
+  })
 };
 </script>
 <style lang="css" scoped>
@@ -54,6 +66,7 @@ export default {
   font-size: 0;
   position: relative;
   margin-bottom: 18px;
+  overflow: hidden;
 }
 .img-target img {
   width: 100%;

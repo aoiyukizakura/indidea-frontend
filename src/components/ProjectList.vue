@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-02-28 13:19:49
- * @LastEditTime: 2020-02-28 16:13:26
+ * @LastEditTime: 2020-03-01 16:18:33
  * @FilePath: \indidea-frontend\src\components\ProjectList.vue
  * @Description: 首页旁边的列表项
  -->
@@ -9,24 +9,28 @@
   <div class="list">
     <Row type="flex">
       <i-col span="9">
-        <img :src="project.img" alt="" />
+        <img
+          src="../assets/default.png"
+          v-real-img="imgUrl + project.pic"
+          alt=""
+        />
       </i-col>
       <i-col span="15">
         <div>
           <p>{{ project.title }}</p>
           <span>已筹集 {{ status }}</span>
-          <span class="target-date">目标日期：{{ project.targetdate }}</span>
+          <span class="target-date">目标日期：{{ date }}</span>
           <div class="owner-title">
             <div>
               <span>发起人：</span>
-              <span>不知名的亚楠居民</span>
+              <span>{{ project.owner.username }}</span>
             </div>
           </div>
         </div>
       </i-col>
     </Row>
     <div class="heart">
-      <div class="ivu-card">
+      <div class="ivu-card" @click="saveProject(project.id)">
         <Icon size="20" type="md-heart-outline" />
       </div>
     </div>
@@ -34,15 +38,28 @@
 </template>
 <script>
 import { getPercent } from "../utils/MathUtils";
+import BaseUrl from "../utils/BaseUrl";
 export default {
   name: "ProjectList",
   props: {
     project: Object
   },
-  data: () => ({}),
+  data: () => ({
+    imgUrl: BaseUrl.imgUrl
+  }),
   computed: {
     status() {
       return getPercent(this.project.getpoint, this.project.targetpoint);
+    },
+    date() {
+      return new Date(this.project.targetdate)
+        .toLocaleDateString()
+        .replace(/\//g, "-");
+    }
+  },
+  methods: {
+    saveProject(id) {
+      console.log('saveproject :', id);
     }
   }
 };

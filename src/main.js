@@ -57,10 +57,11 @@ router.afterEach(route => {
 Vue.directive("real-img", async (el, binding) => {
   let imgUrl = binding.value;
   if (imgUrl) {
-    let exist = imageIsExist(imgUrl);
-    if (exist) {
-      el.setAttribute("src", imgUrl);
-    }
+    imageIsExist(imgUrl).then(res => {
+      if (res) {
+        el.setAttribute("src", imgUrl);
+      }
+    });
   }
 });
 

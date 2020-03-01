@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-22 16:21:37
- * @LastEditTime: 2020-02-29 22:57:05
+ * @LastEditTime: 2020-03-01 16:31:06
  * @FilePath: \indidea-frontend\src\services\api.js
  * @Description: api接口文件
  */
@@ -48,6 +48,24 @@ export const category = () => {
 export const getMyProjects = () => {
   return request({
     url: "/api/users/getMyProjects",
+    method: "get"
+  });
+};
+export const getTop9Projects = () => {
+  return request({
+    url: "/api/project/top9Project",
+    method: "get"
+  });
+};
+export const getFeatured = () => {
+  return request({
+    url: "/api/project/featuredProject",
+    method: "get"
+  });
+};
+export const getTopHitProject = () => {
+  return request({
+    url: "/api/project/topHitProject",
     method: "get"
   });
 };

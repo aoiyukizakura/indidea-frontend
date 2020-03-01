@@ -1,10 +1,20 @@
 <template>
   <div id="app">
     <Row class="nav">
-      <i-col :md="{ span: 18, push: 3 }" :sm="{ span: 24 }" :xs="24" class="logo">
+      <i-col
+        :md="{ span: 18, push: 3 }"
+        :sm="{ span: 24 }"
+        :xs="24"
+        class="logo"
+      >
         <img @click="$router.push('/')" src="./assets/text-logo.png" />
       </i-col>
-      <i-col :md="{ span: 3, pull: 18 }" :sm="{ span: 12 }" :xs="12" class="left-nav">
+      <i-col
+        :md="{ span: 3, pull: 18 }"
+        :sm="{ span: 12 }"
+        :xs="12"
+        class="left-nav"
+      >
         <div>发现</div>
         <div>发起众筹</div>
       </i-col>
@@ -25,7 +35,11 @@
         <template v-for="(category, index) in categories">
           <i-col span="2" :key="index">
             <p style="text-align: center;">
-              <router-link class="hvr-outline-out" :to="'/sort/' + category.id">{{ category.name }}</router-link>
+              <router-link
+                class="hvr-outline-out"
+                :to="'/sort/' + category.id"
+                >{{ category.name }}</router-link
+              >
             </p>
           </i-col>
         </template>
@@ -42,7 +56,7 @@
       <div class="drawer-profile">
         <Row>
           <i-col span="24">
-            <router-link to="/savedProject">已保存的方案</router-link>
+            <router-link to="/savedProject">已收藏的方案</router-link>
           </i-col>
         </Row>
         <Row>
@@ -85,7 +99,12 @@
       </div>
       <Divider />
       <div class="btn-create-project">
-        <Tooltip style="width: 100%;" content="我也要来一发" theme="light" placement="top">
+        <Tooltip
+          style="width: 100%;"
+          content="我也要来一发"
+          theme="light"
+          placement="top"
+        >
           <Button type="info" @click="modal = true" ghost long>
             <Icon size="16" type="md-add" />
           </Button>
