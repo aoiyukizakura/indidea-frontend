@@ -1,5 +1,6 @@
 <template>
   <div class="home" id="home">
+    <SortCard :categories="categories"></SortCard>
     <div class="main-page">
       <div class="main-container">
         <Row type="flex">
@@ -115,6 +116,7 @@
                     :pageLength="3"
                     :index="n - 1"
                   >
+                    {{ coverflow }}
                     <Row
                       class="slider-row"
                       type="flex"
@@ -152,11 +154,13 @@ import ProjectList from "../components/ProjectList";
 import {
   getTop9Projects,
   getFeatured,
-  getTopHitProject
+  getTopHitProject,
+  category
 } from "../services/api";
 import { slider, slideritem } from "vue-concise-slider";
 import HotCard from "../components/HotCard";
 import BaseUrl from "../utils/BaseUrl";
+import SortCard from "../components/SortCard";
 
 export default {
   name: "Home",
@@ -165,7 +169,8 @@ export default {
     slider,
     slideritem,
     // eslint-disable-next-line vue/no-unused-components
-    HotCard
+    HotCard,
+    SortCard
   },
   data: () => ({
     msg: "home",
@@ -301,7 +306,8 @@ export default {
     },
     featuredProjectData: { owner: {} },
     imgUrl: BaseUrl.imgUrl,
-    topHitData: []
+    topHitData: [],
+    categories: []
   }),
   mounted() {
     getTop9Projects().then(res => {
@@ -313,6 +319,13 @@ export default {
     getTopHitProject().then(res => {
       this.topHitData = res.data;
       console.log("object :", res.data.length);
+    });
+    category().then(res => {
+      if (!res.data) {
+        this.categories = ["独立游戏", "电影"];
+      } else {
+        this.categories = res.data;
+      }
     });
   },
   methods: {

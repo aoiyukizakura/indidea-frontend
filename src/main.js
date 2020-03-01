@@ -47,6 +47,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+  
 });
 
 // eslint-disable-next-line no-unused-vars

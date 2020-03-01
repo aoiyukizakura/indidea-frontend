@@ -38,6 +38,14 @@ const routes = [
     }
   },
   {
+    path: "/start",
+    name: "start",
+    component: () => import("../views/StartProject.vue"),
+    meta: {
+      auth: true
+    }
+  },
+  {
     path: "*",
     redirect: "/404",
     name: "notfound"

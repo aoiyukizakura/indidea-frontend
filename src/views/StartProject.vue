@@ -1,0 +1,253 @@
+<!--
+ * @Author: Morpho Sylvie
+ * @Date: 2020-03-01 17:40:20
+ * @LastEditTime: 2020-03-02 00:34:19
+ * @FilePath: \indidea-frontend\src\views\StartProject.vue
+ * @Description: 发起项目
+ -->
+<template>
+  <div class="start-container">
+    <div class="start-step">
+      <Steps :current="content.current">
+        <Step title="选择类别"></Step>
+        <Step title="谈谈的你想法"></Step>
+        <Step title="完成"></Step>
+      </Steps>
+    </div>
+    <Row class="start-content" type="flex" justify="center">
+      <i-col span="12">
+        <div class="content-content">
+          <h2>{{ content.h2content }}</h2>
+          <h3>{{ content.h3content }}</h3>
+          <div>
+            <Select
+              @on-change="selectChange"
+              v-if="content.select"
+              v-model="startData.category"
+              size="large"
+            >
+              <Option
+                v-for="(value, index) in categories"
+                :key="index"
+                :value="value.name"
+                >{{ value.name }}</Option
+              >
+            </Select>
+            <Input
+              class="content-input"
+              v-model="startData.subtitle"
+              v-if="content.input"
+              maxlength="140"
+              show-word-limit
+              type="textarea"
+              placeholder="一个比小岛秀夫还具有创新，比宫崎英高还要折磨人，比五十岚孝司还要硬核的独立游戏。。。"
+              :rows="6"
+              @on-change="inputChange"
+            />
+            <div v-if="content.img" class="img-box">
+              <img src="../assets/img/nyan-cat-gif-png-1.gif" />
+            </div>
+          </div>
+        </div>
+        <Divider />
+      </i-col>
+    </Row>
+    <div class="start-controller">
+      <Row class="controller-row" type="flex" justify="center">
+        <i-col class="controller-col" span="12">
+          <Button type="primary" :disabled="content.disabled" @click="next">
+            下一步
+          </Button>
+          <p @click="pre">
+            <Icon
+              size="24"
+              v-if="content.preicon"
+              type="md-arrow-dropleft"
+              style="margin:auto 0;"
+            />
+            {{ content.precontent }}
+          </p>
+        </i-col>
+      </Row>
+    </div>
+  </div>
+</template>
+<script>
+import { category } from "../services/api";
+export default {
+  name: "StartProject",
+  data: () => ({
+    startData: {
+      category: "",
+      subtitle: ""
+    },
+    categories: [],
+    single: false,
+    content1: {
+      current: 0,
+      h2content: "让我们来一起为这个想法分一个类。",
+      h3content: "从以下的分类里面挑选一个最适合您想法的，之后您可以随时更新",
+      precontent: "你也要想来一发吗？赶紧行动吧",
+      // preicon: false,
+      disabled: true,
+      select: true
+    },
+    content2: {
+      current: 1,
+      h2content: "描述一下您将要发起什么样的方案",
+      h3content: "放心，您可以在稍后的详细设置中再次更改",
+      precontent: "回到分类",
+      preicon: true,
+      disabled: true,
+      input: true
+    },
+    content3: {
+      current: 2,
+      h2content: "准备好实现你的想法了吗，让我们开始吧！",
+      h3content: "在开始前请仔细阅读本网站的相关条例，祝您生活愉快",
+      precontent: "回到方案想法",
+      disabled: false,
+      preicon: true,
+      img: true
+    },
+    content: {
+      current: 0,
+      h2content: "让我们来一起为这个想法分一个类。",
+      h3content: "从以下的分类里面挑选一个最适合您想法的，之后您可以随时更新",
+      precontent: "你也要想来一发吗？赶紧行动吧",
+      disabled: true,
+      select: true
+    }
+  }),
+  methods: {
+    next() {
+      switch (this.content.current) {
+        case 0:
+          this.content = this.content2;
+          break;
+        case 1:
+          this.content = this.content3;
+          break;
+        case 2:
+          console.log("完成", this.startData);
+          break;
+        default:
+          break;
+      }
+    },
+    pre() {
+      switch (this.content.current) {
+        case 0:
+          break;
+        case 1:
+          this.content = this.content1;
+          break;
+        case 2:
+          this.content = this.content2;
+          break;
+        default:
+          break;
+      }
+    },
+    selectChange() {
+      this.content.disabled = false;
+      this.content1.disabled = false;
+    },
+    inputChange() {
+      if (this.startData.subtitle) {
+        this.content.disabled = false;
+        this.content2.disabled = false;
+      } else {
+        this.content.disabled = true;
+        this.content2.disabled = true;
+      }
+    }
+  },
+  computed: {},
+  components: {},
+  mounted() {
+    category().then(res => {
+      if (!res.data) {
+        this.categories = ["独立游戏", "电影"];
+      } else {
+        this.categories = res.data;
+      }
+    });
+  }
+};
+</script>
+<style lang="scss" scoped>
+.start-container {
+  max-width: 1366px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+.start-step {
+  /* background-color: beige; */
+  padding-top: 24px;
+}
+.start-content {
+  padding-top: 15vh;
+}
+.content-content {
+  margin-bottom: 84px;
+  /* background-color: cornflowerblue; */
+}
+.content-input/deep/ textarea {
+  resize: none !important;
+}
+.content-content h2 {
+  margin-bottom: 12px;
+  line-height: 36px;
+  font-weight: 400;
+  font-size: 28px;
+  text-align: center;
+}
+.content-content h3 {
+  margin-bottom: 36px;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba($color: #000000, $alpha: 0.6);
+  font-size: 18px;
+  text-align: center;
+}
+.start-controller {
+  /* background-color: salmon; */
+  margin: 0 auto 10vh;
+}
+.controller-col {
+  background-color: white;
+  padding: 18px 0px;
+  .ivu-btn-primary {
+    float: right;
+    border-radius: 0;
+  }
+}
+.controller-col > p {
+  // text-align: left;
+  // margin-right: auto;
+  font-size: 14px;
+  line-height: 32px;
+  display: flex;
+  justify-items: center;
+  width: fit-content;
+  &:hover {
+    cursor: pointer;
+    text-decoration: {
+      line: underline;
+      color: #656969;
+    }
+  }
+}
+.img-box {
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  p {
+    text-align: center;
+  }
+}
+/* .controller-col >  */
+</style>

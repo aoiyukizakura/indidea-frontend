@@ -16,7 +16,7 @@
         class="left-nav"
       >
         <div>发现</div>
-        <div>发起众筹</div>
+        <div @click="getstart">发起众筹</div>
       </i-col>
       <i-col :md="3" :sm="{ span: 12 }" :xs="12" class="nav-right">
         <div>
@@ -29,25 +29,8 @@
         </div>
       </i-col>
     </Row>
-
-    <div class="sort">
-      <Row type="flex" justify="center">
-        <template v-for="(category, index) in categories">
-          <i-col span="2" :key="index">
-            <p style="text-align: center;">
-              <router-link
-                class="hvr-outline-out"
-                :to="'/sort/' + category.id"
-                >{{ category.name }}</router-link
-              >
-            </p>
-          </i-col>
-        </template>
-      </Row>
-    </div>
-
     <router-view class="routerView"></router-view>
-    <div class="footer">Copyright © 2019-2020</div>
+    <!-- <div class="footer">Copyright © 2019-2020</div> -->
     <Modal v-model="modal" title="注销" :loading="loading" @on-ok="logout">
       <p>确认登出？</p>
     </Modal>
@@ -119,8 +102,8 @@
 </template>
 
 <script>
-import { TOKEN, USER_INFO } from "./utils/Constants";
-import { logout, category, getMyProjects } from "./services/api";
+import { TOKEN, USER_INFO, USER_DATA } from "./utils/Constants";
+import { logout, getMyProjects } from "./services/api";
 export default {
   name: "App",
   data: () => ({
@@ -128,7 +111,6 @@ export default {
     modal: false,
     loading: true,
     sort: {},
-    categories: ["独立游戏", "电影"],
     myProjects: []
   }),
   methods: {
@@ -148,15 +130,12 @@ export default {
         }, 1000);
       });
     },
-    sortTrigger() {
-      if (this.sort.height === "0") {
-        this.sort.height = "50px";
-      } else {
-        this.sort.height = "0";
-      }
-    },
     openDrawer() {
       this.show = !this.show;
+    },
+    getstart() {
+      if (USER_DATA.status === 2) this.$router.push(`/start`);
+      else this.$Message.info("您还不是独立创意人，请先申请!");
     }
   },
   computed: {
@@ -168,13 +147,6 @@ export default {
     }
   },
   mounted() {
-    category().then(res => {
-      if (!res.data) {
-        this.categories = ["独立游戏", "电影"];
-      } else {
-        this.categories = res.data;
-      }
-    });
     getMyProjects().then(res => {
       if (res.data) {
         this.myProjects = res.data;
