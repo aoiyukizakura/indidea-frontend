@@ -26,10 +26,10 @@ export default {
   props: {
     categories: Array
   }
-}
+};
 </script>
 <style lang="css" scoped>
-  .sort {
+.sort {
   height: 4rem;
   overflow: hidden;
   transition: all 0.3s;

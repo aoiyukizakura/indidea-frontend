@@ -359,9 +359,9 @@ export default {
 .main-container .ivu-row-flex {
   padding-bottom: 4.2rem;
 }
-.main-container .ivu-col {
-  /* height: 50px; */
-}
+/* .main-container .ivu-col {
+  height: 50px;
+} */
 .main-container .ivu-col:first-of-type {
   padding-right: 3.5rem;
   padding-top: 1.5rem;
@@ -465,10 +465,10 @@ export default {
   color: #587058;
   text-decoration-color: #587058;
 }
-.owner-title {
-}
-.owner-title > div {
-}
+/* .owner-title {
+} */
+/* .owner-title > div {
+} */
 .owner-title > div span:first-of-type {
   font-size: 0.8rem;
   line-height: 1.2rem;
@@ -482,9 +482,9 @@ export default {
 .owner-title > div span:last-of-type:hover {
   text-decoration-line: underline;
 }
-.project-list {
-  /* height: 380px; */
-}
+/* .project-list {
+  height: 380px;
+} */
 .s-container {
   max-width: 1366px;
   padding: 0px 60px;

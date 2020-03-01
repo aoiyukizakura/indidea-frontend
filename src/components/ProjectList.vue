@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     saveProject(id) {
-      console.log('saveproject :', id);
+      console.log("saveproject :", id);
     }
   }
 };
