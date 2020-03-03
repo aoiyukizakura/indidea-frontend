@@ -1,0 +1,309 @@
+<!--
+ * @Author: Morpho Sylvie
+ * @Date: 2020-03-03 11:40:56
+ * @LastEditTime: 2020-03-04 00:29:38
+ * @FilePath: \indidea-frontend\src\views\EditProject.vue
+ * @Description: 详细编辑project
+ -->
+<template>
+  <div class="basic-div">
+    <div class="edit-header">
+      <div class="max-grid-container">
+        <Row class="edit-header-row">
+          <i-col span="24">
+            <div>
+              <h2>{{ projectData.category.name }} 想法</h2>
+              <p>{{ projectData.subtitle }}</p>
+              <h3>发起人：{{ projectData.owner.username }}</h3>
+            </div>
+          </i-col>
+        </Row>
+      </div>
+    </div>
+    <Divider />
+    <div class="main-content">
+      <div class="max-grid-container">
+        <Row class="main-content-row">
+          <i-col span="24">
+            <div class="row">
+              <div class="col">
+                <div class="col-content-content">
+                  <h3>项目总览</h3>
+                  <!-- 三条总 -->
+                  <!-- 第一条 -->
+                  <div @click="toEditDatail('basicInfo')" class="ivu-card">
+                    <i-circle
+                      :percent="basicPercent"
+                      :stroke-color="basicColor.color"
+                      :size="48"
+                      :trail-width="4"
+                      :stroke-width="4"
+                    >
+                      <Icon
+                        type="ios-checkmark"
+                        :size="36"
+                        :style="basicColor.iconColor + 'font-weight:600;'"
+                      ></Icon>
+                    </i-circle>
+                    <div>
+                      <p>{{ listData[0].title }}</p>
+                      <p>{{ listData[0].subtitle }}</p>
+                    </div>
+                  </div>
+                  <!-- 第一条 -->
+                  <div @click="toEditDatail('rewardInfo')" class="ivu-card">
+                    <i-circle
+                      :percent="rewardPercent"
+                      :stroke-color="rewardColor.color"
+                      :size="48"
+                      :trail-width="4"
+                      :stroke-width="4"
+                    >
+                      <Icon
+                        type="ios-checkmark"
+                        :size="36"
+                        :style="rewardColor.iconColor + 'font-weight:600;'"
+                      ></Icon>
+                    </i-circle>
+                    <div>
+                      <p>{{ listData[1].title }}</p>
+                      <p>{{ listData[1].subtitle }}</p>
+                    </div>
+                  </div>
+                  <div @click="toEditDatail('storyInfo')" class="ivu-card">
+                    <i-circle
+                      :percent="storyPercent"
+                      :stroke-color="storyColor.color"
+                      :size="48"
+                      :trail-width="4"
+                      :stroke-width="4"
+                    >
+                      <Icon
+                        type="ios-checkmark"
+                        :size="36"
+                        :style="storyColor.iconColor + 'font-weight:600;'"
+                      ></Icon>
+                    </i-circle>
+                    <div>
+                      <p>{{ listData[2].title }}</p>
+                      <p>{{ listData[2].subtitle }}</p>
+                    </div>
+                  </div>
+                  <!-- 三条总 -->
+                  <!-- steps -->
+                  <div class="content-steps">
+                    <div></div>
+                    <div></div>
+                    <Steps direction="vertical">
+                      <Step
+                        title="等待完成"
+                        content="编辑完毕之后可以提交审核"
+                        icon="ios-information-circle"
+                        v-if="!allDone"
+                        status="wait"
+                      ></Step>
+                      <Step
+                        title="全部完成"
+                        content="现在可以将该方案提交给管理员审核了"
+                        icon="ios-checkmark-circle"
+                        v-if="allDone"
+                        status="finish"
+                        class="success-steps"
+                      >
+                      </Step>
+                    </Steps>
+                  </div>
+                  <!-- steps -->
+                  <!-- 提交按钮 -->
+                  <div class="submit-btn">
+                    <Button
+                      :disabled="
+                        !allDone ||
+                          projectData.status === 7 ||
+                          projectData.status === 2
+                      "
+                      size="large"
+                      long
+                      >提交</Button
+                    >
+                  </div>
+                  <!-- 提交按钮 -->
+                  <!-- 提交之后等待审核 -->
+                  <div
+                    v-if="projectData.status === 7 || projectData.status === 2"
+                    class="wait-process"
+                  >
+                    <div></div>
+                    <div class="ivu-card">
+                      <i-circle
+                        :percent="100"
+                        :stroke-color="waitColor.percent"
+                        :size="48"
+                        :trail-width="4"
+                        :stroke-width="4"
+                      >
+                        <Icon
+                          v-if="projectData.status === 7"
+                          type="md-stopwatch"
+                          :size="24"
+                          :style="waitColor.icon + 'font-weight:600;'"
+                        ></Icon>
+                        <Icon
+                          v-else
+                          type="ios-checkmark"
+                          :size="36"
+                          :style="waitColor.icon + ';font-weight:600;'"
+                        ></Icon>
+                      </i-circle>
+                      <div>
+                        <p>{{ waitTitle.title }}</p>
+                        <p>{{ waitTitle.subtitle }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 提交之后等待审核 -->
+                  <!-- 发送按钮 -->
+                  <Row
+                    v-if="projectData.status === 2"
+                    type="flex"
+                    justify="end"
+                  >
+                    <i-col span="11">
+                      <div class="send-project ivu-card">
+                        <h5>发送</h5>
+                        <span>项目公开后，您编辑项目的权限将受到限制。</span>
+                      </div>
+                    </i-col>
+                  </Row>
+                  <!-- 发送按钮 -->
+                </div>
+              </div>
+            </div>
+          </i-col>
+        </Row>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { getProjectByFlagById } from "../services/api";
+import "../assets/css/editProject.scss";
+export default {
+  name: "EditProject",
+  data: () => ({
+    projectData: {
+      category: {},
+      owner: {}
+    },
+    listData: [
+      {
+        title: "基本信息",
+        subtitle:
+          "为你创意选一个标题，然后添加封面或者是影片，还有您创意的宣传信息。"
+      },
+      {
+        title: "奖励阶梯",
+        subtitle: "设置回报给众筹者的奖励以及其他杂项等。"
+      },
+      {
+        title: "创意的故事",
+        subtitle:
+          "对这个创意有什么特别的故事或者事情可以分享给大家的，这可以让众筹更加的顺利。"
+      },
+      {
+        title: "项目检验中",
+        subtitle: "管理员会根据您的信息和项目的合理程度进行处理，请耐心等候"
+      }
+    ],
+    basicPercent: 100,
+    rewardPercent: 100,
+    storyPercent: 100
+  }),
+  methods: {
+    toEditDatail(params) {
+      if (this.projectData.status === 0) {
+        this.$router.push("/editDetail/" + params);
+      } else {
+        this.$Message.info("您目前不可以对此操作");
+      }
+    }
+  },
+  computed: {
+    basicColor() {
+      let data = {};
+      data.color = "#2db7f5";
+      data.iconColor = "color:#e8eaec;";
+      if (this.basicPercent == 100) {
+        data.color = "#1c9482";
+        data.iconColor = "color:#1c9482;";
+      }
+      return data;
+    },
+    rewardColor() {
+      let data = {};
+      data.color = "#2db7f5";
+      data.iconColor = "color:#e8eaec;";
+      if (this.rewardPercent == 100) {
+        data.color = "#1c9482";
+        data.iconColor = "color:#1c9482;";
+      }
+      return data;
+    },
+    storyColor() {
+      let data = {};
+      data.color = "#2db7f5";
+      data.iconColor = "color:#e8eaec;";
+      if (this.storyPercent == 100) {
+        data.color = "#1c9482";
+        data.iconColor = "color:#1c9482;";
+      }
+      return data;
+    },
+    allDone() {
+      if (
+        this.basicPercent === 100 &&
+        this.rewardPercent === 100 &&
+        this.storyPercent === 100
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    waitColor() {
+      let data = {};
+      data.icon = "color:#eaeef2;";
+      data.percent = "#eaeef2";
+      if (this.projectData.status === 2) {
+        data.icon = "color:#1c9482;";
+        data.percent = "#1c9482";
+        return data;
+      }
+      return data;
+    },
+    waitTitle() {
+      let data = {
+        title: "项目检验中",
+        subtitle: "管理员会根据您的信息和项目的合理程度进行处理，请耐心等候"
+      };
+      if (this.projectData.status === 2) {
+        data = {
+          title: "通过审核",
+          subtitle: "快去准备发布吧！点击发送按钮，大家就可以看到你的项目了"
+        };
+        return data;
+      }
+      return data;
+    }
+  },
+  mounted() {
+    getProjectByFlagById({
+      projectId: this.$route.params.projectId,
+      flag: 0
+    }).then(res => {
+      this.projectData = res.data;
+    });
+  }
+};
+</script>
+<style lang="scss" scoped></style>

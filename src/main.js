@@ -6,8 +6,9 @@ import ViewUI from "view-design";
 import "view-design/dist/styles/iview.css";
 import "./assets/css/hover.css";
 import { TOKEN } from "./utils/Constants";
-import BaseUrl from "./utils/BaseUrl";
 import { imageIsExist } from "./utils/FunctionUtils";
+import BaseUrl from "./utils/BaseUrl";
+import "../src/assets/css/global.scss";
 
 Vue.use(ViewUI);
 
@@ -55,8 +56,8 @@ router.afterEach(route => {
 });
 
 Vue.directive("real-img", async (el, binding) => {
-  let imgUrl = binding.value;
-  if (imgUrl) {
+  let imgUrl = BaseUrl.imgUrl + binding.value;
+  if (binding.value) {
     imageIsExist(imgUrl).then(res => {
       if (res) {
         el.setAttribute("src", imgUrl);

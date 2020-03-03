@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-02-28 13:19:49
- * @LastEditTime: 2020-03-01 16:18:33
+ * @LastEditTime: 2020-03-02 13:18:15
  * @FilePath: \indidea-frontend\src\components\ProjectList.vue
  * @Description: 首页旁边的列表项
  -->
@@ -9,11 +9,7 @@
   <div class="list">
     <Row type="flex">
       <i-col span="9">
-        <img
-          src="../assets/default.png"
-          v-real-img="imgUrl + project.pic"
-          alt=""
-        />
+        <img src="../assets/default.png" v-real-img="project.pic" alt="" />
       </i-col>
       <i-col span="15">
         <div>
@@ -38,15 +34,12 @@
 </template>
 <script>
 import { getPercent } from "../utils/MathUtils";
-import BaseUrl from "../utils/BaseUrl";
 export default {
   name: "ProjectList",
   props: {
     project: Object
   },
-  data: () => ({
-    imgUrl: BaseUrl.imgUrl
-  }),
+  data: () => ({}),
   computed: {
     status() {
       return getPercent(this.project.getpoint, this.project.targetpoint);

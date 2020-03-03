@@ -16,7 +16,7 @@
                 >
                   <img
                     src="../assets/default.png"
-                    v-real-img="imgUrl + featuredProjectData.pic"
+                    v-real-img="featuredProjectData.pic"
                     alt
                   />
                   <i-progress
@@ -159,7 +159,6 @@ import {
 } from "../services/api";
 import { slider, slideritem } from "vue-concise-slider";
 import HotCard from "../components/HotCard";
-import BaseUrl from "../utils/BaseUrl";
 import SortCard from "../components/SortCard";
 
 export default {
@@ -305,7 +304,6 @@ export default {
       pagination: false
     },
     featuredProjectData: { owner: {} },
-    imgUrl: BaseUrl.imgUrl,
     topHitData: [],
     categories: []
   }),

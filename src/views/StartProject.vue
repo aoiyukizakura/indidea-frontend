@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-01 17:40:20
- * @LastEditTime: 2020-03-02 00:34:19
+ * @LastEditTime: 2020-03-03 12:55:03
  * @FilePath: \indidea-frontend\src\views\StartProject.vue
  * @Description: 发起项目
  -->
@@ -23,13 +23,13 @@
             <Select
               @on-change="selectChange"
               v-if="content.select"
-              v-model="startData.category"
+              v-model="startData.categoryId"
               size="large"
             >
               <Option
                 v-for="(value, index) in categories"
                 :key="index"
-                :value="value.name"
+                :value="value.id"
                 >{{ value.name }}</Option
               >
             </Select>
@@ -73,14 +73,11 @@
   </div>
 </template>
 <script>
-import { category } from "../services/api";
+import { category, createProject } from "../services/api";
 export default {
   name: "StartProject",
   data: () => ({
-    startData: {
-      category: "",
-      subtitle: ""
-    },
+    startData: {},
     categories: [],
     single: false,
     content1: {
@@ -129,7 +126,24 @@ export default {
           this.content = this.content3;
           break;
         case 2:
-          console.log("完成", this.startData);
+          this.$Spin.show({
+            render: h => {
+              return h("div", [
+                h("Icon", {
+                  class: "demo-spin-icon-load",
+                  props: {
+                    type: "ios-loading",
+                    size: 24
+                  }
+                }),
+                h("div", "Loading")
+              ]);
+            }
+          });
+          setTimeout(() => {
+            this.$Spin.hide();
+            this.startProject();
+          }, 1000);
           break;
         default:
           break;
@@ -161,17 +175,22 @@ export default {
         this.content.disabled = true;
         this.content2.disabled = true;
       }
+    },
+    startProject() {
+      createProject(this.startData).then(res => {
+        if (res.data) {
+          this.router.push("/editProject/" + res.data.id);
+        } else {
+          this.$Message.info("未知错误，请稍后再试！");
+        }
+      });
     }
   },
   computed: {},
   components: {},
   mounted() {
     category().then(res => {
-      if (!res.data) {
-        this.categories = ["独立游戏", "电影"];
-      } else {
-        this.categories = res.data;
-      }
+      this.categories = res.data;
     });
   }
 };

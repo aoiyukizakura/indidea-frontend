@@ -39,17 +39,23 @@
       <div class="drawer-profile">
         <Row>
           <i-col span="24">
-            <router-link to="/savedProject">已收藏的方案</router-link>
+            <router-link v-on:click.native="show = false" to="/savedProject"
+              >已收藏的方案</router-link
+            >
           </i-col>
         </Row>
         <Row>
           <i-col span="24">
-            <router-link to="/setting">设定</router-link>
+            <router-link v-on:click.native="show = false" to="/setting"
+              >设定</router-link
+            >
           </i-col>
         </Row>
         <Row>
           <i-col span="24">
-            <router-link to="/myInfo">我的信息</router-link>
+            <router-link v-on:click.native="show = false" to="/myInfo"
+              >我的信息</router-link
+            >
           </i-col>
         </Row>
       </div>
@@ -58,14 +64,19 @@
       <div class="drawer-profile">
         <Row v-for="(project, index) in myProjects" :key="index">
           <i-col span="4">
-            <img
-              src="./assets/img/Snipaste_2020-02-29_21-47-01 (1).png"
-              v-real-img="project.pic"
-            />
+            <img src="./assets/default.png" v-real-img="project.pic" />
           </i-col>
-          <template v-if="project.status === 0">
+          <template
+            v-if="
+              project.status !== 1 &&
+                project.status !== 5 &&
+                project.status !== 6
+            "
+          >
             <i-col span="16" push="1">
-              <router-link :to="'/editproject/' + project.id"
+              <router-link
+                v-on:click.native="show = false"
+                :to="'/editProject/' + project.id"
                 >{{ project.category.name }} 的方案</router-link
               >
             </i-col>
@@ -73,7 +84,9 @@
           </template>
           <template v-else>
             <i-col span="16" push="1">
-              <router-link :to="'/projectDetail/' + project.id"
+              <router-link
+                v-on:click.native="show = false"
+                :to="'/projectDetail/' + project.id"
                 >{{ project.category.name }} 的方案</router-link
               >
             </i-col>
@@ -88,7 +101,7 @@
           theme="light"
           placement="top"
         >
-          <Button type="info" @click="modal = true" ghost long>
+          <Button type="info" @click="getstart" ghost long>
             <Icon size="16" type="md-add" />
           </Button>
         </Tooltip>
@@ -134,6 +147,7 @@ export default {
       this.show = !this.show;
     },
     getstart() {
+      this.show = false;
       if (USER_DATA.status === 2) this.$router.push(`/start`);
       else this.$Message.info("您还不是独立创意人，请先申请!");
     }
