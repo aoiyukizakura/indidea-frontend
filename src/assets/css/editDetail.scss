@@ -1,0 +1,78 @@
+$aoi: #1c9482;
+.nav-cloud {
+  position: relative;
+  .back-to {
+    position: absolute;
+    top: 0;
+    left: 0;
+    // background-color: black;
+    z-index: 919;
+    height: 64px;
+    line-height: 40px;
+    padding: 12px 0 12px 24px;
+    & > div {
+      margin-left: 15px;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .go-to {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 919;
+    height: 64px;
+    line-height: 40px;
+    padding: 12px 24px 12px 0;
+    /deep/.ivu-btn {
+      height: 40px !important;
+      width: 120px;
+      color: white;
+      border-radius: 0;
+    }
+  }
+}
+.main-container {
+  position: relative;
+
+  &/deep/.ivu-menu {
+    display: flex;
+    justify-content: center;
+    height: 64px;
+    .ivu-menu-item {
+      padding: 0 40px;
+      font-size: 16px;
+    }
+  }
+}
+.ff7-cloud {
+  overflow: hidden;
+  position: relative;
+  .main-content {
+    position: relative;
+    height: 1500px;
+    .slide-content {
+      position: absolute;
+      width: 300%;
+      top: 0;
+      // left: -100%;
+      transition: all 500ms;
+      & > div {
+        height: 500px;
+        width: 33.33333%;
+        float: left;
+        &:first-child {
+          background-color: antiquewhite;
+        }
+        &:nth-of-type(2) {
+          background-color: red;
+        }
+        &:last-child {
+          background-color: hotpink;
+        }
+      }
+    }
+  }
+}

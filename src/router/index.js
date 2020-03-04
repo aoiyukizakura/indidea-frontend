@@ -54,6 +54,15 @@ const routes = [
     }
   },
   {
+    path: "/editDetail/:path",
+    name: "ediDetail",
+    component: () => import("../views/EditDetail.vue"),
+    meta: {
+      auth: true
+    }
+  },
+
+  {
     path: "*",
     redirect: "/404",
     name: "notfound"

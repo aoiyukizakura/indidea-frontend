@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-22 16:21:37
- * @LastEditTime: 2020-03-03 14:49:56
+ * @LastEditTime: 2020-03-04 17:43:51
  * @FilePath: \indidea-frontend\src\services\api.js
  * @Description: api接口文件
  */
@@ -110,5 +110,37 @@ export const getProjectByFlagById = queryData => {
     url: "/api/project/getProjectByFlagById",
     method: "get",
     params: queryData
+  });
+};
+/**
+ * 提交项目给管理员审批
+ */
+export const waitCheckProject = queryData => {
+  return request({
+    url: "api/project/waitCheckProject",
+    method: "put",
+    data: queryData
+  });
+};
+
+/**
+ * 让项目重回编辑状态
+ */
+export const backToEdit = queryData => {
+  return request({
+    url: "/api/project/backToEdit",
+    method: "put",
+    data: queryData
+  });
+};
+
+/**
+ * 发送项目
+ */
+export const sendProject = queryData => {
+  return request({
+    url: "/api/project/sendProject",
+    method: "put",
+    data: queryData
   });
 };

@@ -36,7 +36,7 @@ instance.interceptors.request.use(
     if (token) {
       config.headers["token"] = token;
     }
-    if (config.method === "post") {
+    if (config.method === "post" || config.method === "put") {
       const contentType = config.headers["Content-Type"];
       if (contentType) {
         // 根据实际情况对数据进行处理

@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-03 11:40:56
- * @LastEditTime: 2020-03-04 00:29:38
+ * @LastEditTime: 2020-03-04 23:53:13
  * @FilePath: \indidea-frontend\src\views\EditProject.vue
  * @Description: 详细编辑project
  -->
@@ -106,9 +106,28 @@
                         title="全部完成"
                         content="现在可以将该方案提交给管理员审核了"
                         icon="ios-checkmark-circle"
-                        v-if="allDone"
+                        v-if="allDone && projectData.status === 0"
                         status="finish"
                         class="success-steps"
+                      >
+                      </Step>
+                      <Step
+                        title="已成功提交项目"
+                        content="如果您觉得还有地方需要修改，可以点击下方按钮，撤回申请。重新编辑"
+                        icon="ios-checkmark-circle"
+                        v-if="
+                          projectData.status === 2 || projectData.status === 7
+                        "
+                        status="finish"
+                        class="success-steps"
+                      >
+                      </Step>
+                      <Step
+                        title="项目被管理员驳回"
+                        content="如果您觉得有哪些地方还有疑问，可以给管理员(xuqiuhan16@dnui.edu.cn)发送邮件，或者重新编辑"
+                        icon="md-close-circle"
+                        v-if="projectData.status === 3"
+                        status="error"
                       >
                       </Step>
                     </Steps>
@@ -117,15 +136,26 @@
                   <!-- 提交按钮 -->
                   <div class="submit-btn">
                     <Button
-                      :disabled="
-                        !allDone ||
-                          projectData.status === 7 ||
-                          projectData.status === 2
+                      v-if="projectData.status === 0"
+                      :disabled="!allDone"
+                      size="large"
+                      long
+                      @click="submitToCheck"
+                    >
+                      提交
+                    </Button>
+                    <Button
+                      v-if="
+                        projectData.status === 7 ||
+                          projectData.status === 2 ||
+                          projectData.status === 3
                       "
                       size="large"
                       long
-                      >提交</Button
+                      @click="back2Edit"
                     >
+                      重新编辑
+                    </Button>
                   </div>
                   <!-- 提交按钮 -->
                   <!-- 提交之后等待审核 -->
@@ -169,7 +199,7 @@
                     justify="end"
                   >
                     <i-col span="11">
-                      <div class="send-project ivu-card">
+                      <div @click="sendProject" class="send-project ivu-card">
                         <h5>发送</h5>
                         <span>项目公开后，您编辑项目的权限将受到限制。</span>
                       </div>
@@ -186,7 +216,12 @@
   </div>
 </template>
 <script>
-import { getProjectByFlagById } from "../services/api";
+import {
+  getProjectByFlagById,
+  waitCheckProject,
+  backToEdit,
+  sendProject
+} from "../services/api";
 import "../assets/css/editProject.scss";
 export default {
   name: "EditProject",
@@ -226,6 +261,71 @@ export default {
       } else {
         this.$Message.info("您目前不可以对此操作");
       }
+    },
+    submitToCheck() {
+      this.$Modal.confirm({
+        title: "您确定要提交该项目？",
+        content:
+          "<p>不要担心，如若事后还想编辑，在未发布之前，还可以回到编辑状态</p>",
+        onOk: () => {
+          this.$Spin.show();
+          setTimeout(() => {
+            waitCheckProject({
+              projectId: this.projectData.id
+            }).then(res => {
+              this.$Spin.hide();
+              this.projectData = res.data;
+              this.$Message.success("提交成功");
+            });
+          }, 500);
+        },
+        onCancel: () => {
+          // this.$Message.info("Clicked cancel");
+        }
+      });
+    },
+    back2Edit() {
+      this.$Modal.confirm({
+        title: "您确定要回到编辑状态？",
+        content: "<p>这意味着您将会重新提交该项目，而且我们也会重新审核</p>",
+        onOk: () => {
+          this.$Spin.show();
+          setTimeout(() => {
+            backToEdit({
+              projectId: this.projectData.id
+            }).then(res => {
+              this.projectData = res.data;
+              this.$Spin.hide();
+              this.$Message.info("您现在可以再次编辑了");
+            });
+          }, 500);
+        },
+        onCancel: () => {
+          // this.$Message.info("。。。");
+        }
+      });
+    },
+    sendProject() {
+      this.$Modal.confirm({
+        title: "您确定要发布该项目？",
+        onOk: () => {
+          this.$Spin.show();
+          setTimeout(() => {
+            sendProject({
+              projectId: this.projectData.id
+            }).then(res => {
+              if (res.data) {
+                this.$router.replace("/projectDetail/" + res.data.id);
+                this.$Message.success("发布成功");
+              } else {
+                this.$Message.info("未知错误，请稍候再试");
+              }
+              this.$Spin.hide();
+            });
+          }, 1000);
+        },
+        onCancel: () => {}
+      });
     }
   },
   computed: {
@@ -302,6 +402,9 @@ export default {
       flag: 0
     }).then(res => {
       this.projectData = res.data;
+      if (res.data.id === 1 && res.data.id === 5 && res.data.id === 6) {
+        this.$router.replace("/projectDetail/" + res.data.id);
+      }
     });
   }
 };
