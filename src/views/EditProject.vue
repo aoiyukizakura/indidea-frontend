@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-03 11:40:56
- * @LastEditTime: 2020-03-04 23:53:13
+ * @LastEditTime: 2020-03-05 16:47:01
  * @FilePath: \indidea-frontend\src\views\EditProject.vue
  * @Description: 详细编辑project
  -->
@@ -257,7 +257,7 @@ export default {
   methods: {
     toEditDatail(params) {
       if (this.projectData.status === 0) {
-        this.$router.push("/editDetail/" + params);
+        this.$router.push("/editDetail/" + this.projectData.id + "/" + params);
       } else {
         this.$Message.info("您目前不可以对此操作");
       }

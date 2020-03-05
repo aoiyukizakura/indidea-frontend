@@ -54,7 +54,7 @@ const routes = [
     }
   },
   {
-    path: "/editDetail/:path",
+    path: "/editDetail/:projectId/:path",
     name: "ediDetail",
     component: () => import("../views/EditDetail.vue"),
     meta: {

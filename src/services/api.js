@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-22 16:21:37
- * @LastEditTime: 2020-03-04 17:43:51
+ * @LastEditTime: 2020-03-06 02:35:43
  * @FilePath: \indidea-frontend\src\services\api.js
  * @Description: api接口文件
  */
@@ -142,5 +142,18 @@ export const sendProject = queryData => {
     url: "/api/project/sendProject",
     method: "put",
     data: queryData
+  });
+};
+/**
+ * 上传文件
+ */
+export const uploadFile = fileData => {
+  return request({
+    url: "/api/uploadFile",
+    method: "post",
+    data: fileData,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
   });
 };

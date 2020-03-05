@@ -9,6 +9,7 @@ const token = localStorage.getItem(TOKEN);
 
 const instance = axios.create({
   timeout: 3000,
+  withCredentials: true,
   transformRequest: [
     data => {
       // 处理data
@@ -40,7 +41,7 @@ instance.interceptors.request.use(
       const contentType = config.headers["Content-Type"];
       if (contentType) {
         // 根据实际情况对数据进行处理
-        if (contentType.includes("mutipart")) {
+        if (contentType.includes("multipart")) {
           // config.data = data;
         } else if (contentType.includes("json")) {
           config.data = JSON.stringify(config.data);
