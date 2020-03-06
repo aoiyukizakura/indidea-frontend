@@ -9,6 +9,7 @@ input,textarea {
 }
 .nav-cloud {
   position: relative;
+  // width: 100%;
   .back-to {
     position: absolute;
     top: 0;
@@ -41,6 +42,14 @@ input,textarea {
       border-radius: 0;
     }
   }
+}
+.nav-cloud-fixed {
+  position: fixed;
+  z-index: 999;
+  background-color: white;
+  width: 100%;
+  top: 0;
+  transition: all 200ms;
 }
 @mixin base-container {
   max-width: 1366px;
@@ -91,7 +100,7 @@ input,textarea {
   position: relative;
   .main-content {
     position: relative;
-    height: 1500px;
+    height: 2800px;
   }
 }
 .slide-content {
@@ -101,7 +110,7 @@ input,textarea {
   // left: -100%;
   transition: all 500ms;
   & > div {
-    height: 1500px;
+    // height: 2500px;
     width: 33.33333%;
     float: left;
     &:first-child {
@@ -164,8 +173,44 @@ input,textarea {
   .edit-cover {
     .edit-input {
       &-cover {
-        height: 400px;
+        // height: 500px;
+        &-cropper {
+          height: 400px;
+        }
         width: 100%;
+        .ivu-btn {
+          margin-top: 16px;
+          border-radius: 0 !important;
+        }
+        .pre-img {
+          width: 100%;
+          vertical-align: bottom;
+        }
+      }
+    }
+  }
+  .edit-video {
+    .edit-input {
+      &-upload-video {}
+      &-pre-video {
+        video {
+          width: 100%;
+        }
+        .ivu-btn {
+          margin-top: 16px;
+          border-radius: 0 !important;
+        }
+      }
+      &-title {
+        margin-bottom: 42px;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+        &>div {
+          margin-bottom: 8px;
+          font-size: 15px;
+          color: #282828;
+        }
       }
     }
   }

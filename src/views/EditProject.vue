@@ -402,7 +402,11 @@ export default {
       flag: 0
     }).then(res => {
       this.projectData = res.data;
-      if (res.data.id === 1 && res.data.id === 5 && res.data.id === 6) {
+      if (
+        res.data.status === 1 &&
+        res.data.status === 5 &&
+        res.data.status === 6
+      ) {
         this.$router.replace("/projectDetail/" + res.data.id);
       }
     });

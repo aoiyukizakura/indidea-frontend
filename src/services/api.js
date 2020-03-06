@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-22 16:21:37
- * @LastEditTime: 2020-03-06 02:35:43
+ * @LastEditTime: 2020-03-06 20:34:03
  * @FilePath: \indidea-frontend\src\services\api.js
  * @Description: api接口文件
  */
@@ -155,5 +155,27 @@ export const uploadFile = fileData => {
     headers: {
       "Content-Type": "multipart/form-data"
     }
+  });
+};
+/**
+ * 删除文件
+ */
+export const deleteFile = filename => {
+  return request({
+    url: "/api/uploadFile",
+    method: "delete",
+    params: {
+      filename: filename
+    }
+  });
+};
+/**
+ * 更新项目
+ */
+export const updateProject = updateData => {
+  return request({
+    url: "/api/project/update",
+    method: "post",
+    data: updateData
   });
 };

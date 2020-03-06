@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-29 22:11:53
- * @LastEditTime: 2020-03-02 13:22:18
+ * @LastEditTime: 2020-03-06 19:20:26
  * @FilePath: \indidea-frontend\src\utils\FunctionUtils.js
  * @Description: 一些函数的工具类
  */
@@ -21,4 +21,13 @@ export const imageIsExist = url => {
     };
     img.src = url;
   });
+};
+
+/**
+ * 递归比较对象
+ */
+export const deepEql = (a, b) => {
+  let n = a instanceof Object;
+  let m = b instanceof Object;
+  return n === m;
 };
