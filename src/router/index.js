@@ -54,12 +54,29 @@ const routes = [
     }
   },
   {
-    path: "/editDetail/:projectId/:path",
+    path: "/editDetail/:projectId",
     name: "ediDetail",
     component: () => import("../views/EditDetail.vue"),
     meta: {
       auth: true
-    }
+    },
+    children: [
+      {
+        path: "basicInfo",
+        name: "basicInfo",
+        component: () => import("../views/editdetail/Basic.vue")
+      },
+      {
+        path: "rewardInfo",
+        name: "rewardInfo",
+        component: () => import("../views/editdetail/Reward.vue")
+      },
+      {
+        path: "storyInfo",
+        name: "storyInfo",
+        component: () => import("../views/editdetail/Story.vue")
+      }
+    ]
   },
 
   {

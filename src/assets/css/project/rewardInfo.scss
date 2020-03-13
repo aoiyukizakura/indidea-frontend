@@ -1,0 +1,127 @@
+@mixin base-container {
+  max-width: 1366px;
+  padding-right: 60px;
+  padding-left: 60px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@mixin ivu-col-padding {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+@mixin info-title {
+  h2 {
+    font-weight: 500;
+    color: #282828;
+    font-size: 18px;
+    line-height: 24px;
+  }
+  p {
+    margin-top: 6px;
+    color: #656969;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+}
+@mixin ivu-row-padding {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.reward-edit-content {
+  @include base-container();
+  padding-bottom: 6px;
+  .reward-col {
+    padding-left: 72px;
+    padding-right: 72px;
+    .reward-header {
+      margin: 24px 0;
+    }
+  }
+}
+
+.flex-header {
+  display: flex;
+  flex-direction: row;
+  &-left {
+    div {
+      &:first-of-type{
+        font-size: 21px;
+        height: 30px;
+
+      }
+      &:last-of-type{
+        height: 24px;
+        font-size: 14px;
+        span {
+          color: #656969;
+        }
+      }
+    }
+  }
+  .ivu-btn {
+    border-radius: 0 !important;
+    height: 48px;
+    padding: 0 48px;
+    font-size: 16px;
+    margin-left: auto;
+  }
+}
+
+.reward-table-header {
+  margin-bottom: 12px;
+  .ivu-col {
+    span {
+      padding: 0 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #282828;
+    }
+  }
+}
+
+.reward-table {
+  &-content {
+    padding: 24px 0 42px 0;
+    .ivu-col {
+      // padding: 0 12px;
+      .reward-point {
+        padding-left: 18px;
+        padding-right: 18px;
+        span {
+          font-size: 18px !important;
+          line-height: 24px !important;
+        }
+      }
+      .table-content-name {
+        padding: 0 18px;
+        h3 {
+          margin-bottom: 18px;
+          font-weight: 400;
+          color: #282828;
+          font-size: 18px;
+          line-height: 24px;
+        }
+      }
+      .table-content-itemlist {
+        padding: 0 18px;
+        ul {
+          margin-left: 18px;
+          margin-bottom: 24px;
+          li {
+            font-size: 14px;
+            line-height: 24px;
+            list-style-position: outside;
+          }
+        }
+      }
+    }
+  }
+  border: 1px solid #dcdedd;
+  transition: all 250ms ease-in-out;
+  cursor: pointer;
+  &:hover{
+    box-shadow: 0 2px 5px 1px rgba($color: #000000, $alpha: 0.17);
+  }
+}

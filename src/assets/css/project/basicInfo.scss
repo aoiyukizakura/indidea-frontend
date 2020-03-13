@@ -1,0 +1,120 @@
+@mixin base-container {
+  max-width: 1366px;
+  padding-right: 60px;
+  padding-left: 60px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@mixin ivu-col-padding {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+@mixin info-title {
+  h2 {
+    font-weight: 500;
+    color: #282828;
+    font-size: 18px;
+    line-height: 24px;
+  }
+  p {
+    margin-top: 6px;
+    color: #656969;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+}
+@mixin ivu-row-padding {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+.basic-info {
+  .edit-content {
+    border-top: 1px solid #dcdedd;
+    & > div {
+      @include base-container();
+      .ivu-row-flex {
+        @include ivu-row-padding();
+        .ivu-col {
+          @include ivu-col-padding();
+          background-color: white;
+          &:first-of-type {
+            @include info-title();
+          }
+        }
+      }
+    }
+  }
+  .edit-title {
+    .edit-input {
+      &-title {
+        margin-bottom: 42px;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+        &>div {
+          margin-bottom: 8px;
+          font-size: 15px;
+          color: #282828;
+        }
+      }
+    }
+  }
+  .edit-sort {
+    .edit-input {
+      &-sort {
+        .ivu-select {
+          &-selection,&-placeholder,&-selected-value {
+            height: 40px !important;
+            line-height: 40px !important;
+          }
+          
+        }
+      }
+    }
+  }
+  .edit-cover {
+    .edit-input {
+      &-cover {
+        // height: 500px;
+        &-cropper {
+          height: 400px;
+        }
+        width: 100%;
+        .ivu-btn {
+          margin-top: 16px;
+          border-radius: 0 !important;
+        }
+        .pre-img {
+          width: 100%;
+          vertical-align: bottom;
+        }
+      }
+    }
+  }
+  .edit-video {
+    .edit-input {
+      &-upload-video {}
+      &-pre-video {
+        video {
+          width: 100%;
+        }
+        .ivu-btn {
+          margin-top: 16px;
+          border-radius: 0 !important;
+        }
+      }
+      &-title {
+        margin-bottom: 42px;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+        &>div {
+          margin-bottom: 8px;
+          font-size: 15px;
+          color: #282828;
+        }
+      }
+    }
+  }
+}
