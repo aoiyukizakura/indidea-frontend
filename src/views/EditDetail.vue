@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-04 18:12:11
- * @LastEditTime: 2020-03-06 21:24:11
+ * @LastEditTime: 2020-03-13 12:08:54
  * @FilePath: \indidea-frontend\src\views\EditDetail.vue
  * @Description: 
  -->
@@ -33,7 +33,7 @@
         </div>
         <div class="go-to">
           <Button
-            @click="saveTo"
+            @click="nextTo"
             v-if="projectFlag"
             class="ivu-card"
             :style="btnNext.color"
@@ -81,6 +81,7 @@
                         placeholder="2015年年度最佳游戏（提名）血缘开启第二作众筹辣"
                         :maxlength="60"
                         show-word-limit
+                        @on-blur="saveTo(editProjectData.title, 'title')"
                       />
                     </div>
                     <div class="edit-input-title">
@@ -92,6 +93,7 @@
                         :rows="3"
                         :maxlength="135"
                         show-word-limit
+                        @on-blur="saveTo(editProjectData.subtitle, 'subtitle')"
                       />
                     </div>
                   </div>
@@ -114,7 +116,12 @@
                 <i-col class="edit-input" offset="2" span="14">
                   <div>
                     <div class="edit-input-sort">
-                      <Select v-model="editProjectData.category.id">
+                      <Select
+                        v-model="editProjectData.category.id"
+                        @on-change="
+                          saveTo(editProjectData.category.id, 'categoryId')
+                        "
+                      >
                         <Option
                           v-for="(item, index) in categories"
                           :value="item.id"
@@ -271,6 +278,9 @@
                       <i-input
                         v-model="editProjectData.targetpoint"
                         size="large"
+                        @on-blur="
+                          saveTo(editProjectData.targetpoint, 'targetpoint')
+                        "
                       >
                         <Icon type="md-trophy" slot="prefix" />
                       </i-input>
@@ -300,6 +310,7 @@
                       :options="optionsdate"
                       placeholder="Select date"
                       @on-change="targetdate"
+                      v-model="editProjectData.targetdate"
                     ></DatePicker>
                   </div>
                 </i-col>
@@ -327,6 +338,7 @@
                       size="large"
                       :options="optionsdate"
                       placeholder="Select date"
+                      v-model="editProjectData.perdate"
                       @on-change="predate"
                     ></DatePicker>
                   </div>
@@ -335,7 +347,6 @@
             </div>
           </div>
           <!-- 预计发布日期（可选） -->
-          <Button long type="success" @click="check">检查</Button>
         </div>
         <div class="reward-info">
           <div class="info-header">
@@ -391,13 +402,12 @@ export default {
   name: "EditDetail",
   data: () => ({
     btnNext: {
-      name: "保存",
+      name: "下一个",
       color: "backgroundColor: #1c9482;"
     },
     paramsofPath: "",
     pathList: ["basicInfo", "rewardInfo", "storyInfo"],
     slideAni: "left: 0%;",
-    projectData: { category: {} },
     editProjectData: { category: {} },
     categories: [],
     option: {
@@ -429,8 +439,27 @@ export default {
         this.$router.push("./" + this.pathList[++index]);
       }
     },
-    saveTo() {
+    saveTo(data, key) {
+      this.$Notice.config({
+        top: 185
+      })
       // 更新的代码
+      let update = {};
+      update[key] = data;
+      update.id = this.editProjectData.id;
+      updateProject(update)
+        .then(res => {
+          if (res.data) {
+            this.$Notice.success({
+              title: "保存成功",
+              duration: 2
+            });
+          }
+        })
+        .catch(err => {
+          this.$Message.error("保存失败");
+          console.log("err :", err);
+        });
     },
     slide2slide(path) {
       let index = this.pathList.indexOf(path);
@@ -449,6 +478,7 @@ export default {
           uploadFile(filedata)
             .then(res => {
               this.editProjectData.pic = res.data;
+              this.saveTo(res.data, "pic");
             })
             .catch(err => {
               console.log("err :", err);
@@ -467,7 +497,7 @@ export default {
           this.option.img = null;
           updateProject({
             pic: "",
-            id: this.projectData.id
+            id: this.editProjectData.id
           });
           setTimeout(() => {
             this.$Message.success("成功移除");
@@ -492,6 +522,7 @@ export default {
     },
     // eslint-disable-next-line no-unused-vars
     videoUploaded(response, file, fileList) {
+      this.saveTo(response.data, "video");
       this.editProjectData.video = response.data;
     },
     videoRemove() {
@@ -504,7 +535,7 @@ export default {
           this.editProjectData.video = null;
           updateProject({
             video: "",
-            id: this.projectData.id
+            id: this.editProjectData.id
           });
           setTimeout(() => {
             this.$Message.info("成功移除");
@@ -537,17 +568,22 @@ export default {
     },
     targetdate(a) {
       this.editProjectData.targetdate = new Date(a);
+      const date = new Date(a);
+      this.saveTo(date, "targetdate");
     },
     predate(a) {
       this.editProjectData.perdate = new Date(a);
+      const date = new Date(a);
+      this.saveTo(date, "targetdate");
     }
   },
   computed: {
     projectFlag() {
-      return (
-        JSON.stringify(this.projectData) !==
-        JSON.stringify(this.editProjectData)
-      );
+      // return (
+      //   JSON.stringify(this.editProjectData) !==
+      //   JSON.stringify(this.editProjectData)
+      // );
+      return true;
     },
     canScale() {
       return this.option.img !== "";
@@ -565,7 +601,7 @@ export default {
       projectId: this.$route.params.projectId,
       flag: 0
     }).then(res => {
-      this.projectData = res.data;
+      this.editProjectData = res.data;
       this.editProjectData = JSON.parse(JSON.stringify(res.data));
       if (
         res.data.status === 1 &&
