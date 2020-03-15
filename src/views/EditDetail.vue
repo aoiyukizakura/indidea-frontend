@@ -2,12 +2,13 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-04 18:12:11
- * @LastEditTime: 2020-03-13 13:54:41
+ * @LastEditTime: 2020-03-15 16:42:37
  * @FilePath: \indidea-frontend\src\views\EditDetail.vue
  * @Description: 
  -->
 <template>
   <div class="ff7-cloud">
+    <div :style="navFixed ? 'height: 64px' : ''"></div>
     <div :class="navFixed ? 'nav-cloud-fixed' : ''">
       <div class="nav-cloud" ref="fixedNav">
         <div class="back-to">
@@ -43,6 +44,7 @@
     <div class="main-content">
       <router-view></router-view>
     </div>
+    <div class="footer">Copyright Indidea © 2019-2020</div>
   </div>
 </template>
 <script>
@@ -103,6 +105,9 @@ export default {
       } else {
         this.navFixed = false;
       }
+    },
+    alertNotify() {
+      alert("你确定要离开本页面吗？表单将不会保存");
     }
   },
   computed: {
@@ -110,8 +115,10 @@ export default {
       return this.option.img !== "";
     }
   },
+  created() {},
   mounted() {
     window.addEventListener("scroll", this.watchScroll);
+    window.addEventListener("beforeunload", this.alertNotify);
     let path = this.$route.name;
     this.paramsofPath = path;
   },

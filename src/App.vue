@@ -225,13 +225,6 @@ export default {
   margin-left: 25px;
   cursor: pointer;
 }
-.footer {
-  border-top: 1px solid #dcdee2;
-  border-bottom: 1px solid #dcdee2;
-  text-align: center;
-  height: 5rem;
-  line-height: 5rem;
-}
 .drawer-profile {
   font-size: 14px;
   margin-top: 2.4rem;

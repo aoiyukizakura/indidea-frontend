@@ -31,7 +31,7 @@
 
 .reward-edit-content {
   @include base-container();
-  padding-bottom: 6px;
+  padding-bottom: 16px;
   .reward-col {
     padding-left: 72px;
     padding-right: 72px;
@@ -46,12 +46,11 @@
   flex-direction: row;
   &-left {
     div {
-      &:first-of-type{
+      &:first-of-type {
         font-size: 21px;
         height: 30px;
-
       }
-      &:last-of-type{
+      &:last-of-type {
         height: 24px;
         font-size: 14px;
         span {
@@ -82,6 +81,13 @@
 }
 
 .reward-table {
+  margin-bottom: 16px;
+  border: 1px solid #dcdedd;
+  transition: all 250ms ease-in-out;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 3px 6px 1px rgba($color: #000000, $alpha: 0.17);
+  }
   &-content {
     padding: 24px 0 42px 0;
     .ivu-col {
@@ -118,10 +124,133 @@
       }
     }
   }
-  border: 1px solid #dcdedd;
-  transition: all 250ms ease-in-out;
+  &-control {
+    padding: 12px 0;
+    border-top: 1px solid #dcdedd;
+    .ivu-col {
+      padding: 0 18px;
+      div {
+        padding: 0 18px;
+        text-align: right;
+      }
+    }
+  }
+}
+.reward-table-blank {
   cursor: pointer;
-  &:hover{
-    box-shadow: 0 2px 5px 1px rgba($color: #000000, $alpha: 0.17);
+  height: 200px;
+  border: 1px dashed #dcdedd;
+  background-color: #fbfbfa;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  p {
+    height: 24px;
+    font-size: 18px;
+    line-height: 24px;
+    margin-left: 6px;
+  }
+  &:hover {
+    border-style: solid;
+  }
+}
+.add-reward-modal {
+  // width: 40% !important;
+  border-radius: 0 !important;
+  .ivu-modal-body {
+    background-color: #fbfbfa !important;
+    padding-bottom: 48px;
+  }
+}
+.modal-form {
+  padding: 24px 24px 0;
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #dcdedd;
+  background-color: white;
+  &-item {
+    margin-bottom: 24px;
+    & > p:first-of-type {
+      font-size: 16px;
+      line-height: 24px;
+      color: #282828;
+    }
+    & > p:last-of-type {
+      margin-top: 6px;
+      margin-bottom: 12px;
+      color: #656969;
+      font-size: 14px;
+      line-height: 24px;
+    }
+    .ivu-input {
+      height: 42px;
+      line-height: 18px;
+      padding: 12px;
+    }
+  }
+  &-point {
+    .ivu-input {
+      padding-left: 44px;
+    }
+    .ivu-input-prefix {
+      border-right: 1px solid #dcdedd;
+      .ivu-icon {
+        height: 42px;
+        line-height: 42px;
+      }
+    }
+  }
+  &-date {
+    .ivu-icon {
+      height: 42px;
+      line-height: 42px;
+    }
+  }
+  &-des {
+    .ivu-input {
+      // line-height: ;
+      height: auto !important;
+    }
+  }
+
+  &-lists {
+    & > ul {
+      margin-top: 12px;
+      li {
+        list-style: none;
+      }
+      .list-title {
+        .ivu-col {
+          margin-bottom: 12px;
+          padding-right: 12px;
+          font-size: 12px;
+          line-height: 18px;
+          &:first-of-type {
+            padding-right: 36px;
+          }
+        }
+      }
+      .list-content {
+        .ivu-col {
+          line-height: 42px;
+          height: 42px;
+          margin-bottom: 6px;
+          &:last-of-type {
+            text-align: right;
+            cursor: pointer;
+            span:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  & > .ivu-btn {
+    margin-bottom: 24px;
+    border-radius: 0 !important;
   }
 }
