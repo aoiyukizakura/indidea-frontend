@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-01 17:40:20
- * @LastEditTime: 2020-03-03 12:55:03
+ * @LastEditTime: 2020-03-16 23:23:56
  * @FilePath: \indidea-frontend\src\views\StartProject.vue
  * @Description: 发起项目
  -->
@@ -179,7 +179,7 @@ export default {
     startProject() {
       createProject(this.startData).then(res => {
         if (res.data) {
-          this.router.push("/editProject/" + res.data.id);
+          this.$router.push("/editProject/" + res.data.id);
         } else {
           this.$Message.info("未知错误，请稍后再试！");
         }
@@ -212,7 +212,7 @@ export default {
   margin-bottom: 84px;
   /* background-color: cornflowerblue; */
 }
-.content-input/deep/ textarea {
+.content-input >>> textarea {
   resize: none !important;
 }
 .content-content h2 {

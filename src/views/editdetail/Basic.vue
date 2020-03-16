@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:26:12
- * @LastEditTime: 2020-03-13 14:01:46
+ * @LastEditTime: 2020-03-16 23:25:24
  * @FilePath: \indidea-frontend\src\views\editdetail\Basic.vue
  * @Description: 
  -->
@@ -312,7 +312,6 @@
   </div>
 </template>
 <script>
-import "../../assets/css/project/basicInfo.scss";
 // eslint-disable-next-line no-unused-vars
 import {
   category,
@@ -356,7 +355,7 @@ export default {
     saveTo(data, key) {
       this.$Notice.config({
         top: 185
-      })
+      });
       // 更新的代码
       let update = {};
       update[key] = data;
@@ -498,6 +497,13 @@ export default {
   components: {
     // eslint-disable-next-line vue/no-unused-components
     VueCropper
+  },
+  watch: {
+    // eslint-disable-next-line no-unused-vars
+    editProjectData(ne, old) {}
   }
 };
 </script>
+<style lang="scss" scoped>
+@import "../../assets/css/project/basicInfo.scss";
+</style>

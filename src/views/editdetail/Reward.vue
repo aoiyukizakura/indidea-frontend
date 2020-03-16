@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:55:44
- * @LastEditTime: 2020-03-15 21:16:58
+ * @LastEditTime: 2020-03-16 23:06:30
  * @FilePath: \indidea-frontend\src\views\editdetail\Reward.vue
  * @Description: 
  -->
@@ -191,7 +191,7 @@
   </div>
 </template>
 <script>
-import "../../assets/css/project/rewardInfo.scss";
+
 import {
   rewardListByProjectId,
   saveReward,
@@ -333,3 +333,6 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+@import "../../assets/css/project/rewardInfo.scss";
+</style>

@@ -1,15 +1,15 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-02-28 13:19:49
- * @LastEditTime: 2020-03-02 13:18:15
- * @FilePath: \indidea-frontend\src\components\ProjectList.vue
+ * @LastEditTime: 2020-03-16 15:40:25
+ * @FilePath: \indidea-frontend\src\components\ProjectList\ProjectList.vue
  * @Description: 首页旁边的列表项
  -->
 <template>
   <div class="list">
     <Row type="flex">
       <i-col span="9">
-        <img src="../assets/default.png" v-real-img="project.pic" alt="" />
+        <img src="@/assets/default.png" v-real-img="project.pic" alt="" />
       </i-col>
       <i-col span="15">
         <div>
@@ -33,11 +33,11 @@
   </div>
 </template>
 <script>
-import { getPercent } from "../utils/MathUtils";
+import { getPercent } from "../../utils/MathUtils";
 export default {
   name: "ProjectList",
   props: {
-    project: Object
+    project: {}
   },
   data: () => ({}),
   computed: {

@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-04 18:12:11
- * @LastEditTime: 2020-03-15 16:42:37
+ * @LastEditTime: 2020-03-16 23:37:27
  * @FilePath: \indidea-frontend\src\views\EditDetail.vue
  * @Description: 
  -->
@@ -11,7 +11,7 @@
     <div :style="navFixed ? 'height: 64px' : ''"></div>
     <div :class="navFixed ? 'nav-cloud-fixed' : ''">
       <div class="nav-cloud" ref="fixedNav">
-        <div class="back-to">
+        <div @click="backTo" class="back-to">
           <div>
             <Icon type="md-arrow-back" style="margin-right: 6px;" />
             返回项目概括
@@ -48,7 +48,6 @@
   </div>
 </template>
 <script>
-import "../assets/css/editDetail.scss";
 export default {
   name: "EditDetail",
   data: () => ({
@@ -108,6 +107,9 @@ export default {
     },
     alertNotify() {
       alert("你确定要离开本页面吗？表单将不会保存");
+    },
+    backTo() {
+      this.$router.push("/editProject/" + this.$route.params.projectId);
     }
   },
   computed: {
@@ -135,4 +137,6 @@ export default {
   }
 };
 </script>
-<style lang="scss" socped></style>
+<style lang="scss" socped>
+@import "../assets/css/editDetail.scss";
+</style>

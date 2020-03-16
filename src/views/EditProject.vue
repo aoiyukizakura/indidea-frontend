@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-03 11:40:56
- * @LastEditTime: 2020-03-05 16:47:01
+ * @LastEditTime: 2020-03-16 23:04:32
  * @FilePath: \indidea-frontend\src\views\EditProject.vue
  * @Description: 详细编辑project
  -->
@@ -222,7 +222,10 @@ import {
   backToEdit,
   sendProject
 } from "../services/api";
-import "../assets/css/editProject.scss";
+import { rewardListByProjectId } from "../services/api/project";
+
+const _ = require("lodash");
+
 export default {
   name: "EditProject",
   data: () => ({
@@ -250,11 +253,32 @@ export default {
         subtitle: "管理员会根据您的信息和项目的合理程度进行处理，请耐心等候"
       }
     ],
-    basicPercent: 100,
-    rewardPercent: 100,
-    storyPercent: 100
+    reward: false
   }),
   methods: {
+    getProjectData() {
+      getProjectByFlagById({
+        projectId: this.$route.params.projectId,
+        flag: 0
+      }).then(res => {
+        this.projectData = res.data;
+        if (
+          res.data.status === 1 &&
+          res.data.status === 5 &&
+          res.data.status === 6
+        ) {
+          this.$router.replace("/projectDetail/" + res.data.id);
+        }
+      });
+
+      rewardListByProjectId(this.$route.params.projectId).then(res => {
+        if (res.data.length) {
+          this.reward = true;
+        } else {
+          this.reward = false;
+        }
+      });
+    },
     toEditDatail(params) {
       if (this.projectData.status === 0) {
         this.$router.push("/editDetail/" + this.projectData.id + "/" + params);
@@ -394,23 +418,70 @@ export default {
         return data;
       }
       return data;
+    },
+    basicPercent() {
+      if (!this.projectData.id) {
+        return 0;
+      } else {
+        let {
+          title,
+          subtitle,
+          pic,
+          video,
+          targetpoint,
+          targetdate,
+          perdate,
+          category
+        } = this.projectData;
+        let basicInfo = {
+          title,
+          subtitle,
+          pic,
+          video,
+          targetpoint,
+          targetdate,
+          perdate,
+          category
+        };
+        // eslint-disable-next-line no-unused-vars
+        let count = 0;
+        for (const key in basicInfo) {
+          const element = basicInfo[key];
+          if (element !== "" && element !== null) {
+            count++;
+          }
+        }
+        return (count / _.size(basicInfo)) * 100;
+      }
+    },
+    rewardPercent() {
+      if (this.reward) {
+        return 100;
+      } else return 0;
+    },
+    storyPercent() {
+      if (!this.projectData.id) {
+        return 0;
+      } else {
+        if (this.projectData.story === null || this.projectData.story === "")
+          return 0;
+        else return 100;
+      }
     }
   },
-  mounted() {
-    getProjectByFlagById({
-      projectId: this.$route.params.projectId,
-      flag: 0
-    }).then(res => {
-      this.projectData = res.data;
-      if (
-        res.data.status === 1 &&
-        res.data.status === 5 &&
-        res.data.status === 6
-      ) {
-        this.$router.replace("/projectDetail/" + res.data.id);
-      }
-    });
+  created() {
+    this.getProjectData();
+  },
+  mounted() {},
+  watch: {
+    // eslint-disable-next-line no-unused-vars
+    projectData(to) {},
+    $route() {
+      this.getProjectData();
+    }
   }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "../assets/css/editProject.scss";
+</style>

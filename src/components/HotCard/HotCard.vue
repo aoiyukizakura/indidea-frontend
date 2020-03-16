@@ -1,14 +1,14 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-02-29 00:17:40
- * @LastEditTime: 2020-03-02 13:16:23
- * @FilePath: \indidea-frontend\src\components\HotCard.vue
+ * @LastEditTime: 2020-03-16 23:22:36
+ * @FilePath: \indidea-frontend\src\components\HotCard\HotCard.vue
  * @Description: 首页的最近最热 卡片组件
  -->
 <template>
   <div class="hover-targer-list">
     <div class="img-target">
-      <img src="../assets/default.png" v-real-img="project.pic" />
+      <img src="@/assets/default.png" v-real-img="project.pic" />
       <i-progress
         :percent="(project.getpoint / project.targetpoint) * 100"
         :stroke-width="6"
@@ -38,7 +38,7 @@
 export default {
   name: "HotCard",
   props: {
-    project: Object
+    project: {}
   },
   data: () => ({})
 };
@@ -69,16 +69,16 @@ export default {
   font-size: 0;
   vertical-align: bottom;
 }
-.img-target /deep/.ivu-progress-outer,
-.img-target /deep/.ivu-progress-inner,
-.img-target /deep/.ivu-progress-bg,
-.img-target /deep/.ivu-progress-success-bg {
+.img-target >>> .ivu-progress-outer,
+.img-target >>> .ivu-progress-inner,
+.img-target >>> .ivu-progress-bg,
+.img-target >>> .ivu-progress-success-bg {
   border-radius: 0px !important;
   font-size: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
 }
-.img-target /deep/.ivu-progress {
+.img-target >>> .ivu-progress {
   padding: 0 !important;
   margin: 0 !important;
   font-size: 0 !important;

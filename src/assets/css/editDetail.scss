@@ -35,7 +35,7 @@ input,textarea {
     height: 64px;
     line-height: 40px;
     padding: 12px 24px 12px 0;
-    /deep/.ivu-btn {
+    & /deep/ .ivu-btn {
       height: 40px !important;
       width: 120px;
       color: white;
@@ -84,7 +84,7 @@ input,textarea {
 .main-container {
   position: relative;
 
-  &/deep/.ivu-menu {
+  & /deep/ .ivu-menu {
     display: flex;
     justify-content: center;
     height: 64px;
@@ -141,6 +141,6 @@ input,textarea {
   // height: 5rem;
   line-height: 5rem;
   margin-top: 48px;
-  padding-top: 24px;
-  padding-bottom: 56px;
+  padding-top: 64px;
+  padding-bottom: 32px;
 }

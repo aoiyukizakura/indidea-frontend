@@ -141,6 +141,7 @@
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -149,7 +150,7 @@
 // import HelloWorld from "@/components/HelloWorld.vue";
 // eslint-disable-next-line no-unused-vars
 import { TOKEN, USER_INFO } from "../utils/Constants";
-import ProjectList from "../components/ProjectList";
+import ProjectList from "../components/ProjectList/ProjectList";
 // eslint-disable-next-line no-unused-vars
 import {
   getTop9Projects,
@@ -158,8 +159,9 @@ import {
   category
 } from "../services/api";
 import { slider, slideritem } from "vue-concise-slider";
-import HotCard from "../components/HotCard";
-import SortCard from "../components/SortCard";
+import HotCard from "../components/HotCard/HotCard";
+import SortCard from "../components/SortCard/SortCard";
+import Footer from "@/components/Footer/Footer";
 
 export default {
   name: "Home",
@@ -169,7 +171,8 @@ export default {
     slideritem,
     // eslint-disable-next-line vue/no-unused-components
     HotCard,
-    SortCard
+    SortCard,
+    Footer
   },
   data: () => ({
     msg: "home",
@@ -187,102 +190,6 @@ export default {
         img:
           "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
         getpoint: 220,
-        targetdate: "2020-02-27"
-      },
-      {
-        id: "2",
-        title: "卑鄙的外乡人必杀手册",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 1500,
-        targetdate: "2020-02-27"
-      },
-      {
-        id: "3",
-        title: "卑鄙的外乡人必杀手册",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 5300,
-        targetdate: "2020-02-27"
-      },
-      {
-        id: "4",
-        title: "卑鄙的外乡人必杀手册",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 500,
-        targetdate: "2020-02-27"
-      },
-      {
-        id: "5",
-        title: "卑鄙的外乡人必杀手册",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 500,
-        targetdate: "2020-02-27"
-      },
-      {
-        id: "6",
-        title: "卑鄙的外乡人必杀手册",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 500,
-        targetdate: "2020-02-27"
-      },
-      {
-        id: "7",
-        title: "卑鄙的外乡人必杀手册",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 500,
-        targetdate: "2020-02-27"
-      },
-      {
-        id: "8",
-        title: "卑鄙的外乡人必杀手册",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 500,
-        targetdate: "2020-02-27"
-      },
-      {
-        id: "9",
-        title: "卑鄙的外乡人必杀手册",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 500,
         targetdate: "2020-02-27"
       }
     ],
@@ -316,7 +223,6 @@ export default {
     });
     getTopHitProject().then(res => {
       this.topHitData = res.data;
-      console.log("object :", res.data.length);
     });
     category().then(res => {
       if (!res.data) {
@@ -382,12 +288,12 @@ export default {
   margin-bottom: 1.1rem;
   color: #656969;
 }
-.img-content /deep/.ivu-progress-inner,
-.img-content /deep/.ivu-progress-bg,
-.img-content /deep/.ivu-progress-success-bg {
+.img-content >>> .ivu-progress-inner,
+.img-content >>> .ivu-progress-bg,
+.img-content >>> .ivu-progress-success-bg {
   border-radius: 0px !important;
 }
-.img-content /deep/.ivu-progress {
+.img-content >>> .ivu-progress {
   padding: 0 !important;
   margin: 0 !important;
   bottom: 0;
@@ -458,7 +364,7 @@ export default {
   line-height: 1.8rem;
   font-weight: 100;
 }
-.hover-target:hover/deep/ .title {
+.hover-target:hover >>> .title {
   text-decoration-line: underline;
   color: #587058;
   text-decoration-color: #587058;
