@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-22 16:21:37
- * @LastEditTime: 2020-03-06 20:34:03
+ * @LastEditTime: 2020-03-19 15:10:17
  * @FilePath: \indidea-frontend\src\services\api.js
  * @Description: api接口文件
  */
@@ -104,6 +104,8 @@ export const createProject = projectData => {
 };
 /**
  * 根据ID获取正在编辑的项目
+ * @param queryData.id 项目id
+ * @param queryData.flag 0编辑状态 1正常状态
  */
 export const getProjectByFlagById = queryData => {
   return request({

@@ -19,7 +19,12 @@ const instance = axios.create({
   transformResponse: [
     res => {
       // 处理响应
-      return JSON.parse(res);
+      try {
+        return JSON.parse(res);
+      } catch (e) {
+        console.log("err :", e);
+        return null;
+      }
     }
   ]
 });
