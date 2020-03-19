@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-01 19:02:40
- * @LastEditTime: 2020-03-01 19:08:13
- * @FilePath: \indidea-frontend\src\components\SortCard.vue
+ * @LastEditTime: 2020-03-19 11:17:22
+ * @FilePath: \indidea-frontend\src\components\SortCard\SortCard.vue
  * @Description: 
  -->
 <template>
@@ -11,9 +11,11 @@
       <template v-for="(category, index) in categories">
         <i-col span="2" :key="index">
           <p style="text-align: center;">
-            <router-link class="hvr-outline-out" :to="'/sort/' + category.id">{{
-              category.name
-            }}</router-link>
+            <router-link
+              class="hvr-outline-out"
+              :to="'/search?categoryId=' + category.id"
+              >{{ category.name }}</router-link
+            >
           </p>
         </i-col>
       </template>
@@ -38,5 +40,6 @@ export default {
   font-size: 1rem;
   padding: 0 5rem;
   background-color: white;
+  /* cursor: pointer; */
 }
 </style>

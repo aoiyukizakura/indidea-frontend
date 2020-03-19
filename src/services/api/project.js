@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 10:40:10
- * @LastEditTime: 2020-03-15 21:00:18
+ * @LastEditTime: 2020-03-18 19:22:35
  * @FilePath: \indidea-frontend\src\services\api\project.js
  * @Description: project apis
  */
@@ -44,5 +44,13 @@ export const getReward = rewardId => {
   return request({
     url: "/api/reward/" + rewardId,
     method: "get"
+  });
+};
+
+export const searchProject = query => {
+  return request({
+    url: "/api/project/searchProject",
+    method: "get",
+    params: query
   });
 };

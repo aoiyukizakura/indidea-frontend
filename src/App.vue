@@ -19,7 +19,7 @@
         <div @click="getstart">发起众筹</div>
       </i-col>
       <i-col :md="3" :sm="{ span: 12 }" :xs="12" class="nav-right">
-        <div>
+        <div @click="search">
           搜索
           <Icon type="md-search" style="margin-left:5px;" />
         </div>
@@ -150,6 +150,9 @@ export default {
       this.show = false;
       if (USER_DATA.status === 2) this.$router.push(`/start`);
       else this.$Message.info("您还不是独立创意人，请先申请!");
+    },
+    search() {
+      this.$router.push("/search");
     }
   },
   computed: {
@@ -157,7 +160,12 @@ export default {
       return localStorage.getItem(TOKEN) ? true : false;
     },
     avatar() {
-      return JSON.parse(localStorage.getItem(USER_INFO)).avatar;
+      let user_info = localStorage.getItem(USER_INFO);
+      if (user_info) {
+        return JSON.parse(localStorage.getItem(USER_INFO)).avatar;
+      } else {
+        return null;
+      }
     }
   },
   mounted() {

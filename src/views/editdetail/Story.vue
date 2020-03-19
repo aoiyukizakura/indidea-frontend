@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:57:02
- * @LastEditTime: 2020-03-16 23:28:35
+ * @LastEditTime: 2020-03-17 11:38:35
  * @FilePath: \indidea-frontend\src\views\editdetail\Story.vue
  * @Description: 
  -->
@@ -320,7 +320,7 @@ export default {
   .tui-editor-contents-placeholder:before {
   color: #9b9e9e !important;
 }
-.story-info .custom-video-button {
+.story-info >>> .custom-video-button {
   height: 22px;
   width: 22px;
   float: left;

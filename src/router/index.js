@@ -78,7 +78,16 @@ const routes = [
       }
     ]
   },
-
+  {
+    path: "/search",
+    name: "search",
+    component: () => import("../views/Search/Search.vue")
+  },
+  {
+    path: "/project-detail/:projectId",
+    name: "projectDetail",
+    component: () => import("../views/ProjectDetail/ProjectDetail.vue")
+  },
   {
     path: "*",
     redirect: "/404",
