@@ -65,7 +65,6 @@ Vue.directive("real-img", async (el, binding) => {
     });
   }
 });
-
 new Vue({
   router,
   render: h => h(App)

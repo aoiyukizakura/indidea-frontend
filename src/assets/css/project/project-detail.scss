@@ -29,7 +29,7 @@
     }
   }
   &-data-row {
-    margin-bottom: 30px;
+    padding-bottom: 30px;
     .ivu-col {
       padding: 0 18px;
     }
@@ -37,10 +37,33 @@
       div {
         &:first-of-type {
           position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .media-play {
+            padding: 0;
+            position: absolute;
+            border: 2px solid #31c7b0;
+            padding: 12px 32px;
+            background-color: #666666;
+            color: white;
+            cursor: pointer;
+            
+          }
           img {
             width: 100%;
             font-size: 0;
             vertical-align: bottom;
+            height: 448px;
+            object-fit: cover;
+          }
+          video {
+            width: 100%;
+            height: 448px;
+            object-fit: contain;
+            &:focus {
+              outline: none;
+            }
           }
         }
         &:last-of-type {
@@ -84,11 +107,10 @@
             line-height: 18px;
             color: #656969;
             font-size: 14px;
-
           }
         }
         &-normal {
-          &:last-of-type{
+          &:last-of-type {
             margin-bottom: 0 !important;
           }
           margin-bottom: 24px;
@@ -106,7 +128,7 @@
         }
       }
       .btn-project-group {
-        .btn-project-support{
+        .btn-project-support {
           margin-bottom: 18px;
           height: 48px;
           line-height: 48px;
@@ -131,20 +153,26 @@
             transform: translateY(-2px);
           }
         }
+        .border {
+          border-color: #13665a;
+        }
       }
     }
   }
 }
-.project-content{
+.project-content {
+  position: relative;
   &-menu {
     border-top: 1px solid #dedfdc;
     border-bottom: 1px solid #dedfdc;
+    background-color: white;
+    transition: all 200ms;
     .menu {
-      .active{
+      .active {
         font-weight: 600;
         border-bottom: 3px solid #282828;
       }
-      &-item{
+      &-item {
         color: #282828;
         display: inline-block;
         padding: 20px 5px 17px;
@@ -152,10 +180,27 @@
         font-size: 14px;
         line-height: 24px;
         cursor: pointer;
-        &:hover{
+        &:hover {
           color: #1c9482;
         }
       }
     }
   }
+  .fixed-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+  }
+  .fill-content {
+    height: 64px;
+    top: 0;
+    width: 100%;
+  }
+}
+
+.project-container {
+  padding-top: 48px;
+  padding-bottom: 648px;
+  background-color: white;
 }

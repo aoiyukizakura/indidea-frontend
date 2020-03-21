@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 10:40:10
- * @LastEditTime: 2020-03-19 15:18:09
+ * @LastEditTime: 2020-03-21 17:29:24
  * @FilePath: \indidea-frontend\src\services\api\project.js
  * @Description: project apis
  */
@@ -59,5 +59,44 @@ export const getProjectById = projectId => {
   return request({
     url: "/api/project/" + projectId,
     method: "get"
+  });
+};
+
+export const getProjectWithoutHit = projectId => {
+  return request({
+    url: "/api/project",
+    method: "get",
+    params: { id: projectId }
+  });
+};
+
+export const countSponsorByProjectId = projectId => {
+  return request({
+    url: "/api/project/countSponsorByProjectId/" + projectId,
+    method: "get"
+  });
+};
+
+export const saveStatus = projectId => {
+  return request({
+    url: "/api/project/saveStatus",
+    method: "get",
+    params: { projectId }
+  });
+};
+
+export const saveProject = (projectId, flag) => {
+  return request({
+    url: "/api/project/saveProject",
+    method: "put",
+    params: { projectId, flag }
+  });
+};
+
+export const supportProject = (projectId, point, rewardId) => {
+  return request({
+    url: "/api/project/supportProject",
+    method: "post",
+    params: { projectId, point, rewardId }
   });
 };

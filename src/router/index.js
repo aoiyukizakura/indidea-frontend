@@ -86,7 +86,42 @@ const routes = [
   {
     path: "/project-detail/:projectId",
     name: "projectDetail",
-    component: () => import("../views/ProjectDetail/ProjectDetail.vue")
+    component: () => import("../views/ProjectDetail/ProjectDetail.vue"),
+    redirect: "/project-detail/:projectId/Story",
+    children: [
+      {
+        path: "Story",
+        name: "Story",
+        component: () => import("../views/ProjectDetail/children/Story.vue"),
+        meta: {
+          notTop: true
+        }
+      },
+      {
+        path: "FQA",
+        name: "FQA",
+        component: () => import("../views/ProjectDetail/children/FQA.vue"),
+        meta: {
+          notTop: true
+        }
+      },
+      {
+        path: "Log",
+        name: "Log",
+        component: () => import("../views/ProjectDetail/children/Log.vue"),
+        meta: {
+          notTop: true
+        }
+      },
+      {
+        path: "Msgboard",
+        name: "Msgboard",
+        component: () => import("../views/ProjectDetail/children/Msgboard.vue"),
+        meta: {
+          notTop: true
+        }
+      }
+    ]
   },
   {
     path: "*",
@@ -102,12 +137,12 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  // eslint-disable-next-line no-unused-vars
+  // 滚动行为
   scrollBehavior(to, from, savedPosition) {
-    return {
-      x: 0,
-      y: 0
-    };
+    if (from.path.indexOf("project-detail") !== -1)
+      if (to.path.indexOf("project-detail") !== -1) return { y: 745 };
+    if (savedPosition) return savedPosition;
+    else return { x: 0, y: 0 };
   }
 });
 

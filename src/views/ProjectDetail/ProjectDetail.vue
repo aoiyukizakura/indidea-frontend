@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-03-19 19:21:58
+ * @LastEditTime: 2020-03-21 20:29:42
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\ProjectDetail.vue
  * @Description: 
  -->
@@ -22,8 +22,22 @@
             </Row>
             <Row class="project-header-data-row">
               <i-col class="media" span="16">
-                <div>
+                <div class="media-img">
+                  <div
+                    v-if="projectData.video && !videoVisible"
+                    @click="playVideo"
+                    class="media-play"
+                  >
+                    <Icon type="md-play" /> 播放
+                  </div>
+                  <video
+                    :src="'/api/uploads/' + projectData.video"
+                    v-if="videoVisible"
+                    controls
+                    ref="video"
+                  ></video>
                   <img
+                    v-if="!videoVisible"
                     src="../../assets/default.png"
                     v-real-img="projectData.pic"
                   />
@@ -41,7 +55,12 @@
               </i-col>
               <i-col class="data" span="8">
                 <div class="progress">
-                  <i-progress :stroke-width="8" :percent="25" hide-info />
+                  <i-progress
+                    :stroke-width="8"
+                    :percent="projectPercent"
+                    hide-info
+                    stroke-color="#1c9482"
+                  />
                 </div>
                 <div class="project-data">
                   <div class="project-data-point">
@@ -53,20 +72,34 @@
                     </span>
                   </div>
                   <div class="project-data-normal">
-                    <div><span>105</span></div>
-                    <span>个支持者</span>
+                    <div>
+                      <span>{{ sponsorNum }}</span>
+                    </div>
+                    <span>次被支持</span>
                   </div>
                   <div class="project-data-normal">
-                    <div><span>25</span></div>
+                    <div>
+                      <span> {{ endDay }} </span>
+                    </div>
                     <span>天结束</span>
                   </div>
                 </div>
                 <div class="btn-project-group">
-                  <Button long class="btn-project-support">
+                  <Button
+                    long
+                    class="btn-project-support"
+                    @click="jumpToSupport"
+                    :loading="jumpToLoading"
+                  >
                     这就是最吼滴，支持
                   </Button>
-                  <Button icon="md-heart-outline" long class="btn-project-save">
-                    收藏
+                  <Button
+                    icon="md-heart-outline"
+                    long
+                    :class="'btn-project-save ' + (projectSave ? 'border' : '')"
+                    @click="doSave"
+                  >
+                    {{ projectSave ? "已收藏" : "收藏" }}
                   </Button>
                 </div>
               </i-col>
@@ -74,74 +107,222 @@
           </div>
         </div>
       </div>
-      <div class="project-content">
-        <div class="project-content-menu">
+      <div ref="projectContentMenu" class="project-content">
+        <div :class="'project-content-menu ' + (menuFixed ? 'fixed-menu' : '')">
           <div class="base-container">
             <Row>
               <i-col class="menu" span="16">
-                <span class="menu-item active" to="./">项目背景</span>
-                <span class="menu-item" to="./">问答环节</span>
-                <span class="menu-item" to="./">更新日志</span>
-                <span class="menu-item" to="./">留言</span>
+                <span
+                  v-for="item in menuList"
+                  :key="item.id"
+                  @click="goTo(item.path)"
+                  :class="
+                    'menu-item ' +
+                      (item.path === thisPageMenuName ? ' active' : ' ')
+                  "
+                >
+                  {{ item.name }}
+                </span>
               </i-col>
-              <i-col span="8"></i-col>
+              <i-col span="8">
+                <!-- TODO: !上滑出现按钮 -->
+              </i-col>
             </Row>
           </div>
         </div>
-        <div class="base-container"></div>
+        <div :class="menuFixed ? 'fill-content' : ''"></div>
+        <div class="project-content-main">
+          <div class="base-container project-container">
+            <router-view @refresh="initPageByRoute"></router-view>
+          </div>
+        </div>
       </div>
+
+      <BackTop v-if="menuFixed"></BackTop>
+      <Footer></Footer>
     </main>
   </div>
 </template>
 <script>
 import {} from "../../services/api";
+
+import Footer from "@/components/Footer/Footer";
+// import $ from "jquery";
 import {
   // eslint-disable-next-line no-unused-vars
   rewardListByProjectId,
   // eslint-disable-next-line no-unused-vars
-  getProjectById
+  getProjectById,
+  countSponsorByProjectId,
+  saveStatus,
+  saveProject
 } from "../../services/api/project";
+import { USER_LOGIN } from "../../utils/FunctionUtils";
 export default {
   name: "ProjectDetail",
   data: () => ({
     pageProjectId: 0,
     projectData: { category: {}, owner: {} },
-    projectReward: []
+    projectReward: [],
+    menuList: [
+      {
+        id: 1,
+        name: "项目背景",
+        path: "Story"
+      },
+      {
+        id: 2,
+        name: "问答环节",
+        path: "FQA"
+      },
+      {
+        id: 3,
+        name: "更新日志",
+        path: "Log"
+      },
+      {
+        id: 4,
+        name: "留言板",
+        path: "Msgboard"
+      }
+    ],
+    thisPageMenuName: "Story",
+    menuFixed: false,
+    sponsorNum: 0,
+    videoVisible: false,
+    projectSave: false,
+    jumpToLoading: false
   }),
   methods: {
     getProject() {
       getProjectById(this.pageProjectId)
         .then(res => {
-          if (res.data) {
-            this.projectData = res.data;
-            console.log("res.data :", res.data);
-          }
+          if (res.data) this.projectData = res.data;
         })
         .catch(e => {
           console.log("e :", e);
         });
-      rewardListByProjectId(this.pageProjectId)
-        .then(({ data }) => {
-          if (data.length) {
-            this.projectData = data;
-          }
-        })
-        .catch(e => {
-          console.log("e :", e);
+    },
+    countSponsorByProjectId() {
+      countSponsorByProjectId(this.pageProjectId).then(res => {
+        if (res.data) {
+          this.sponsorNum = res.data;
+        }
+      });
+    },
+    saveStatus() {
+      if (USER_LOGIN()) {
+        saveStatus(this.pageProjectId).then(res => {
+          this.projectSave = res.data;
         });
+      }
+    },
+    doSave() {
+      if (USER_LOGIN()) {
+        if (this.projectSave) {
+          saveProject(this.pageProjectId, 0).then(res => {
+            if (res.data) this.saveStatus();
+          });
+        } else {
+          saveProject(this.pageProjectId, 1).then(res => {
+            if (res.data) this.saveStatus();
+          });
+        }
+      } else {
+        this.$Message.info({
+          content: "请登录后操作",
+          duration: 1,
+          closable: true,
+          onClose: () => {
+            console.log("coloes :");
+          }
+        });
+        this.$router.push("/login");
+      }
+    },
+    watchScroll() {
+      let navTop;
+      if (this.$refs.projectContentMenu) {
+        navTop = parseInt(
+          this.$refs.projectContentMenu.getBoundingClientRect().top
+        );
+      }
+      if (navTop < 0) {
+        this.menuFixed = true;
+      } else {
+        this.menuFixed = false;
+      }
+    },
+    initPageByRoute(route) {
+      this.pageProjectId = route.params.projectId;
+      this.thisPageMenuName = route.name;
+      this.getProject();
+      this.countSponsorByProjectId();
+      this.saveStatus();
+    },
+    // eslint-disable-next-line no-unused-vars
+    goTo(path) {
+      this.$router.push({
+        name: path
+      });
+    },
+    playVideo() {
+      this.videoVisible = true;
+      this.$nextTick(() => {
+        this.$refs["video"].muted = true;
+        this.$refs["video"].play();
+      });
+    },
+    jumpToSupport() {
+      let route = this.$route;
+      this.jumpToLoading = true;
+      if (route.name !== "Story") {
+        this.$router.push({
+          name: "Story"
+        });
+      }
+      setTimeout(() => {
+        this.jumpToLoading = false;
+        this.$refs.projectContentMenu.scrollIntoView();
+      }, 500);
     }
   },
-  computed: {},
-  created() {
-    this.pageProjectId = this.$route.params.projectId;
-    this.getProject();
+  computed: {
+    projectPercent() {
+      let percent = parseInt(
+        (this.projectData.getpoint / this.projectData.targetpoint) * 100
+      );
+      return percent > 100 ? 100 : percent;
+    },
+    endDay() {
+      if (this.projectData.targetdate) {
+        let start = new Date();
+        let end = new Date(this.projectData.targetdate);
+        let day = (end - start) / (1000 * 60 * 60 * 24);
+        return parseInt(day);
+      }
+      return 0;
+    }
   },
-  mounted() {},
-  destroyed() {},
+  created() {
+    this.initPageByRoute(this.$route);
+  },
+  mounted() {
+    window.addEventListener("scroll", this.watchScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.watchScroll);
+  },
   watch: {
     $route(to) {
-      this.pageProjectId = to.params.projectId;
+      this.initPageByRoute(to);
+      this.$nextTick(() => {
+        if (this.$refs.video) this.$refs.video.pause();
+      });
     }
+  },
+  components: {
+    Footer
   }
 };
 </script>

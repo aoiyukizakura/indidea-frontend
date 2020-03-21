@@ -56,7 +56,11 @@
                   <template
                     v-if="index + 1 <= 3 * page && index + 1 > 3 * (page - 1)"
                   >
-                    <ProjectList :key="index" :project="data"></ProjectList>
+                    <ProjectList
+                      @click.native="$router.push('/project-detail/' + data.id)"
+                      :key="index"
+                      :project="data"
+                    ></ProjectList>
                     <Divider :key="index + 100"></Divider>
                   </template>
                 </template>
@@ -127,6 +131,12 @@
                         <template v-if="topHitData.length">
                           <HotCard
                             :project="topHitData[(n - 1) * 4 + m - 1]"
+                            @click.native="
+                              $router.push(
+                                '/project-detail/' +
+                                  topHitData[(n - 1) * 4 + m - 1].id
+                              )
+                            "
                           ></HotCard>
                         </template>
                       </i-col>

@@ -39,7 +39,7 @@
       <div class="drawer-profile">
         <Row>
           <i-col span="24">
-            <router-link v-on:click.native="show = false" to="/savedProject"
+            <router-link v-on:click.native="show = false" to="/saved-project"
               >已收藏的方案</router-link
             >
           </i-col>
@@ -86,7 +86,7 @@
             <i-col span="16" push="1">
               <router-link
                 v-on:click.native="show = false"
-                :to="'/projectDetail/' + project.id"
+                :to="'/project-detail/' + project.id"
                 >{{ project.category.name }} 的方案</router-link
               >
             </i-col>
@@ -169,21 +169,27 @@ export default {
     }
   },
   mounted() {
-    getMyProjects().then(res => {
-      if (res.data) {
-        this.myProjects = res.data;
-      }
-    });
+    if (this.isLogin)
+      getMyProjects().then(res => {
+        if (res.data) {
+          this.myProjects = res.data;
+        }
+      });
   }
 };
 </script>
 
 <style>
+body,
+html {
+  scroll-behavior: smooth;
+}
 #app {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   color: #2c3e50;
   /* margin-top: 60px; */
+  scroll-behavior: smooth;
 }
 .border {
   border: 1px solid #dcdee2;
