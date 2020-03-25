@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:30
- * @LastEditTime: 2020-03-21 21:12:59
+ * @LastEditTime: 2020-03-25 21:15:08
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\FQA.vue
  * @Description: 
  -->
@@ -12,27 +12,91 @@
         <h3>常见问题</h3>
       </i-col>
     </Row>
-    <Row v-if="fqaList.length" class="fqa-main-none">
+    <Row v-if="!fqaList.length" class="fqa-main-none">
       <div>
         <p>这里还没有人来提问过，你可以向发起人提问</p>
-        <div>提问</div>
+        <div @click="doQuestion" class="do-question-btn">提问</div>
       </div>
     </Row>
     <Row v-else class="fqa-main-content">
       <i-col span="16">
         <ul>
-          <li></li>
+          <li v-for="(item, index) in fqaList" :key="index">
+            <div class="fqa-question" @click="showA(index)">
+              <div>
+                <span class="question">
+                  这是一个问题？这是一个问题？这是一个问题？这是一个问题？这是一个问题？这是一个问题？这是一个问题？这是一个问题？
+                </span>
+                <span class="question-icon">
+                  <Icon
+                    v-if="showNum.indexOf(index) === -1"
+                    type="ios-arrow-forward"
+                  />
+                  <Icon v-else type="ios-arrow-down" />
+                </span>
+              </div>
+            </div>
+            <div v-if="showNum.indexOf(index) !== -1" class="fqa-answer">
+              <div class="fqa-answer-content">
+                <p>
+                  动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子
+                  动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子
+                  动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子
+                  动动脑子动动脑子动动脑子
+                </p>
+              </div>
+              <div class="fqa-answer-date">
+                2020
+              </div>
+            </div>
+          </li>
         </ul>
+      </i-col>
+      <i-col offset="1" span="6">
+        <div class="doQuestion">
+          <p>
+            没有你想要的问题？你也可以发起提问。
+          </p>
+          <div @click="doQuestion" class="do-question-btn">提问</div>
+        </div>
       </i-col>
     </Row>
   </div>
 </template>
 <script>
+import { quzList } from "../../../services/api/project";
 export default {
   name: "FQA",
   data: () => ({
-    fqaList: []
-  })
+    fqaList: [],
+    showNum: [-1],
+    projectId: 0
+  }),
+  methods: {
+    getQuzList() {
+      quzList(this.projectId).then(res => {
+        if (res.data) this.fqaList = res.data;
+      });
+    },
+    initPage() {
+      this.projectId = this.$route.params.projectId;
+      this.getQuzList();
+    },
+    showA(i) {
+      let index = this.showNum.indexOf(i);
+      if (index !== -1) {
+        this.showNum.splice(index, 1);
+      } else {
+        this.showNum.push(i);
+      }
+    },
+    doQuestion() {
+      console.log("question");
+    }
+  },
+  created() {
+    this.initPage();
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -64,7 +128,7 @@ export default {
         font-size: 16px;
         line-height: 24px;
       }
-      div {
+      .do-question-btn {
         padding: 12px 42px;
         border: 1px solid #dedede;
         box-sizing: inherit;
@@ -79,6 +143,92 @@ export default {
         &:hover {
           transform: translateY(2px);
           outline: 1px solid #13adaa;
+        }
+      }
+    }
+  }
+  &-content {
+    ul,
+    li {
+      list-style: none;
+    }
+    li {
+      margin-bottom: 12px;
+      border: 0.1px solid #dcdedd;
+      transition: all 100ms;
+      &:hover {
+        background-color: #f3f2f2;
+      }
+    }
+    .fqa-question {
+      display: flex;
+      padding: 18px;
+      align-items: center;
+      -webkit-box-align: center;
+      div {
+        width: 100%;
+        float: none;
+        display: flex;
+        align-items: center;
+        -webkit-box-align: center;
+        cursor: pointer;
+      }
+      .question {
+        font-weight: 500;
+        color: #282828;
+        font-size: 14px;
+        line-height: 24px;
+      }
+      .question-icon {
+        margin-left: auto;
+        padding-left: 18px;
+      }
+    }
+    .fqa-answer {
+      transition: all 200ms;
+      padding-left: 18px;
+      padding-right: 54px;
+      &-content {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        color: #282828;
+        p {
+          font-size: 16px;
+          margin-bottom: 20px;
+        }
+      }
+      &-date {
+        margin-bottom: 18px;
+        color: #656969;
+        font-size: 12px;
+        line-height: 18px;
+      }
+    }
+    .ivu-col:last-child {
+      padding-left: 24px;
+      .doQuestion {
+        padding-left: 24px;
+        border-left: 3px solid #dcdedd;
+        p {
+          margin-bottom: 18px;
+        }
+        .do-question-btn {
+          padding: 8px 24px;
+          border: 1px solid #dedede;
+          box-sizing: inherit;
+          display: inline-block;
+          background-color: #282828;
+          color: white;
+          letter-spacing: 2px;
+          font-size: 14px;
+          font-weight: 500;
+          transition: all 200ms;
+          cursor: pointer;
+          &:hover {
+            transform: translateY(2px);
+            outline: 1px solid #13adaa;
+          }
         }
       }
     }
