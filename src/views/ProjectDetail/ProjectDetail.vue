@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-03-21 20:29:42
+ * @LastEditTime: 2020-03-26 15:32:24
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\ProjectDetail.vue
  * @Description: 
  -->
@@ -268,6 +268,7 @@ export default {
     },
     playVideo() {
       this.videoVisible = true;
+      this.$Message.info("已为您静音播放");
       this.$nextTick(() => {
         this.$refs["video"].muted = true;
         this.$refs["video"].play();

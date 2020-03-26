@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:30
- * @LastEditTime: 2020-03-25 21:15:08
+ * @LastEditTime: 2020-03-26 16:03:25
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\FQA.vue
  * @Description: 
  -->
@@ -14,7 +14,7 @@
     </Row>
     <Row v-if="!fqaList.length" class="fqa-main-none">
       <div>
-        <p>这里还没有人来提问过，你可以向发起人提问</p>
+        <p>这里还没有问答记录，你可以向发起人提问</p>
         <div @click="doQuestion" class="do-question-btn">提问</div>
       </div>
     </Row>
@@ -25,7 +25,7 @@
             <div class="fqa-question" @click="showA(index)">
               <div>
                 <span class="question">
-                  这是一个问题？这是一个问题？这是一个问题？这是一个问题？这是一个问题？这是一个问题？这是一个问题？这是一个问题？
+                  {{ item.quzcontent }}
                 </span>
                 <span class="question-icon">
                   <Icon
@@ -39,14 +39,11 @@
             <div v-if="showNum.indexOf(index) !== -1" class="fqa-answer">
               <div class="fqa-answer-content">
                 <p>
-                  动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子
-                  动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子
-                  动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子动动脑子
-                  动动脑子动动脑子动动脑子
+                  {{ item.ancontent }}
                 </p>
               </div>
               <div class="fqa-answer-date">
-                2020
+                {{ date(item.updatedat) }}
               </div>
             </div>
           </li>
@@ -61,16 +58,31 @@
         </div>
       </i-col>
     </Row>
+    <Modal
+      :mask-closable="false"
+      v-model="modal"
+      @on-ok="ok"
+      title="输入你的问题"
+    >
+      <i-input
+        type="textarea"
+        maxlength="150"
+        show-word-limit
+        v-model="quz"
+      ></i-input>
+    </Modal>
   </div>
 </template>
 <script>
-import { quzList } from "../../../services/api/project";
+import { quzList, addQuz } from "../../../services/api/project";
 export default {
   name: "FQA",
   data: () => ({
     fqaList: [],
-    showNum: [-1],
-    projectId: 0
+    showNum: [],
+    projectId: 0,
+    modal: false,
+    quz: ""
   }),
   methods: {
     getQuzList() {
@@ -91,12 +103,28 @@ export default {
       }
     },
     doQuestion() {
-      console.log("question");
+      this.modal = true;
+    },
+    date(d) {
+      let date = new Date(d);
+      return date.toLocaleString();
+    },
+    ok() {
+      if (this.quz === "" || this.quz === null) {
+        this.$Message.error("请输入问题");
+      } else {
+        addQuz(this.projectId, this.quz).then(res => {
+          if (res.data) this.$Message.success("成功提问，请等待发起者回复");
+          else this.$Message.info("未知错误");
+          this.quz = "";
+        });
+      }
     }
   },
   created() {
     this.initPage();
-  }
+  },
+  computed: {}
 };
 </script>
 <style lang="scss" scoped>

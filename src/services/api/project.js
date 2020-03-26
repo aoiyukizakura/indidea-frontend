@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 10:40:10
- * @LastEditTime: 2020-03-25 21:11:57
+ * @LastEditTime: 2020-03-26 17:54:01
  * @FilePath: \indidea-frontend\src\services\api\project.js
  * @Description: project apis
  */
@@ -104,6 +104,22 @@ export const supportProject = (projectId, point, rewardId) => {
 export const quzList = projectId => {
   return request({
     url: "/api/project/quzList",
+    method: "get",
+    params: { projectId }
+  });
+};
+
+export const addQuz = (projectId, quz) => {
+  return request({
+    url: "/api/project/addQuz",
+    method: "post",
+    params: { projectId, quz }
+  });
+};
+
+export const logList = projectId => {
+  return request({
+    url: "/api/project/logList",
     method: "get",
     params: { projectId }
   });
