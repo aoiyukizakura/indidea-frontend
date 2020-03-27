@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:30
- * @LastEditTime: 2020-03-27 17:58:57
+ * @LastEditTime: 2020-03-27 21:14:35
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\FQA.vue
  * @Description: 
  -->
@@ -80,6 +80,7 @@
 </template>
 <script>
 import { quzList, addQuz } from "../../../services/api/project";
+import { TOKEN } from '../../../utils/Constants';
 export default {
   name: "FQA",
   data: () => ({
@@ -114,6 +115,10 @@ export default {
       }
     },
     doQuestion() {
+      let token = localStorage.getItem(TOKEN);
+      if (!token) {
+        this.$router.push("/login");
+      }
       this.modal = true;
     },
     date(d) {

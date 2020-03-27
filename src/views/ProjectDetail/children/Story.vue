@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:07:43
- * @LastEditTime: 2020-03-21 20:31:09
+ * @LastEditTime: 2020-03-27 23:16:29
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Story.vue
  * @Description: 
  -->
@@ -25,6 +25,21 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="report-container">
+              <template v-if="reported">
+                <h3>谢谢您的反馈！</h3>
+              </template>
+              <template v-else>
+                <textarea
+                  v-if="report_show"
+                  v-model="report_content"
+                  placeholder="请填写举报信息"
+                  :rows="rows"
+                ></textarea>
+                <div @click="report">举报此项目</div>
+                <div v-if="report_show" @click="report_show = false">取消</div>
+              </template>
             </div>
           </i-col>
         </Row>
@@ -83,7 +98,8 @@ import {
   rewardListByProjectId,
   getProjectWithoutHit,
   // eslint-disable-next-line no-unused-vars
-  supportProject
+  supportProject,
+  report
 } from "../../../services/api/project";
 import "tui-editor/dist/tui-editor.css"; // editor ui
 import "tui-editor/dist/tui-editor-contents.css"; // editor content
@@ -105,7 +121,11 @@ export default {
     projectReward: [],
     projectData: { owner: {} },
     viewer: null,
-    point: 1
+    point: 1,
+    report_content: "",
+    report_show: false,
+    rows: 5,
+    reported: false
   }),
   methods: {
     initPage() {
@@ -159,6 +179,26 @@ export default {
         });
       } else {
         this.$router.push("/login");
+      }
+    },
+    report() {
+      if (this.report_show) {
+        if (this.report_content) {
+          report(this.projectId, this.report_content).then(res => {
+            if (res.data) {
+              this.$Message.success("举报成功");
+              this.report_content = "";
+              this.report_show = false;
+              this.reported = true;
+            } else {
+              this.$Message.info("网络异常");
+            }
+          });
+        } else {
+          this.$Message.info("请填写信息");
+        }
+      } else {
+        this.report_show = true;
       }
     }
   },
@@ -295,6 +335,43 @@ export default {
         font-size: 14px;
         transition: all 300ms;
       }
+    }
+  }
+}
+.report-container {
+  margin-top: 48px;
+  border-top: 1px solid #dcdede;
+  display: flex;
+  flex-wrap: wrap;
+  h3 {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 400;
+    padding-left: 6px;
+    margin-top: 24px;
+  }
+  textarea {
+    margin-top: 18px;
+    width: 100%;
+    resize: none;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 24px;
+    border-color: #dadada;
+    background-color: #fafafa;
+    outline: none;
+    transition: all 200ms;
+  }
+  & > div {
+    margin-top: 24px;
+    margin-right: 12px;
+    padding: 8px 24px;
+    border: 1px solid #cecece;
+    cursor: pointer;
+    transition: all 200ms;
+    &:hover {
+      border-color: #aeaeae;
+      transform: translateY(2px);
     }
   }
 }

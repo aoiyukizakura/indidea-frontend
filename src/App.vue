@@ -39,21 +39,21 @@
       <div class="drawer-profile">
         <Row>
           <i-col span="24">
-            <router-link v-on:click.native="show = false" to="/saved-project"
+            <router-link v-on:click.native="show = false" to="/user/saved-project"
               >已收藏的方案</router-link
             >
           </i-col>
         </Row>
         <Row>
           <i-col span="24">
-            <router-link v-on:click.native="show = false" to="/setting"
+            <router-link v-on:click.native="show = false" to="/user/setting"
               >设定</router-link
             >
           </i-col>
         </Row>
         <Row>
           <i-col span="24">
-            <router-link v-on:click.native="show = false" to="/myInfo"
+            <router-link v-on:click.native="show = false" to="/user/myInfo"
               >我的信息</router-link
             >
           </i-col>

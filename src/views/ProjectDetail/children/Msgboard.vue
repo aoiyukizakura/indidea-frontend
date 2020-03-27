@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:09:52
- * @LastEditTime: 2020-03-27 18:09:48
+ * @LastEditTime: 2020-03-27 23:08:38
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Msgboard.vue
  * @Description: 
  -->
@@ -79,6 +79,7 @@
 </template>
 <script>
 import { msgList, addMsg } from "../../../services/api/project";
+import { TOKEN } from "../../../utils/Constants";
 export default {
   name: "Msgboard",
   data: () => ({
@@ -97,16 +98,22 @@ export default {
       });
     },
     async addMsg() {
-      await addMsg(this.projectId, this.msg).then(res => {
-        if (res.data) {
-          this.getMsgList();
-          this.$Message.success("感谢您的留言！");
-          return true;
-        } else {
-          this.$Message.info("您可能还不是该项目的赞助人！");
-          return false;
-        }
-      });
+      let token = localStorage.getItem(TOKEN);
+      if (token) {
+        await addMsg(this.projectId, this.msg).then(res => {
+          if (res.data) {
+            this.getMsgList();
+            this.$Message.success("感谢您的留言！");
+            this.msg = "";
+            return true;
+          } else {
+            this.$Message.info("您可能还不是该项目的赞助人！");
+            return false;
+          }
+        });
+      } else {
+        this.$router.push("/login");
+      }
     },
     date(d) {
       let date = new Date(d);
@@ -318,7 +325,6 @@ export default {
       text-decoration: underline;
     }
   }
-
 }
 .max-height-auto {
   height: 35px;

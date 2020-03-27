@@ -124,6 +124,24 @@ const routes = [
     ]
   },
   {
+    path: "/user",
+    name: "user",
+    component: () => import("../views/User/User.vue"),
+    redirect: "/user/user-info",
+    children: [
+      {
+        path: "user-info",
+        name: "user-info",
+        component: () => import("../views/User/UserInfo/UserInfo.vue")
+      },
+      {
+        path: "user-setting",
+        name: "user-setting",
+        component: () => import("../views/User/UserSetting/UserSetting.vue")
+      }
+    ]
+  },
+  {
     path: "*",
     redirect: "/404",
     name: "notfound"
