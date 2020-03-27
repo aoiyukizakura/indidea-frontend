@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:30
- * @LastEditTime: 2020-03-26 16:03:25
+ * @LastEditTime: 2020-03-27 17:58:57
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\FQA.vue
  * @Description: 
  -->
@@ -12,65 +12,70 @@
         <h3>常见问题</h3>
       </i-col>
     </Row>
-    <Row v-if="!fqaList.length" class="fqa-main-none">
-      <div>
-        <p>这里还没有问答记录，你可以向发起人提问</p>
-        <div @click="doQuestion" class="do-question-btn">提问</div>
-      </div>
-    </Row>
-    <Row v-else class="fqa-main-content">
-      <i-col span="16">
-        <ul>
-          <li v-for="(item, index) in fqaList" :key="index">
-            <div class="fqa-question" @click="showA(index)">
-              <div>
-                <span class="question">
-                  {{ item.quzcontent }}
-                </span>
-                <span class="question-icon">
-                  <Icon
-                    v-if="showNum.indexOf(index) === -1"
-                    type="ios-arrow-forward"
-                  />
-                  <Icon v-else type="ios-arrow-down" />
-                </span>
-              </div>
-            </div>
-            <div v-if="showNum.indexOf(index) !== -1" class="fqa-answer">
-              <div class="fqa-answer-content">
-                <p>
-                  {{ item.ancontent }}
-                </p>
-              </div>
-              <div class="fqa-answer-date">
-                {{ date(item.updatedat) }}
-              </div>
-            </div>
-          </li>
-        </ul>
-      </i-col>
-      <i-col offset="1" span="6">
-        <div class="doQuestion">
-          <p>
-            没有你想要的问题？你也可以发起提问。
-          </p>
+    <template v-if="show">
+      <Row v-if="!fqaList.length" class="fqa-main-none">
+        <div>
+          <p>这里还没有问答记录，你可以向发起人提问</p>
           <div @click="doQuestion" class="do-question-btn">提问</div>
         </div>
-      </i-col>
-    </Row>
-    <Modal
-      :mask-closable="false"
-      v-model="modal"
-      @on-ok="ok"
-      title="输入你的问题"
-    >
-      <i-input
-        type="textarea"
-        maxlength="150"
-        show-word-limit
-        v-model="quz"
-      ></i-input>
-    </Modal>
+      </Row>
+      <Row v-else class="fqa-main-content">
+        <i-col span="16">
+          <ul>
+            <li v-for="(item, index) in fqaList" :key="index">
+              <div class="fqa-question" @click="showA(index)">
+                <div>
+                  <span class="question">
+                    {{ item.quzcontent }}
+                  </span>
+                  <span class="question-icon">
+                    <Icon
+                      v-if="showNum.indexOf(index) === -1"
+                      type="ios-arrow-forward"
+                    />
+                    <Icon v-else type="ios-arrow-down" />
+                  </span>
+                </div>
+              </div>
+              <div v-if="showNum.indexOf(index) !== -1" class="fqa-answer">
+                <div class="fqa-answer-content">
+                  <p>
+                    {{ item.ancontent }}
+                  </p>
+                </div>
+                <div class="fqa-answer-date">
+                  {{ date(item.updatedat) }}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </i-col>
+        <i-col offset="1" span="6">
+          <div class="doQuestion">
+            <p>
+              没有你想要的问题？你也可以发起提问。
+            </p>
+            <div @click="doQuestion" class="do-question-btn">提问</div>
+          </div>
+        </i-col>
+      </Row>
+      <Modal
+        :mask-closable="false"
+        v-model="modal"
+        @on-ok="ok"
+        title="输入你的问题"
+      >
+        <i-input
+          type="textarea"
+          maxlength="150"
+          show-word-limit
+          v-model="quz"
+        ></i-input>
+      </Modal>
+    </template>
+    <div class="fake" v-else>
+      <img src="../../../assets/loading2.gif" alt=".." />
+    </div>
   </div>
 </template>
 <script>
@@ -82,17 +87,23 @@ export default {
     showNum: [],
     projectId: 0,
     modal: false,
-    quz: ""
+    quz: "",
+    show: false
   }),
   methods: {
-    getQuzList() {
-      quzList(this.projectId).then(res => {
+    async getQuzList() {
+      await quzList(this.projectId).then(res => {
         if (res.data) this.fqaList = res.data;
+        return true;
       });
     },
     initPage() {
       this.projectId = this.$route.params.projectId;
-      this.getQuzList();
+      this.getQuzList().then(() => {
+        setTimeout(() => {
+          this.show = true;
+        }, 1000);
+      });
     },
     showA(i) {
       let index = this.showNum.indexOf(i);
@@ -135,9 +146,19 @@ export default {
   margin-right: auto;
   margin-left: auto;
 }
-
+.fake {
+  height: 160px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 30px;
+  }
+}
 .fqa-main {
   @include base-container();
+  padding-bottom: 155px;
   &-header {
     .ivu-col {
       padding: 0 18px;

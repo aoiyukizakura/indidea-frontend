@@ -1,73 +1,78 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:58
- * @LastEditTime: 2020-03-26 20:07:57
+ * @LastEditTime: 2020-03-27 17:59:16
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Log.vue
  * @Description: 
  -->
 <template>
   <div>
     <div class="list-row">
-      <Row v-for="(item, index) in logList" :key="index">
-        <i-col class="list-col" span="16" offset="4">
-          <div class="list-icon">
-            <Icon size="18" type="md-list" />
-          </div>
-          <div class="list-content" @click="logDetail(item)">
-            <article>
-              <header>
-                <div>更新 #{{ item.number }}</div>
-                <h2>{{ item.title }}</h2>
-                <div>
-                  <img
-                    src="../../../assets/default.png"
-                    v-real-img="item.project.owner.avatar"
-                  />
-                  <div>
-                    <div>{{ item.project.owner.username }}</div>
-                    <span> {{ date(item.updatedat) }} </span>
-                  </div>
-                </div>
-              </header>
-              <div class="log-body">
-                <div class="log-content" v-html="item.content"></div>
-                <!-- <object :data="item.content" type="text/html"></object> -->
-                <div class="gradient-hover"></div>
-              </div>
-              <footer>
-                <span class="load-more">显示更多</span>
-              </footer>
-            </article>
-          </div>
-        </i-col>
-        <Modal
-          class="modal-modal"
-          v-model="modal"
-          fullscreen
-          footer-hide
-          title="更新日志"
-        >
-          <div class="modal-content">
-            <div class="modal-title">
-              <header>
-                <div>更新 #{{ item.number }}</div>
-                <h2>{{ item.title }}</h2>
-                <div>
-                  <img
-                    src="../../../assets/default.png"
-                    v-real-img="item.project.owner.avatar"
-                  />
-                  <div>
-                    <div>{{ item.project.owner.username }}</div>
-                    <span> {{ date(item.updatedat) }} </span>
-                  </div>
-                </div>
-              </header>
+      <template v-if="show">
+        <Row v-for="(item, index) in logList" :key="index">
+          <i-col class="list-col" span="16" offset="4">
+            <div class="list-icon">
+              <Icon size="18" type="md-list" />
             </div>
-            <div class="log-content" v-html="content"></div>
-          </div>
-        </Modal>
-      </Row>
+            <div class="list-content" @click="logDetail(item)">
+              <article>
+                <header>
+                  <div>更新 #{{ item.number }}</div>
+                  <h2>{{ item.title }}</h2>
+                  <div>
+                    <img
+                      src="../../../assets/default.png"
+                      v-real-img="item.project.owner.avatar"
+                    />
+                    <div>
+                      <div>{{ item.project.owner.username }}</div>
+                      <span> {{ date(item.updatedat) }} </span>
+                    </div>
+                  </div>
+                </header>
+                <div class="log-body">
+                  <div class="log-content" v-html="item.content"></div>
+                  <!-- <object :data="item.content" type="text/html"></object> -->
+                  <div class="gradient-hover"></div>
+                </div>
+                <footer>
+                  <span class="load-more">显示更多</span>
+                </footer>
+              </article>
+            </div>
+          </i-col>
+          <Modal
+            class="modal-modal"
+            v-model="modal"
+            fullscreen
+            footer-hide
+            title="更新日志"
+          >
+            <div class="modal-content">
+              <div class="modal-title">
+                <header>
+                  <div>更新 #{{ item.number }}</div>
+                  <h2>{{ item.title }}</h2>
+                  <div>
+                    <img
+                      src="../../../assets/default.png"
+                      v-real-img="item.project.owner.avatar"
+                    />
+                    <div>
+                      <div>{{ item.project.owner.username }}</div>
+                      <span> {{ date(item.updatedat) }} </span>
+                    </div>
+                  </div>
+                </header>
+              </div>
+              <div class="log-content" v-html="content"></div>
+            </div>
+          </Modal>
+        </Row>
+      </template>
+      <div v-else class="fake">
+        <img src="../../../assets/loading2.gif" alt=".." />
+      </div>
       <Row>
         <i-col class="list-col" span="16" offset="4">
           <div class="project-publish-card">
@@ -87,17 +92,23 @@ export default {
     logList: [],
     viewer: "",
     modal: false,
-    content: ""
+    content: "",
+    show: false
   }),
   methods: {
-    getLog() {
-      logList(this.projectId).then(res => {
+    async getLog() {
+      await logList(this.projectId).then(res => {
         this.logList = res.data;
+        return true;
       });
     },
     init() {
       this.projectId = parseInt(this.$route.params.projectId);
-      this.getLog();
+      this.getLog().then(() => {
+        setTimeout(() => {
+          this.show = true;
+        }, 800);
+      });
     },
     date(d) {
       let date = new Date(d);
@@ -120,6 +131,16 @@ export default {
   padding-left: 60px;
   margin-right: auto;
   margin-left: auto;
+}
+.fake {
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 30px;
+  }
 }
 .list-row {
   @include base-container();

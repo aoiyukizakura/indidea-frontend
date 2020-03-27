@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 10:40:10
- * @LastEditTime: 2020-03-26 17:54:01
+ * @LastEditTime: 2020-03-27 15:48:10
  * @FilePath: \indidea-frontend\src\services\api\project.js
  * @Description: project apis
  */
@@ -122,5 +122,21 @@ export const logList = projectId => {
     url: "/api/project/logList",
     method: "get",
     params: { projectId }
+  });
+};
+
+export const msgList = projectId => {
+  return request({
+    url: "/api/project/msgList",
+    method: "get",
+    params: { projectId }
+  });
+};
+
+export const addMsg = (projectId, content) => {
+  return request({
+    url: "/api/project/addMsg",
+    method: "post",
+    params: { projectId, content }
   });
 };

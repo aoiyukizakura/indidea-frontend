@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-03-26 15:32:24
+ * @LastEditTime: 2020-03-27 15:00:24
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\ProjectDetail.vue
  * @Description: 
  -->
@@ -155,7 +155,8 @@ import {
   getProjectById,
   countSponsorByProjectId,
   saveStatus,
-  saveProject
+  saveProject,
+  getProjectWithoutHit
 } from "../../services/api/project";
 import { USER_LOGIN } from "../../utils/FunctionUtils";
 export default {
@@ -194,14 +195,20 @@ export default {
     jumpToLoading: false
   }),
   methods: {
-    getProject() {
-      getProjectById(this.pageProjectId)
-        .then(res => {
+    getProject(flag) {
+      if (flag) {
+        getProjectById(this.pageProjectId)
+          .then(res => {
+            if (res.data) this.projectData = res.data;
+          })
+          .catch(e => {
+            console.log("e :", e);
+          });
+      } else {
+        getProjectWithoutHit(this.pageProjectId).then(res => {
           if (res.data) this.projectData = res.data;
-        })
-        .catch(e => {
-          console.log("e :", e);
         });
+      }
     },
     countSponsorByProjectId() {
       countSponsorByProjectId(this.pageProjectId).then(res => {
@@ -253,10 +260,10 @@ export default {
         this.menuFixed = false;
       }
     },
-    initPageByRoute(route) {
+    initPageByRoute(route, flag) {
       this.pageProjectId = route.params.projectId;
       this.thisPageMenuName = route.name;
-      this.getProject();
+      this.getProject(flag);
       this.countSponsorByProjectId();
       this.saveStatus();
     },
@@ -306,7 +313,7 @@ export default {
     }
   },
   created() {
-    this.initPageByRoute(this.$route);
+    this.initPageByRoute(this.$route, true);
   },
   mounted() {
     window.addEventListener("scroll", this.watchScroll);
