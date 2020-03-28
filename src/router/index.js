@@ -128,16 +128,39 @@ const routes = [
     name: "user",
     component: () => import("../views/User/User.vue"),
     redirect: "/user/user-info",
+    meta: {
+      auth: true
+    },
     children: [
       {
-        path: "user-info",
-        name: "user-info",
+        path: "myInfo",
+        name: "myInfo",
         component: () => import("../views/User/UserInfo/UserInfo.vue")
       },
       {
-        path: "user-setting",
-        name: "user-setting",
+        path: "setting",
+        name: "setting",
         component: () => import("../views/User/UserSetting/UserSetting.vue")
+      },
+      {
+        path: "saved-project",
+        name: "saved-project",
+        component: () => import("../views/User/UserSaved/UserSaved.vue")
+      },
+      {
+        path: "user-support",
+        name: "user-support",
+        component: () => import("../views/User/UserSupport/UserSupport.vue")
+      },
+      {
+        path: "point-history",
+        name: "point-history",
+        component: () => import("../views/User/PointRecord/PointRecord.vue")
+      },
+      {
+        path: "top-up",
+        name: "top-up",
+        component: () => import("../views/User/TopUp/TopUp.vue")
       }
     ]
   },
