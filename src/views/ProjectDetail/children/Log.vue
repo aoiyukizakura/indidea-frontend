@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:58
- * @LastEditTime: 2020-03-27 17:59:16
+ * @LastEditTime: 2020-03-29 23:02:30
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Log.vue
  * @Description: 
  -->
@@ -48,24 +48,24 @@
             footer-hide
             title="更新日志"
           >
-            <div class="modal-content">
+            <div v-if="modal" class="modal-content">
               <div class="modal-title">
                 <header>
-                  <div>更新 #{{ item.number }}</div>
-                  <h2>{{ item.title }}</h2>
+                  <div>更新 #{{ showItem.number }}</div>
+                  <h2>{{ showItem.title }}</h2>
                   <div>
                     <img
                       src="../../../assets/default.png"
-                      v-real-img="item.project.owner.avatar"
+                      v-real-img="showItem.project.owner.avatar"
                     />
                     <div>
-                      <div>{{ item.project.owner.username }}</div>
-                      <span> {{ date(item.updatedat) }} </span>
+                      <div>{{ showItem.project.owner.username }}</div>
+                      <span> {{ date(showItem.updatedat) }} </span>
                     </div>
                   </div>
                 </header>
               </div>
-              <div class="log-content" v-html="content"></div>
+              <div class="log-content" v-html="showItem.content"></div>
             </div>
           </Modal>
         </Row>
@@ -92,7 +92,7 @@ export default {
     logList: [],
     viewer: "",
     modal: false,
-    content: "",
+    showItem: {},
     show: false
   }),
   methods: {
@@ -115,7 +115,7 @@ export default {
       return date.toLocaleDateString().replace(/\//g, "-");
     },
     logDetail(item) {
-      this.content = item.content;
+      this.showItem = item;
       this.modal = true;
     }
   },
@@ -261,6 +261,7 @@ export default {
     margin-bottom: 24px !important;
   }
   /deep/p {
+    font-size: 16px !important;
     margin-bottom: 32px !important;
     line-height: 1.8 !important;
     letter-spacing: 0.5px !important;

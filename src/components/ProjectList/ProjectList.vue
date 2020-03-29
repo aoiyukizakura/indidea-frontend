@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-02-28 13:19:49
- * @LastEditTime: 2020-03-16 15:40:25
+ * @LastEditTime: 2020-03-29 16:00:05
  * @FilePath: \indidea-frontend\src\components\ProjectList\ProjectList.vue
  * @Description: 首页旁边的列表项
  -->
@@ -26,9 +26,9 @@
       </i-col>
     </Row>
     <div class="heart">
-      <div class="ivu-card" @click="saveProject(project.id)">
-        <Icon size="20" type="md-heart-outline" />
-      </div>
+      <!-- <div class="ivu-card" @click="saveProject(project.id)"> -->
+      <!-- <Icon size="20" type="md-heart-outline" /> -->
+      <!-- </div> -->
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-03-27 15:00:24
+ * @LastEditTime: 2020-03-29 23:16:46
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\ProjectDetail.vue
  * @Description: 
  -->

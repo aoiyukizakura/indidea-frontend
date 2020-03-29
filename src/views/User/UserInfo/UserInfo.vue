@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:21:34
- * @LastEditTime: 2020-03-28 17:59:01
+ * @LastEditTime: 2020-03-28 20:57:15
  * @FilePath: \indidea-frontend\src\views\User\UserInfo\UserInfo.vue
  * @Description: 
  -->
@@ -13,9 +13,7 @@
 <script>
 export default {
   name: "UserInfo",
-  created() {
-    console.log("object :");
-  }
+  created() {}
 };
 </script>
 <style lang="scss" scoped></style>

@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 10:40:10
- * @LastEditTime: 2020-03-27 23:07:12
+ * @LastEditTime: 2020-03-29 11:21:46
  * @FilePath: \indidea-frontend\src\services\api\project.js
  * @Description: project apis
  */
@@ -84,7 +84,11 @@ export const saveStatus = projectId => {
     params: { projectId }
   });
 };
-
+/**
+ * 收藏项目
+ * @param {Number} projectId 项目ID
+ * @param {Number} flag 1 收藏 0删除
+ */
 export const saveProject = (projectId, flag) => {
   return request({
     url: "/api/project/saveProject",

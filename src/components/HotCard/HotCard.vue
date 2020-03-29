@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-02-29 00:17:40
- * @LastEditTime: 2020-03-16 23:22:36
+ * @LastEditTime: 2020-03-29 15:58:40
  * @FilePath: \indidea-frontend\src\components\HotCard\HotCard.vue
  * @Description: 首页的最近最热 卡片组件
  -->
@@ -14,9 +14,9 @@
         :stroke-width="6"
         hide-info
       ></i-progress>
-      <div class="sub-btn">
+      <!-- <div class="sub-btn">
         <Icon size="20" type="md-heart-outline" />
-      </div>
+      </div> -->
     </div>
     <div class="title">
       <h3>

@@ -185,6 +185,7 @@ export default {
 body,
 html {
   scroll-behavior: smooth;
+  /* overflow: auto !important; */
 }
 #app {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",

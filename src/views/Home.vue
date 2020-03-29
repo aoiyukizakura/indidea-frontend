@@ -29,12 +29,12 @@
                     hide-info
                   ></i-progress>
                 </div>
-                <div
+                <!-- <div
                   class="sub-btn"
                   @click="saveProject(featuredProjectData.id)"
-                >
-                  <Icon size="20" type="md-heart-outline" />
-                </div>
+                > -->
+                <!-- <Icon size="20" type="md-heart-outline" /> -->
+                <!-- </div> -->
                 <router-link :to="'/project-detail/' + featuredProjectData.id">
                   <h3 class="title">{{ featuredProjectData.title }}</h3>
                   <p class="subtitle">{{ featuredProjectData.subtitle }}</p>
