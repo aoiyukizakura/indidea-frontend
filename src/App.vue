@@ -121,13 +121,15 @@ import { TOKEN, USER_INFO, USER_DATA } from "./utils/Constants";
 import { logout, getMyProjects } from "./services/api";
 export default {
   name: "App",
-  data: () => ({
-    show: false,
-    modal: false,
-    loading: true,
-    sort: {},
-    myProjects: []
-  }),
+  data() {
+    return {
+      show: false,
+      modal: false,
+      loading: true,
+      sort: {},
+      myProjects: []
+    };
+  },
   methods: {
     toLogin() {
       this.$router.push("/login");

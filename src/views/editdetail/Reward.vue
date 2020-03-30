@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:55:44
- * @LastEditTime: 2020-03-16 23:06:30
+ * @LastEditTime: 2020-03-30 14:06:00
  * @FilePath: \indidea-frontend\src\views\editdetail\Reward.vue
  * @Description: 
  -->
@@ -191,7 +191,6 @@
   </div>
 </template>
 <script>
-
 import {
   rewardListByProjectId,
   saveReward,
@@ -201,26 +200,28 @@ import {
 const _ = require("lodash");
 export default {
   name: "reward",
-  data: () => ({
-    pageProjectId: null,
-    rewardList: [],
-    modal: false,
-    rewardForm: {
-      name: "",
-      point: null,
-      des: "",
-      items: []
-    },
-    item: {
-      name: "",
-      num: 1
-    },
-    dateOptions: {
-      disabledDate(date) {
-        return date && date.valueOf() < Date.now() - 86400000;
+  data() {
+    return {
+      pageProjectId: null,
+      rewardList: [],
+      modal: false,
+      rewardForm: {
+        name: "",
+        point: null,
+        des: "",
+        items: []
+      },
+      item: {
+        name: "",
+        num: 1
+      },
+      dateOptions: {
+        disabledDate(date) {
+          return date && date.valueOf() < Date.now() - 86400000;
+        }
       }
-    }
-  }),
+    };
+  },
   methods: {
     getRewardList() {
       rewardListByProjectId(this.pageProjectId).then(res => {

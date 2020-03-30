@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-04 18:12:11
- * @LastEditTime: 2020-03-16 23:37:27
+ * @LastEditTime: 2020-03-30 14:02:06
  * @FilePath: \indidea-frontend\src\views\EditDetail.vue
  * @Description: 
  -->
@@ -50,38 +50,40 @@
 <script>
 export default {
   name: "EditDetail",
-  data: () => ({
-    btnNext: {
-      name: "下一个",
-      color: "backgroundColor: #1c9482;"
-    },
-    paramsofPath: "",
-    pathList: ["basicInfo", "rewardInfo", "storyInfo"],
-    slideAni: "left: 0%;",
-    editProjectData: { category: {} },
-    categories: [],
-    option: {
-      img: "",
-      size: 1,
-      full: true,
-      outputType: "png",
-      canMove: true,
-      fixedBox: false,
-      original: true,
-      canMoveBox: true,
-      autoCrop: true,
-      centerBox: true,
-      high: true,
-      fixed: true,
-      fixedNumber: [16, 9]
-    },
-    navFixed: false,
-    optionsdate: {
-      disabledDate(date) {
-        return date && date.valueOf() < Date.now() + 86400000 * 7;
+  data() {
+    return {
+      btnNext: {
+        name: "下一个",
+        color: "backgroundColor: #1c9482;"
+      },
+      paramsofPath: "",
+      pathList: ["basicInfo", "rewardInfo", "storyInfo"],
+      slideAni: "left: 0%;",
+      editProjectData: { category: {} },
+      categories: [],
+      option: {
+        img: "",
+        size: 1,
+        full: true,
+        outputType: "png",
+        canMove: true,
+        fixedBox: false,
+        original: true,
+        canMoveBox: true,
+        autoCrop: true,
+        centerBox: true,
+        high: true,
+        fixed: true,
+        fixedNumber: [16, 9]
+      },
+      navFixed: false,
+      optionsdate: {
+        disabledDate(date) {
+          return date && date.valueOf() < Date.now() + 86400000 * 7;
+        }
       }
-    }
-  }),
+    };
+  },
   methods: {
     nextTo() {
       let index = this.pathList.indexOf(this.paramsofPath);

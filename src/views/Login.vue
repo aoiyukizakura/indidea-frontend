@@ -34,11 +34,13 @@ import {
 
 export default {
   name: "Login",
-  data: () => ({
-    email: "",
-    password: "",
-    single: false
-  }),
+  data() {
+    return {
+      email: "",
+      password: "",
+      single: false
+    };
+  },
   methods: {
     async login() {
       if (this.email && this.password) {

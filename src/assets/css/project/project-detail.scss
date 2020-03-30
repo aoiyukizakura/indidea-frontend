@@ -144,6 +144,18 @@
             transform: translateY(-2px);
           }
         }
+        .btn-project-support-disabled {
+          margin-bottom: 18px;
+          height: 48px;
+          line-height: 48px;
+          font-size: 16px;
+          padding: 0 24px;
+          background-color: #27ad99;
+          color: white;
+          border-radius: 0 !important;
+          font-weight: 500;
+          transition: all 200ms;
+        }
         .btn-project-save {
           transition: all 200ms;
           border-radius: 0 !important;

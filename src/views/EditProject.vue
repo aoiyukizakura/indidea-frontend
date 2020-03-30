@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-03 11:40:56
- * @LastEditTime: 2020-03-16 23:04:32
+ * @LastEditTime: 2020-03-30 14:01:30
  * @FilePath: \indidea-frontend\src\views\EditProject.vue
  * @Description: 详细编辑project
  -->
@@ -228,33 +228,35 @@ const _ = require("lodash");
 
 export default {
   name: "EditProject",
-  data: () => ({
-    projectData: {
-      category: {},
-      owner: {}
-    },
-    listData: [
-      {
-        title: "基本信息",
-        subtitle:
-          "为你创意选一个标题，然后添加封面或者是影片，还有您创意的宣传信息。"
+  data() {
+    return {
+      projectData: {
+        category: {},
+        owner: {}
       },
-      {
-        title: "奖励阶梯",
-        subtitle: "设置回报给众筹者的奖励以及其他杂项等。"
-      },
-      {
-        title: "创意的故事",
-        subtitle:
-          "对这个创意有什么特别的故事或者事情可以分享给大家的，这可以让众筹更加的顺利。"
-      },
-      {
-        title: "项目检验中",
-        subtitle: "管理员会根据您的信息和项目的合理程度进行处理，请耐心等候"
-      }
-    ],
-    reward: false
-  }),
+      listData: [
+        {
+          title: "基本信息",
+          subtitle:
+            "为你创意选一个标题，然后添加封面或者是影片，还有您创意的宣传信息。"
+        },
+        {
+          title: "奖励阶梯",
+          subtitle: "设置回报给众筹者的奖励以及其他杂项等。"
+        },
+        {
+          title: "创意的故事",
+          subtitle:
+            "对这个创意有什么特别的故事或者事情可以分享给大家的，这可以让众筹更加的顺利。"
+        },
+        {
+          title: "项目检验中",
+          subtitle: "管理员会根据您的信息和项目的合理程度进行处理，请耐心等候"
+        }
+      ],
+      reward: false
+    };
+  },
   methods: {
     getProjectData() {
       getProjectByFlagById({
@@ -427,20 +429,16 @@ export default {
           title,
           subtitle,
           pic,
-          video,
           targetpoint,
           targetdate,
-          perdate,
           category
         } = this.projectData;
         let basicInfo = {
           title,
           subtitle,
           pic,
-          video,
           targetpoint,
           targetdate,
-          perdate,
           category
         };
         // eslint-disable-next-line no-unused-vars

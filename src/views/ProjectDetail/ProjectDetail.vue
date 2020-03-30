@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-03-29 23:16:46
+ * @LastEditTime: 2020-03-30 14:03:45
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\ProjectDetail.vue
  * @Description: 
  -->
@@ -78,10 +78,17 @@
                     <span>次被支持</span>
                   </div>
                   <div class="project-data-normal">
-                    <div>
-                      <span> {{ endDay }} </span>
-                    </div>
-                    <span>天结束</span>
+                    <template v-if="endDay >= 0">
+                      <div>
+                        <span> {{ endDay }} </span>
+                      </div>
+                      <span>天结束</span>
+                    </template>
+                    <template v-else>
+                      <div>
+                        <span>已结束</span>
+                      </div>
+                    </template>
                   </div>
                 </div>
                 <div class="btn-project-group">
@@ -90,8 +97,17 @@
                     class="btn-project-support"
                     @click="jumpToSupport"
                     :loading="jumpToLoading"
+                    v-if="endDay >= 0"
                   >
                     这就是最吼滴，支持
+                  </Button>
+                  <Button
+                    long
+                    disabled
+                    class="btn-project-support-disabled"
+                    v-else
+                  >
+                    项目已结束
                   </Button>
                   <Button
                     icon="md-heart-outline"
@@ -161,39 +177,41 @@ import {
 import { USER_LOGIN } from "../../utils/FunctionUtils";
 export default {
   name: "ProjectDetail",
-  data: () => ({
-    pageProjectId: 0,
-    projectData: { category: {}, owner: {} },
-    projectReward: [],
-    menuList: [
-      {
-        id: 1,
-        name: "项目背景",
-        path: "Story"
-      },
-      {
-        id: 2,
-        name: "问答环节",
-        path: "FQA"
-      },
-      {
-        id: 3,
-        name: "更新日志",
-        path: "Log"
-      },
-      {
-        id: 4,
-        name: "留言板",
-        path: "Msgboard"
-      }
-    ],
-    thisPageMenuName: "Story",
-    menuFixed: false,
-    sponsorNum: 0,
-    videoVisible: false,
-    projectSave: false,
-    jumpToLoading: false
-  }),
+  data() {
+    return {
+      pageProjectId: 0,
+      projectData: { category: {}, owner: {} },
+      projectReward: [],
+      menuList: [
+        {
+          id: 1,
+          name: "项目背景",
+          path: "Story"
+        },
+        {
+          id: 2,
+          name: "问答环节",
+          path: "FQA"
+        },
+        {
+          id: 3,
+          name: "更新日志",
+          path: "Log"
+        },
+        {
+          id: 4,
+          name: "留言板",
+          path: "Msgboard"
+        }
+      ],
+      thisPageMenuName: "Story",
+      menuFixed: false,
+      sponsorNum: 0,
+      videoVisible: false,
+      projectSave: false,
+      jumpToLoading: false
+    };
+  },
   methods: {
     getProject(flag) {
       if (flag) {

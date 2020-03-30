@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:09:52
- * @LastEditTime: 2020-03-27 23:08:38
+ * @LastEditTime: 2020-03-30 14:04:25
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Msgboard.vue
  * @Description: 
  -->
@@ -82,14 +82,16 @@ import { msgList, addMsg } from "../../../services/api/project";
 import { TOKEN } from "../../../utils/Constants";
 export default {
   name: "Msgboard",
-  data: () => ({
-    msg: "",
-    rows: 3,
-    focus: false,
-    projectId: 0,
-    msgList: [],
-    show: false
-  }),
+  data() {
+    return {
+      msg: "",
+      rows: 3,
+      focus: false,
+      projectId: 0,
+      msgList: [],
+      show: false
+    };
+  },
   methods: {
     async getMsgList() {
       await msgList(this.projectId).then(res => {

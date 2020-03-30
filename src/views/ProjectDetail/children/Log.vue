@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:58
- * @LastEditTime: 2020-03-29 23:02:30
+ * @LastEditTime: 2020-03-30 14:04:51
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Log.vue
  * @Description: 
  -->
@@ -87,14 +87,16 @@
 import { logList } from "../../../services/api/project";
 export default {
   name: "Log",
-  data: () => ({
-    projectId: 0,
-    logList: [],
-    viewer: "",
-    modal: false,
-    showItem: {},
-    show: false
-  }),
+  data() {
+    return {
+      projectId: 0,
+      logList: [],
+      viewer: "",
+      modal: false,
+      showItem: {},
+      show: false
+    };
+  },
   methods: {
     async getLog() {
       await logList(this.projectId).then(res => {

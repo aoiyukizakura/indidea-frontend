@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:07:43
- * @LastEditTime: 2020-03-27 23:16:29
+ * @LastEditTime: 2020-03-30 14:04:03
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Story.vue
  * @Description: 
  -->
@@ -79,7 +79,14 @@
                   </div>
                   <div class="reward-input">
                     <i-input type="number" v-model="point"></i-input>
-                    <Button @click="doReward(point, 0)" long>继续</Button>
+                    <Button
+                      v-if="projectData.status !== 6"
+                      @click="doReward(point, 0)"
+                      long
+                    >
+                      继续
+                    </Button>
+                    <Button v-else disabled long>继续</Button>
                   </div>
                 </div>
               </li>
@@ -116,17 +123,19 @@ export default {
   components: {
     RewardCard
   },
-  data: () => ({
-    projectId: null,
-    projectReward: [],
-    projectData: { owner: {} },
-    viewer: null,
-    point: 1,
-    report_content: "",
-    report_show: false,
-    rows: 5,
-    reported: false
-  }),
+  data() {
+    return {
+      projectId: null,
+      projectReward: [],
+      projectData: { owner: {} },
+      viewer: null,
+      point: 1,
+      report_content: "",
+      report_show: false,
+      rows: 5,
+      reported: false
+    };
+  },
   methods: {
     initPage() {
       this.projectId = this.$route.params.projectId;
@@ -157,21 +166,25 @@ export default {
           title: "支付操作",
           content: "请再次确认您的操作！",
           onOk: () => {
-            supportProject(this.projectId, point, rewardId).then(res => {
-              if (res.data) {
-                scrollTo(0, 0);
-                setTimeout(() => {
-                  this.$emit("refresh", this.$route);
-                  this.$Message.success("感谢您的支持！");
-                }, 500);
-              } else {
-                this.$Message.error({
-                  content: "余额不足或是您选择的方案有误",
-                  closable: true,
-                  duration: 5
-                });
-              }
-            });
+            if (this.point > 0) {
+              supportProject(this.projectId, point, rewardId).then(res => {
+                if (res.data) {
+                  scrollTo(0, 0);
+                  setTimeout(() => {
+                    this.$emit("refresh", this.$route);
+                    this.$Message.success("感谢您的支持！");
+                  }, 500);
+                } else {
+                  this.$Message.error({
+                    content: "余额不足或是您输入金额有误",
+                    closable: true,
+                    duration: 5
+                  });
+                }
+              });
+            } else {
+              this.$Message.info("请输入正确金额");
+            }
           },
           onCancel: () => {
             this.$Message.info("我们期待您的支持");

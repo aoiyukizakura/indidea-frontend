@@ -125,53 +125,55 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     ResultCard
   },
-  data: () => ({
-    total_num: 0,
-    test: 2,
-    query: {
-      keyword: "",
-      sort: 0,
-      categoryId: 0,
-      status: 1,
-      page: 0
-    },
-    categories: [],
-    sort: [
-      {
-        id: 0,
-        name: "默认"
+  data() {
+    return {
+      total_num: 0,
+      test: 2,
+      query: {
+        keyword: "",
+        sort: 0,
+        categoryId: 0,
+        status: 1,
+        page: 0
       },
-      {
-        id: 1,
-        name: "最新的项目"
-      },
-      {
-        id: 2,
-        name: "点击最多"
-      },
-      {
-        id: 3,
-        name: "结束日期"
-      },
-      {
-        id: 4,
-        name: "最多筹款"
-      }
-    ],
-    project_status: [
-      {
-        id: 1,
-        name: "进行中"
-      },
-      {
-        id: 0,
-        name: "已过期"
-      }
-    ],
-    projectList: [],
-    loading: false,
-    spinShow: false
-  }),
+      categories: [],
+      sort: [
+        {
+          id: 0,
+          name: "默认"
+        },
+        {
+          id: 1,
+          name: "最新的项目"
+        },
+        {
+          id: 2,
+          name: "点击最多"
+        },
+        {
+          id: 3,
+          name: "结束日期"
+        },
+        {
+          id: 4,
+          name: "最多筹款"
+        }
+      ],
+      project_status: [
+        {
+          id: 1,
+          name: "进行中"
+        },
+        {
+          id: 0,
+          name: "已过期"
+        }
+      ],
+      projectList: [],
+      loading: false,
+      spinShow: false
+    };
+  },
   created() {
     let route = this.$route;
     this.initThisPage(route);

@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 16:48:20
- * @LastEditTime: 2020-03-21 17:46:48
+ * @LastEditTime: 2020-03-30 12:32:40
  * @FilePath: \indidea-frontend\src\components\RewardCard\RewardCard.vue
  * @Description: 
  -->
@@ -12,7 +12,10 @@
         @click="hoverBlock()"
         :class="'hover-block ' + (clicked ? 'display-none' : '')"
       >
-        <span class="hover-block-content">选择这个阶梯奖励</span>
+        <span v-if="data.project.status != 6" class="hover-block-content">
+          选择这个阶梯奖励
+        </span>
+        <span v-else class="hover-block-content">项目已结束</span>
       </div>
       <h2>资助 Pt. {{ data.point }} 或者更多</h2>
       <h3>{{ data.name }}</h3>
@@ -38,7 +41,10 @@
         </label>
         <input v-if="point" v-model="point" type="number" />
       </div>
-      <button class="go-pay" @click="goPay">去付款</button>
+      <button v-if="data.project.status != 6" class="go-pay" @click="goPay">
+        去付款
+      </button>
+      <button v-else class="go-pay" disabled>去付款</button>
     </div>
   </div>
 </template>
@@ -63,7 +69,7 @@ export default {
   },
   methods: {
     hoverBlock() {
-      this.clicked = true;
+      if (this.data.project.status != 6) this.clicked = true;
     },
     goPay() {
       this.$emit("goPay", this.point, this.data.id);

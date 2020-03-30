@@ -31,14 +31,16 @@
 import { register } from "../services/api";
 export default {
   name: "Register",
-  data: () => ({
-    single: false,
-    registerData: {
-      username: "",
-      email: "",
-      password: ""
-    }
-  }),
+  data() {
+    return {
+      single: false,
+      registerData: {
+        username: "",
+        email: "",
+        password: ""
+      }
+    };
+  },
   methods: {
     async register() {
       if (

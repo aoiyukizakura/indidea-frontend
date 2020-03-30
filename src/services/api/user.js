@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-03-28 15:52:20
- * @LastEditTime: 2020-03-30 00:15:21
+ * @LastEditTime: 2020-03-30 21:42:30
  * @FilePath: \indidea-frontend\src\services\api\user.js
  * @Description:
  */
@@ -31,6 +31,20 @@ export const user = userId => {
     method: "get"
   });
 };
+export const updateUser = query => {
+  return request({
+    url: `/api/users`,
+    method: "put",
+    data: query
+  });
+};
+export const updatePass = (oldpass, newpass) => {
+  return request({
+    url: `/api/users/updatePass`,
+    method: "put",
+    params: { oldpass, newpass }
+  });
+};
 /**
  * 根据token获取我的信息
  */
@@ -55,7 +69,10 @@ export const avatar = avatar => {
   return request({
     url: "/api/users/avatar",
     method: "post",
-    params: { avatar }
+    data: avatar,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
   });
 };
 

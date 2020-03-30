@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:30
- * @LastEditTime: 2020-03-27 21:14:35
+ * @LastEditTime: 2020-03-30 14:05:21
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\FQA.vue
  * @Description: 
  -->
@@ -80,17 +80,19 @@
 </template>
 <script>
 import { quzList, addQuz } from "../../../services/api/project";
-import { TOKEN } from '../../../utils/Constants';
+import { TOKEN } from "../../../utils/Constants";
 export default {
   name: "FQA",
-  data: () => ({
-    fqaList: [],
-    showNum: [],
-    projectId: 0,
-    modal: false,
-    quz: "",
-    show: false
-  }),
+  data() {
+    return {
+      fqaList: [],
+      showNum: [],
+      projectId: 0,
+      modal: false,
+      quz: "",
+      show: false
+    };
+  },
   methods: {
     async getQuzList() {
       await quzList(this.projectId).then(res => {

@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-01 17:40:20
- * @LastEditTime: 2020-03-16 23:23:56
+ * @LastEditTime: 2020-03-30 13:56:26
  * @FilePath: \indidea-frontend\src\views\StartProject.vue
  * @Description: 发起项目
  -->
@@ -76,46 +76,48 @@
 import { category, createProject } from "../services/api";
 export default {
   name: "StartProject",
-  data: () => ({
-    startData: {},
-    categories: [],
-    single: false,
-    content1: {
-      current: 0,
-      h2content: "让我们来一起为这个想法分一个类。",
-      h3content: "从以下的分类里面挑选一个最适合您想法的，之后您可以随时更新",
-      precontent: "你也要想来一发吗？赶紧行动吧",
-      // preicon: false,
-      disabled: true,
-      select: true
-    },
-    content2: {
-      current: 1,
-      h2content: "描述一下您将要发起什么样的方案",
-      h3content: "放心，您可以在稍后的详细设置中再次更改",
-      precontent: "回到分类",
-      preicon: true,
-      disabled: true,
-      input: true
-    },
-    content3: {
-      current: 2,
-      h2content: "准备好实现你的想法了吗，让我们开始吧！",
-      h3content: "在开始前请仔细阅读本网站的相关条例，祝您生活愉快",
-      precontent: "回到方案想法",
-      disabled: false,
-      preicon: true,
-      img: true
-    },
-    content: {
-      current: 0,
-      h2content: "让我们来一起为这个想法分一个类。",
-      h3content: "从以下的分类里面挑选一个最适合您想法的，之后您可以随时更新",
-      precontent: "你也要想来一发吗？赶紧行动吧",
-      disabled: true,
-      select: true
-    }
-  }),
+  data() {
+    return {
+      startData: {},
+      categories: [],
+      single: false,
+      content1: {
+        current: 0,
+        h2content: "让我们来一起为这个想法分一个类。",
+        h3content: "从以下的分类里面挑选一个最适合您想法的，之后您可以随时更新",
+        precontent: "你也要想来一发吗？赶紧行动吧",
+        // preicon: false,
+        disabled: true,
+        select: true
+      },
+      content2: {
+        current: 1,
+        h2content: "描述一下您将要发起什么样的方案",
+        h3content: "放心，您可以在稍后的详细设置中再次更改",
+        precontent: "回到分类",
+        preicon: true,
+        disabled: true,
+        input: true
+      },
+      content3: {
+        current: 2,
+        h2content: "准备好实现你的想法了吗，让我们开始吧！",
+        h3content: "在开始前请仔细阅读本网站的相关条例，祝您生活愉快",
+        precontent: "回到方案想法",
+        disabled: false,
+        preicon: true,
+        img: true
+      },
+      content: {
+        current: 0,
+        h2content: "让我们来一起为这个想法分一个类。",
+        h3content: "从以下的分类里面挑选一个最适合您想法的，之后您可以随时更新",
+        precontent: "你也要想来一发吗？赶紧行动吧",
+        disabled: true,
+        select: true
+      }
+    };
+  },
   methods: {
     next() {
       switch (this.content.current) {

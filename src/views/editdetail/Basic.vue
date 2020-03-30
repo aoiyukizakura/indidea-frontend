@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:26:12
- * @LastEditTime: 2020-03-16 23:25:24
+ * @LastEditTime: 2020-03-30 14:06:22
  * @FilePath: \indidea-frontend\src\views\editdetail\Basic.vue
  * @Description: 
  -->
@@ -323,34 +323,36 @@ import {
 import { VueCropper } from "vue-cropper";
 export default {
   name: "EditDetail",
-  data: () => ({
-    btnNext: {
-      name: "下一个",
-      color: "backgroundColor: #1c9482;"
-    },
-    editProjectData: { category: {} },
-    categories: [],
-    option: {
-      img: "",
-      size: 1,
-      full: true,
-      outputType: "png",
-      canMove: true,
-      fixedBox: false,
-      original: true,
-      canMoveBox: true,
-      autoCrop: true,
-      centerBox: true,
-      high: true,
-      fixed: true,
-      fixedNumber: [16, 9]
-    },
-    optionsdate: {
-      disabledDate(date) {
-        return date && date.valueOf() < Date.now() + 86400000 * 7;
+  data() {
+    return {
+      btnNext: {
+        name: "下一个",
+        color: "backgroundColor: #1c9482;"
+      },
+      editProjectData: { category: {} },
+      categories: [],
+      option: {
+        img: "",
+        size: 1,
+        full: true,
+        outputType: "png",
+        canMove: true,
+        fixedBox: false,
+        original: true,
+        canMoveBox: true,
+        autoCrop: true,
+        centerBox: true,
+        high: true,
+        fixed: true,
+        fixedNumber: [16, 9]
+      },
+      optionsdate: {
+        disabledDate(date) {
+          return date && date.valueOf() < Date.now() + 86400000 * 7;
+        }
       }
-    }
-  }),
+    };
+  },
   methods: {
     saveTo(data, key) {
       this.$Notice.config({

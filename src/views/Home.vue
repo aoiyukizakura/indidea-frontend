@@ -184,46 +184,48 @@ export default {
     SortCard,
     Footer
   },
-  data: () => ({
-    msg: "home",
-    token: "",
-    website: "",
-    projectListData: [
-      {
-        id: "1",
-        title:
-          "卑鄙的外乡人必杀手册终极无敌上帝视角之超级终极无敌蛇皮棒棒仙女魔女版",
-        owner: {
-          username: "大头哥"
-        },
-        targetpoint: 7000,
-        img:
-          "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
-        getpoint: 220,
-        targetdate: "2020-02-27"
-      }
-    ],
-    page: 1,
-    ListStyle: {
-      left: 0 + "px"
-    },
-    //Slider configuration [obj]
-    options: {
-      effect: "coverflow",
-      currentPage: 0,
-      thresholdDistance: 100,
-      thresholdTime: 300,
-      deviation: 200,
-      widthScalingRatio: 0.8,
-      heightScalingRatio: 0.85,
-      slidesToScroll: 1,
-      loop: true,
-      pagination: false
-    },
-    featuredProjectData: { owner: {} },
-    topHitData: [],
-    categories: []
-  }),
+  data() {
+    return {
+      msg: "home",
+      token: "",
+      website: "",
+      projectListData: [
+        {
+          id: "1",
+          title:
+            "卑鄙的外乡人必杀手册终极无敌上帝视角之超级终极无敌蛇皮棒棒仙女魔女版",
+          owner: {
+            username: "大头哥"
+          },
+          targetpoint: 7000,
+          img:
+            "https://ksr-static.imgix.net/rocketbook-f27440c.png?ixlib=rb-2.1.0&s=a43eac9908449033eff9fba77600e322",
+          getpoint: 220,
+          targetdate: "2020-02-27"
+        }
+      ],
+      page: 1,
+      ListStyle: {
+        left: 0 + "px"
+      },
+      //Slider configuration [obj]
+      options: {
+        effect: "coverflow",
+        currentPage: 0,
+        thresholdDistance: 100,
+        thresholdTime: 300,
+        deviation: 200,
+        widthScalingRatio: 0.8,
+        heightScalingRatio: 0.85,
+        slidesToScroll: 1,
+        loop: true,
+        pagination: false
+      },
+      featuredProjectData: { owner: {} },
+      topHitData: [],
+      categories: []
+    };
+  },
   mounted() {
     getTop9Projects().then(res => {
       this.projectListData = res.data;

@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:57:02
- * @LastEditTime: 2020-03-17 11:38:35
+ * @LastEditTime: 2020-03-30 14:05:40
  * @FilePath: \indidea-frontend\src\views\editdetail\Story.vue
  * @Description: 
  -->
@@ -82,10 +82,12 @@ const Editer = require("tui-editor");
 
 export default {
   name: "story",
-  data: () => ({
-    editor: null,
-    storyData: ""
-  }),
+  data() {
+    return {
+      editor: null,
+      storyData: ""
+    };
+  },
   methods: {
     getStory() {
       getProjectByFlagById({

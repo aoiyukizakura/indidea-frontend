@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:52:50
- * @LastEditTime: 2020-03-29 13:49:07
+ * @LastEditTime: 2020-03-30 16:48:54
  * @FilePath: \indidea-frontend\src\views\User\User.vue
  * @Description: 
  -->
@@ -70,7 +70,7 @@
         </i-col>
       </Row>
     </div>
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
   </div>
 </template>
 <script>
@@ -79,16 +79,19 @@ import { myInfo, supportNum } from "../../services/api/user";
 export default {
   name: "User",
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     Footer
   },
-  data: () => ({
-    active: "myInfo",
-    myinfo_show: false,
-    myinfo_running: false,
-    routerAlive: true,
-    userInfo: "",
-    suppotNum: 0
-  }),
+  data() {
+    return {
+      active: "myInfo",
+      myinfo_show: false,
+      myinfo_running: false,
+      routerAlive: true,
+      userInfo: "",
+      suppotNum: 0
+    };
+  },
   methods: {
     initPageByRoute(route) {
       let name = route.name;

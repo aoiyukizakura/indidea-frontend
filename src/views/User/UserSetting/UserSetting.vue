@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 22:00:20
- * @LastEditTime: 2020-03-30 00:45:55
+ * @LastEditTime: 2020-03-30 12:01:01
  * @FilePath: \indidea-frontend\src\views\User\UserSetting\UserSetting.vue
  * @Description: 
  -->
@@ -47,7 +47,7 @@
         </ul>
       </div>
     </div>
-    <Modal footer-hide v-model="update_modal" fullscreen title="更新日志">
+    <Modal footer-hide v-model="update_modal" fullscreen :title="title">
       <div v-if="show" class="log-info">
         <div class="log-title">
           <input type="text" v-model="log_title" placeholder="更新标题" />
@@ -65,13 +65,20 @@
       <div v-else class="an-info">
         <ul>
           <li v-for="(item, index) in quzList" :key="index">
-            <div>
-              <div @click="answerQuz(index)">
+            <div class="an-info-content">
+              <div class="quz-content" @click="answerQuz(index)">
                 {{ item.quzcontent }}
               </div>
-              <div v-if="quzNum === index">
-                <input type="text" v-model="answerContent" />
-                <div @click="doAnswer(item.id)">回答</div>
+              <div class="an-content" v-if="quzNum === index">
+                <textarea
+                  placeholder="在此输入你的回答"
+                  rows="3"
+                  type="text"
+                  v-model="answerContent"
+                />
+                <div @click="doAnswer(item.id)">
+                  <span>回答</span>
+                </div>
               </div>
             </div>
           </li>
@@ -82,10 +89,9 @@
 </template>
 <script>
 import $ from "jquery";
-import "codemirror/lib/codemirror.css"; // codemirror
-import "tui-editor/dist/tui-editor.css"; // editor ui
-import "tui-editor/dist/tui-editor-contents.css"; // editor content
-// eslint-disable-next-line no-unused-vars
+import "codemirror/lib/codemirror.css";
+import "tui-editor/dist/tui-editor.css";
+import "tui-editor/dist/tui-editor-contents.css";
 import {
   getMyProjects,
   updateLog,
@@ -106,7 +112,8 @@ export default {
       show: false,
       quzList: [],
       answerContent: "",
-      quzNum: null
+      quzNum: null,
+      title: ""
     };
   },
   methods: {
@@ -129,6 +136,7 @@ export default {
     },
     updateLog(id) {
       this.show = true;
+      this.title = "更新日志";
       this.$Spin.show();
       this.update_id = id;
       setTimeout(() => {
@@ -139,6 +147,7 @@ export default {
     },
     answer(id) {
       this.show = false;
+      this.title = "常见问题";
       this.$Spin.show();
       this.update_id = id;
       setTimeout(() => {
@@ -149,16 +158,30 @@ export default {
     },
     answerQuz(index) {
       this.answerContent = null;
-      this.quzNum = index;
+      if (this.quzNum == index) {
+        this.quzNum = null;
+      } else {
+        this.quzNum = index;
+      }
     },
     doAnswer(id) {
+      this.$Spin.show();
       if (this.answerContent !== null && this.answerContent !== "") {
-        replyQuz(id, this.answerContent).then(res => {
-          if (res.data) {
-            this.getWaitList();
-            this.$Message.success("回复成功");
-          }
-        });
+        setTimeout(() => {
+          replyQuz(id, this.answerContent).then(res => {
+            if (res.data) {
+              this.quzNum = null;
+              this.answerContent = null;
+              this.getWaitList();
+              setTimeout(() => {
+                this.$Spin.hide();
+                this.$Message.success("回复成功");
+              }, 200);
+            } else {
+              this.$Spin.hide();
+            }
+          });
+        }, 200);
       } else {
         this.$Message.info("请填写回答");
       }
@@ -279,9 +302,6 @@ export default {
       if (!to) {
         if (this.editor) this.destroyEditor();
       }
-      // if (!to && this.editor) {
-      //   this.destroyEditor();
-      // }
     }
   },
   created() {
@@ -290,8 +310,12 @@ export default {
   mounted() {
     // this.initEditor();
   },
+  beforeDestroy() {
+    this.update_modal = false;
+    console.log("beforeDestroy :", 1);
+  },
   destroyed() {
-    // this.destroyEditor();
+    console.log("destroyed :", 1);
   }
 };
 </script>
@@ -447,9 +471,48 @@ li {
 </style>
 <style lang="scss" scoped>
 .an-info {
-  max-width: 1136px;
+  max-width: 736px;
   margin-right: auto;
   margin-left: auto;
   padding: 0 60px;
+  &-content {
+    width: 100%;
+    border: 1px solid #decdcd;
+    margin-bottom: 24px;
+    .quz-content {
+      padding: 18px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 24px;
+      color: #282828;
+    }
+    .an-content {
+      padding: 0 36px 18px;
+      textarea {
+        line-height: 24px;
+        padding: 18px;
+        font-size: 16px;
+        width: 100%;
+        resize: none;
+        & ::placeholder {
+          color: #656969 !important;
+        }
+      }
+      & > div:last-of-type {
+        display: flex;
+        flex-direction: row-reverse;
+        span {
+          display: block;
+          border: 1px solid #decdcd;
+          padding: 6px 24px;
+          background-color: #282828;
+          color: white;
+          margin-top: 18px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
 </style>
