@@ -15,7 +15,7 @@
         :xs="12"
         class="left-nav"
       >
-        <div>发现</div>
+        <div @click="$router.push(`/more`)">发现</div>
         <div @click="getstart">发起众筹</div>
       </i-col>
       <i-col :md="3" :sm="{ span: 12 }" :xs="12" class="nav-right">
@@ -152,8 +152,12 @@ export default {
     },
     getstart() {
       this.show = false;
-      if (USER_DATA.status === 2) this.$router.push(`/start`);
-      else this.$Message.info("您还不是独立创意人，请先申请!");
+      if (USER_DATA) {
+        if (USER_DATA.status === 2) this.$router.push(`/start`);
+        else this.$Message.info("您还不是独立创意人，请先申请!");
+      } else {
+        this.$router.push(`/login`);
+      }
     },
     search() {
       this.$router.push("/search");

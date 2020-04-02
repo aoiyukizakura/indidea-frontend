@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 22:00:20
- * @LastEditTime: 2020-03-30 12:01:01
+ * @LastEditTime: 2020-04-03 01:08:20
  * @FilePath: \indidea-frontend\src\views\User\UserSetting\UserSetting.vue
  * @Description: 
  -->
@@ -183,6 +183,7 @@ export default {
           });
         }, 200);
       } else {
+        this.$Spin.hide();
         this.$Message.info("请填写回答");
       }
     },

@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:21:34
- * @LastEditTime: 2020-03-30 23:32:20
+ * @LastEditTime: 2020-03-31 13:38:21
  * @FilePath: \indidea-frontend\src\views\User\UserInfo\UserInfo.vue
  * @Description: 
  -->
@@ -92,7 +92,8 @@ import {
 } from "../../../services/api/user";
 import $ from "jquery";
 import { USER_INFO } from "../../../utils/Constants";
-import { LOGIN_OUT } from '../../../utils/FunctionUtils';
+// eslint-disable-next-line no-unused-vars
+import { LOGIN_OUT } from "../../../utils/FunctionUtils";
 export default {
   name: "UserInfo",
   data() {

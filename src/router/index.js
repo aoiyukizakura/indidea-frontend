@@ -57,6 +57,7 @@ const routes = [
     path: "/editDetail/:projectId",
     name: "ediDetail",
     component: () => import("../views/EditDetail.vue"),
+    redirect: "/editDetail/:projectId/basicInfo",
     meta: {
       auth: true
     },
@@ -135,34 +136,57 @@ const routes = [
       {
         path: "myInfo",
         name: "myInfo",
-        component: () => import("../views/User/UserInfo/UserInfo.vue")
+        component: () => import("../views/User/UserInfo/UserInfo.vue"),
+        meta: {
+          auth: true
+        }
       },
       {
         path: "setting",
         name: "setting",
-        component: () => import("../views/User/UserSetting/UserSetting.vue")
+        component: () => import("../views/User/UserSetting/UserSetting.vue"),
+        meta: {
+          auth: true
+        }
       },
       {
         path: "saved-project",
         name: "saved-project",
-        component: () => import("../views/User/UserSaved/UserSaved.vue")
+        component: () => import("../views/User/UserSaved/UserSaved.vue"),
+        meta: {
+          auth: true
+        }
       },
       {
         path: "user-support",
         name: "user-support",
-        component: () => import("../views/User/UserSupport/UserSupport.vue")
+        component: () => import("../views/User/UserSupport/UserSupport.vue"),
+        meta: {
+          auth: true
+        }
       },
       {
         path: "point-history",
         name: "point-history",
-        component: () => import("../views/User/PointRecord/PointRecord.vue")
+        component: () => import("../views/User/PointRecord/PointRecord.vue"),
+        meta: {
+          auth: true
+        }
       },
       {
         path: "top-up",
         name: "top-up",
-        component: () => import("../views/User/TopUp/TopUp.vue")
+        component: () => import("../views/User/TopUp/TopUp.vue"),
+        meta: {
+          auth: true
+        }
       }
     ]
+  },
+  {
+    path: "/more",
+    name: "more",
+    component: () => import("../views/More/More.vue")
   },
   {
     path: "*",
