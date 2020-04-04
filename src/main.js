@@ -8,7 +8,7 @@ import "./assets/css/hover.css";
 import { TOKEN } from "./utils/Constants";
 import { imageIsExist } from "./utils/FunctionUtils";
 import BaseUrl from "./utils/BaseUrl";
-import "../src/assets/css/global.scss";
+import "../src/assets/scss/global.scss";
 
 Vue.use(ViewUI);
 

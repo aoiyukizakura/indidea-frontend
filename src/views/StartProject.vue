@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-01 17:40:20
- * @LastEditTime: 2020-03-30 13:56:26
+ * @LastEditTime: 2020-04-04 12:36:59
  * @FilePath: \indidea-frontend\src\views\StartProject.vue
  * @Description: 发起项目
  -->
@@ -73,6 +73,7 @@
   </div>
 </template>
 <script>
+import "../assets/scss/start-project.scss";
 import { category, createProject } from "../services/api";
 export default {
   name: "StartProject",
@@ -197,78 +198,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.start-container {
-  max-width: 1366px;
-  margin: 0 auto;
-  padding: 0 60px;
-}
-.start-step {
-  /* background-color: beige; */
-  padding-top: 24px;
-}
-.start-content {
-  padding-top: 15vh;
-}
-.content-content {
-  margin-bottom: 84px;
-  /* background-color: cornflowerblue; */
-}
-.content-input >>> textarea {
-  resize: none !important;
-}
-.content-content h2 {
-  margin-bottom: 12px;
-  line-height: 36px;
-  font-weight: 400;
-  font-size: 28px;
-  text-align: center;
-}
-.content-content h3 {
-  margin-bottom: 36px;
-  line-height: 24px;
-  font-weight: 400;
-  color: rgba($color: #000000, $alpha: 0.6);
-  font-size: 18px;
-  text-align: center;
-}
-.start-controller {
-  /* background-color: salmon; */
-  margin: 0 auto 10vh;
-}
-.controller-col {
-  background-color: white;
-  padding: 18px 0px;
-  .ivu-btn-primary {
-    float: right;
-    border-radius: 0;
-  }
-}
-.controller-col > p {
-  // text-align: left;
-  // margin-right: auto;
-  font-size: 14px;
-  line-height: 32px;
-  display: flex;
-  justify-items: center;
-  width: fit-content;
-  &:hover {
-    cursor: pointer;
-    text-decoration: {
-      line: underline;
-      color: #656969;
-    }
-  }
-}
-.img-box {
-  img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  p {
-    text-align: center;
-  }
-}
-/* .controller-col >  */
-</style>

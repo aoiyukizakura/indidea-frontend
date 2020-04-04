@@ -86,7 +86,9 @@
               <i-col span="12">
                 <div>
                   <h3>当前最热</h3>
-                  <router-link to="/sort">查看更多</router-link>
+                  <router-link to="/search/?categoryId=0&sort=2&status=1">
+                    查看更多
+                  </router-link>
                   <Icon style="color: #a860c7;" type="ios-arrow-forward" />
                 </div>
               </i-col>

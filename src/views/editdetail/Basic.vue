@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:26:12
- * @LastEditTime: 2020-03-30 14:06:22
+ * @LastEditTime: 2020-04-04 12:40:36
  * @FilePath: \indidea-frontend\src\views\editdetail\Basic.vue
  * @Description: 
  -->
@@ -321,6 +321,8 @@ import {
   updateProject
 } from "../../services/api";
 import { VueCropper } from "vue-cropper";
+import "../../assets/scss/project/basicInfo.scss";
+
 export default {
   name: "EditDetail",
   data() {
@@ -506,6 +508,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "../../assets/css/project/basicInfo.scss";
-</style>

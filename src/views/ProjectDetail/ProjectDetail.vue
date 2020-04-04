@@ -1,8 +1,7 @@
-<!-- eslint-disable no-unused-vars  -->
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-03-30 14:03:45
+ * @LastEditTime: 2020-04-04 12:56:18
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\ProjectDetail.vue
  * @Description: 
  -->
@@ -161,7 +160,7 @@
 </template>
 <script>
 import {} from "../../services/api";
-
+import "../../assets/scss/project/project-detail.scss";
 import Footer from "@/components/Footer/Footer";
 // import $ from "jquery";
 import {
@@ -352,6 +351,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "../../assets/css/project/project-detail.scss";
-</style>

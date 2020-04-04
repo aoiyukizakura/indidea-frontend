@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:57:02
- * @LastEditTime: 2020-03-30 14:05:40
+ * @LastEditTime: 2020-04-04 12:56:47
  * @FilePath: \indidea-frontend\src\views\editdetail\Story.vue
  * @Description: 
  -->
@@ -70,7 +70,6 @@ import $ from "jquery";
 import "codemirror/lib/codemirror.css"; // codemirror
 import "tui-editor/dist/tui-editor.css"; // editor ui
 import "tui-editor/dist/tui-editor-contents.css"; // editor content
-// import "../../assets/css/project/storyInfo.scss";
 // eslint-disable-next-line no-unused-vars
 import {
   uploadFile,

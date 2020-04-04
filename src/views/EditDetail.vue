@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-04 18:12:11
- * @LastEditTime: 2020-03-30 14:02:06
+ * @LastEditTime: 2020-04-04 12:37:51
  * @FilePath: \indidea-frontend\src\views\EditDetail.vue
  * @Description: 
  -->
@@ -48,6 +48,7 @@
   </div>
 </template>
 <script>
+import "../assets/scss/editDetail.scss";
 export default {
   name: "EditDetail",
   data() {
@@ -139,6 +140,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" socped>
-@import "../assets/css/editDetail.scss";
-</style>

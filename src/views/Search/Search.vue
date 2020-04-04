@@ -114,6 +114,7 @@
 </template>
 
 <script>
+import "../../assets/scss/search.scss";
 import Footer from "../../components/Footer/Footer";
 import ResultCard from "../../components/Search/ResultCard";
 import { searchProject } from "../../services/api/project";
@@ -253,6 +254,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "../../assets/css/search/search.scss";
-</style>

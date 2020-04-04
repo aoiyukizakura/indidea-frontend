@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-03 11:40:56
- * @LastEditTime: 2020-03-30 14:01:30
+ * @LastEditTime: 2020-04-04 12:41:20
  * @FilePath: \indidea-frontend\src\views\EditProject.vue
  * @Description: 详细编辑project
  -->
@@ -223,6 +223,7 @@ import {
   sendProject
 } from "../services/api";
 import { rewardListByProjectId } from "../services/api/project";
+import "../assets/scss/editProject.scss";
 
 const _ = require("lodash");
 
@@ -480,6 +481,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "../assets/css/editProject.scss";
-</style>
