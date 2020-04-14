@@ -309,4 +309,7 @@ html {
 .hvr-outline-out:hover {
   color: #656969;
 }
+.ivu-avatar img {
+  object-fit: cover;
+}
 </style>

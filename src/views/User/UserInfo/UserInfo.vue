@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:21:34
- * @LastEditTime: 2020-03-31 13:38:21
+ * @LastEditTime: 2020-04-14 21:56:13
  * @FilePath: \indidea-frontend\src\views\User\UserInfo\UserInfo.vue
  * @Description: 
  -->
@@ -40,7 +40,7 @@
           hidden
           @change="uploadAvatar()"
         />
-        <Button type="primary" @click="saveDes" icon="md-build">
+        <Button type="primary" @click="saveDes" icon="md-document">
           保存个人简介
         </Button>
         <Button type="error" @click="editpass_show = true" icon="md-build">

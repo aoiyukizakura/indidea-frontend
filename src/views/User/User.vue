@@ -1,14 +1,14 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:52:50
- * @LastEditTime: 2020-03-30 16:48:54
+ * @LastEditTime: 2020-04-14 22:07:02
  * @FilePath: \indidea-frontend\src\views\User\User.vue
  * @Description: 
  -->
 <template>
   <div>
     <div class="my-info">
-      <Row class="my-info-content">
+      <Row type="flex" class="my-info-content">
         <i-col span="6">
           <div class="avatar">
             <img
@@ -45,7 +45,7 @@
                 已收藏
               </MenuItem>
               <MenuItem name="user-support" to="user-support">
-                <Icon type="md-leaf" />
+                <Icon type="md-water" />
                 已赞助
               </MenuItem>
               <MenuItem name="setting" to="setting">
@@ -65,7 +65,7 @@
             </MenuGroup>
           </Menu>
         </i-col>
-        <i-col style="padding-top: 36px" span="17" offset="1">
+        <i-col style="padding-top: 36px;" span="17" offset="1">
           <router-view v-if="routerAlive"></router-view>
         </i-col>
       </Row>

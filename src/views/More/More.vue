@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-04-02 15:53:56
- * @LastEditTime: 2020-04-04 12:36:43
+ * @LastEditTime: 2020-04-14 21:42:18
  * @FilePath: \indidea-frontend\src\views\More\More.vue
  * @Description: 
  -->
@@ -120,6 +120,7 @@
           </span>
           <img v-else src="../../assets/loading2.gif" alt="loading" />
         </div>
+        <div v-if="loading" class="load-fill"></div>
       </div>
     </div>
     <Modal v-model="img_show" title="预览">
@@ -202,7 +203,6 @@ export default {
       }
     },
     getList() {
-      this.reload();
       postList(this.status, this.page, this.pageSize).then(res => {
         if (res.data) {
           this.postList = res.data;
@@ -263,21 +263,23 @@ export default {
       this.$nextTick(() => {
         this.$refs.upload.clearAll();
       });
-      // if (this.post != "" && this.post != null) {
-      //   doPost(this.post, this.images).then(res => {
-      //     if (res.data) {
-      //       this.post = "";
-      //       this.getList();
-      //     }
-      //   });
-      // } else {
-      //   this.$Notice.warning({
-      //     title: "请填写内容!"
-      //   });
-      // }
+      if (this.post != "" && this.post != null) {
+        doPost(this.post, this.images).then(res => {
+          if (res.data) {
+            this.post = "";
+            this.reload();
+            this.getList();
+          }
+        });
+      } else {
+        this.$Notice.warning({
+          title: "请填写内容!"
+        });
+      }
     },
     change(value) {
       this.status = value;
+      this.reload();
       this.getList();
     },
     loading_more() {
@@ -308,7 +310,7 @@ export default {
       setTimeout(() => {
         this.reload_show = true;
         this.loading = false;
-      }, 500);
+      }, 1000);
     },
     delete_post(id) {
       this.$Modal.confirm({
@@ -317,6 +319,7 @@ export default {
           deletePost(id).then(res => {
             if (res.data) {
               this.$Message.success("删除成功");
+              this.reload();
               this.getList();
             }
           });

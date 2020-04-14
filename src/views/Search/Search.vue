@@ -221,7 +221,8 @@ export default {
           query: {
             categoryId: this.query.categoryId,
             sort: this.query.sort,
-            status: this.query.status
+            status: this.query.status,
+            keyword: this.query.keyword
           }
         });
         this.spinShow = false;

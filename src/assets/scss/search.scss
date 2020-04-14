@@ -52,9 +52,23 @@
         .ivu-select-selection {
           border-radius: 0 !important;
           border: none;
+          font-size: 100%;
+          vertical-align: middle;
+          width: 100%;
+          &-focused {
+            outline: none;
+          }
           .ivu-select-selection :focus {
             outline: none;
           }
+        }
+        .ivu-select-selected-value {
+          height: 40px;
+          line-height: 40px;
+          width: 100%;
+          font-size: 100%;
+          vertical-align: middle;
+          vertical-align: middle;
         }
       }
     }

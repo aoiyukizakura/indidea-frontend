@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-03 11:40:56
- * @LastEditTime: 2020-04-04 12:41:20
+ * @LastEditTime: 2020-04-15 00:39:29
  * @FilePath: \indidea-frontend\src\views\EditProject.vue
  * @Description: 详细编辑project
  -->
@@ -342,7 +342,7 @@ export default {
               projectId: this.projectData.id
             }).then(res => {
               if (res.data) {
-                this.$router.replace("/projectDetail/" + res.data.id);
+                this.$router.replace(`/project-detail/${res.data.id}`);
                 this.$Message.success("发布成功");
               } else {
                 this.$Message.info("未知错误，请稍候再试");
