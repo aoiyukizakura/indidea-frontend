@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-04-02 15:53:56
- * @LastEditTime: 2020-04-14 21:42:18
+ * @LastEditTime: 2020-04-18 23:28:39
  * @FilePath: \indidea-frontend\src\views\More\More.vue
  * @Description: 
  -->
@@ -10,8 +10,36 @@
     <div class="post-main">
       <div class="send-part">
         <textarea name="post" id="post" rows="4" v-model="post"></textarea>
-        <MutipartUpload ref="upload" @imagesList="getImages"></MutipartUpload>
-        <Button type="success" @click="sendPost">发送</Button>
+        <Row class="send-part-bottom" type="flex">
+          <i-col class="the-dark-sider">
+            <MutipartUpload
+              ref="upload"
+              @imagesList="getImages"
+            ></MutipartUpload>
+            <Button type="success" @click="sendPost">发送</Button>
+          </i-col>
+          <i-col class="the-chosen-one">
+            <Select
+              @on-change="projectChange($event)"
+              v-model="project_id"
+              filterable
+              remote
+              :remote-method="remoteMethod"
+              :loading="loading1"
+              style="width:300px"
+              size="large"
+              placeholder="可选择一个话题项目"
+              clearable
+            >
+              <Option
+                v-for="item in projectList"
+                :value="item.id"
+                :key="item.id"
+                >{{ item.title }}</Option
+              >
+            </Select>
+          </i-col>
+        </Row>
       </div>
       <div class="list-part">
         <div class="list-part-title">
@@ -40,6 +68,14 @@
               :title="item.username"
               :description="createdDate(item.createdat)"
             />
+            <div
+              @click="toDetail(item.project_id)"
+              class="bring-topic"
+              v-if="item.project_id"
+            >
+              #{{ item.project_title }}#
+            </div>
+            <br v-if="item.project_id" />
             {{ item.content }}
             <template slot="action">
               <li class="post-action">
@@ -73,17 +109,22 @@
                   ></textarea>
                   <div @click="doComment(item.id)">评论</div>
                 </div>
-                <div
-                  class="comment"
-                  v-for="(item, index) in comment_list"
-                  :key="index"
-                >
-                  <p class="comment-username">{{ item.user.username }}：</p>
-                  <span class="comment-content">{{ item.comment }}</span>
-                  <p class="comment-date">
-                    {{ createdDate(item.createdat) }}
-                  </p>
-                </div>
+                <template v-if="comment_list.length">
+                  <div
+                    class="comment"
+                    v-for="(item, index) in comment_list"
+                    :key="index"
+                  >
+                    <p class="comment-username">{{ item.user.username }}：</p>
+                    <span class="comment-content">{{ item.comment }}</span>
+                    <p class="comment-date">
+                      {{ createdDate(item.createdat) }}
+                    </p>
+                  </div>
+                </template>
+                <template v-else>
+                  <div>暂无评论</div>
+                </template>
               </li>
               <li
                 v-if="show_line === index && comment_loading"
@@ -148,6 +189,7 @@ import {
   doPost,
   deletePost
 } from "../../services/api/post";
+import { searchProject } from "../../services/api/project";
 
 export default {
   name: "More",
@@ -166,6 +208,8 @@ export default {
       preview_img: "",
       post: "",
       images: "",
+      project_id: null,
+      projectList: [],
       postCategoryList: [
         {
           value: 0,
@@ -181,7 +225,15 @@ export default {
         }
       ],
       loading: false,
-      reload_show: true
+      loading1: false,
+      reload_show: true,
+      query: {
+        keyword: "",
+        sort: 0,
+        categoryId: 0,
+        status: 1,
+        page: 0
+      }
     };
   },
   components: {
@@ -264,18 +316,33 @@ export default {
         this.$refs.upload.clearAll();
       });
       if (this.post != "" && this.post != null) {
-        doPost(this.post, this.images).then(res => {
-          if (res.data) {
-            this.post = "";
-            this.reload();
-            this.getList();
-          }
-        });
+        if (!this.project_id) {
+          doPost(this.post, this.images).then(res => {
+            if (res.data) {
+              this.post = "";
+              this.project_id = null;
+              this.reload();
+              this.getList();
+            }
+          });
+        } else {
+          doPost(this.post, this.images, this.project_id).then(res => {
+            if (res.data) {
+              this.post = "";
+              this.project_id = null;
+              this.reload();
+              this.getList();
+            }
+          });
+        }
       } else {
         this.$Notice.warning({
           title: "请填写内容!"
         });
       }
+    },
+    projectChange(value) {
+      this.project_id = value;
     },
     change(value) {
       this.status = value;
@@ -325,6 +392,23 @@ export default {
           });
         }
       });
+    },
+    remoteMethod(q) {
+      if (q !== "") {
+        this.loading1 = true;
+        this.query.keyword = q;
+        setTimeout(() => {
+          this.loading1 = false;
+          searchProject(this.query).then(res => {
+            this.projectList = res.data.list;
+          });
+        }, 500);
+      } else {
+        this.projectList = [];
+      }
+    },
+    toDetail(id) {
+      this.$router.push(`/project-detail/${id}`);
     }
   },
   created() {

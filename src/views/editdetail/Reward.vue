@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-13 13:55:44
- * @LastEditTime: 2020-04-04 12:40:50
+ * @LastEditTime: 2020-04-18 22:19:11
  * @FilePath: \indidea-frontend\src\views\editdetail\Reward.vue
  * @Description: 
  -->
@@ -56,7 +56,7 @@
               <Row class="reward-table-content">
                 <i-col span="6">
                   <div class="reward-point">
-                    <span>RMB￥ {{ item.point }}</span>
+                    <span>Point {{ item.point }}</span>
                   </div>
                 </i-col>
                 <i-col span="10">
@@ -174,10 +174,13 @@
               <Row class="list-content">
                 <i-col span="16">{{ val.name }}</i-col>
                 <i-col span="2">
-                  <i-input v-model="rewardForm.items[index].num"></i-input>
+                  <i-input
+                    type="number"
+                    v-model="rewardForm.items[index].num"
+                  ></i-input>
                 </i-col>
                 <i-col span="6">
-                  <span @click="removeItem(index)">移除改项回报</span>
+                  <span @click="removeItem(index)">移除该项回报</span>
                 </i-col>
               </Row>
             </li>
@@ -220,7 +223,8 @@ export default {
         disabledDate(date) {
           return date && date.valueOf() < Date.now() - 86400000;
         }
-      }
+      },
+      numCheck: 1
     };
   },
   methods: {
@@ -259,11 +263,28 @@ export default {
     saveReward() {
       this.$Spin.show();
       let data = JSON.parse(JSON.stringify(this.rewardForm));
+      const items = this.rewardForm.items;
+      const point = parseInt(this.rewardForm.point);
+      for (let index = 0; index < items.length; index++) {
+        const num = parseInt(items[index].num);
+        if (!num || num <= 0) {
+          this.$Spin.hide();
+          this.$Message.error("项目清单请填写正确数量");
+          return false;
+        }
+      }
+      if (point <= 0) {
+        this.$Spin.hide();
+        this.$Message.error("积分最低限额必须为正数");
+        return false;
+      }
       for (const key in this.rewardForm) {
         const element = this.rewardForm[key];
-        if (!element) return false;
-        if (element === "") return false;
-        if (element.length === 0) return false;
+        if (!element || element === "" || element.length === 0) {
+          this.$Spin.hide();
+          this.$Message.error("请完成表单");
+          return false;
+        }
       }
       data.items = JSON.stringify(data.items);
       data.project = { id: this.pageProjectId };

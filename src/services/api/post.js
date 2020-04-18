@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-04-02 15:28:42
- * @LastEditTime: 2020-04-02 20:42:31
+ * @LastEditTime: 2020-04-18 22:58:52
  * @FilePath: \indidea-frontend\src\services\api\post.js
  * @Description:
  */
@@ -36,11 +36,11 @@ export const commentByPostId = postId => {
  * @param {String} content 发表内容
  * @param {String} images 发表的图片。先用upload再用这个
  */
-export const doPost = (content, images) => {
+export const doPost = (content, images, projectId) => {
   return request({
     url: `/api/post/doPost`,
     method: "post",
-    params: { content, images }
+    params: { content, images, projectId }
   });
 };
 

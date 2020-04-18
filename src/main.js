@@ -69,6 +69,15 @@ Vue.directive("real-img", async (el, binding) => {
       });
   }
 });
+
+Vue.filter("numCheck", function(value) {
+  if (!value) {
+    return 1;
+  } else {
+    return value;
+  }
+});
+
 new Vue({
   router,
   render: h => h(App)

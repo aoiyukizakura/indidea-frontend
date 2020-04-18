@@ -2,7 +2,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-04 18:12:11
- * @LastEditTime: 2020-04-04 12:37:51
+ * @LastEditTime: 2020-04-17 11:08:45
  * @FilePath: \indidea-frontend\src\views\EditDetail.vue
  * @Description: 
  -->
@@ -55,7 +55,7 @@ export default {
     return {
       btnNext: {
         name: "下一个",
-        color: "backgroundColor: #1c9482;"
+        color: "backgroundColor: #1c9482;",
       },
       paramsofPath: "",
       pathList: ["basicInfo", "rewardInfo", "storyInfo"],
@@ -75,21 +75,24 @@ export default {
         centerBox: true,
         high: true,
         fixed: true,
-        fixedNumber: [16, 9]
+        fixedNumber: [16, 9],
       },
       navFixed: false,
       optionsdate: {
         disabledDate(date) {
           return date && date.valueOf() < Date.now() + 86400000 * 7;
-        }
-      }
+        },
+      },
     };
   },
   methods: {
     nextTo() {
       let index = this.pathList.indexOf(this.paramsofPath);
-      if (index !== this.pathList.length - 1) {
-        this.$router.push("./" + this.pathList[++index]);
+      let length = this.pathList.length;
+      if (index !== length - 1) {
+        this.$router.push(`./${this.pathList[++index]}`);
+      } else {
+        this.backTo();
       }
     },
     handleBeforeUpload() {
@@ -112,13 +115,13 @@ export default {
       alert("你确定要离开本页面吗？表单将不会保存");
     },
     backTo() {
-      this.$router.push("/editProject/" + this.$route.params.projectId);
-    }
+      this.$router.push(`/editProject/${this.$route.params.projectId}`);
+    },
   },
   computed: {
     canScale() {
       return this.option.img !== "";
-    }
+    },
   },
   created() {},
   mounted() {
@@ -132,11 +135,11 @@ export default {
     $route(to, from) {
       let pathParams = to.name;
       this.paramsofPath = pathParams;
-    }
+    },
   },
   components: {},
   destroyed() {
     window.removeEventListener("scroll", this.watchScroll);
-  }
+  },
 };
 </script>
