@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-02-22 16:21:37
- * @LastEditTime: 2020-03-19 15:10:17
+ * @LastEditTime: 2020-04-19 20:34:42
  * @FilePath: \indidea-frontend\src\services\api.js
  * @Description: api接口文件
  */
@@ -178,6 +178,13 @@ export const updateProject = updateData => {
   return request({
     url: "/api/project/update",
     method: "post",
+    data: updateData
+  });
+};
+export const updateProject0 = (projectId, updateData) => {
+  return request({
+    url: `/api/project/${projectId}/update`,
+    method: "put",
     data: updateData
   });
 };

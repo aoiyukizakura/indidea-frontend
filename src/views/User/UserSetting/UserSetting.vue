@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 22:00:20
- * @LastEditTime: 2020-04-03 01:08:20
+ * @LastEditTime: 2020-04-19 20:43:49
  * @FilePath: \indidea-frontend\src\views\User\UserSetting\UserSetting.vue
  * @Description: 
  -->
@@ -9,42 +9,134 @@
   <div>
     <div>
       <div>
-        <ul>
-          <li v-for="(item, index) in projectList" :key="index">
-            <div class="content">
-              <div class="header-img">
-                <img
-                  src="../../../assets/default.png"
-                  v-real-img="item.pic"
-                  alt="..."
-                />
-              </div>
-              <div class="category">
-                <div>
-                  <div>
-                    <span class="title">
-                      {{ item.category.name }}
-                      创意项目
-                    </span>
-                    <Icon
-                      v-if="[1, 5].indexOf(item.status) === -1"
-                      style="margin-left: 12px"
-                      type="md-create"
+        <ul v-if="projectList.length">
+          <Tabs value="name1">
+            <TabPane label="草稿项目" name="name1">
+              <li v-for="(item, index) in editList" :key="index">
+                <div class="content">
+                  <div class="header-img">
+                    <img
+                      src="../../../assets/default.png"
+                      v-real-img="item.pic"
+                      alt="..."
                     />
                   </div>
-                  <div class="date">创建于 {{ date(item.createdat) }}</div>
+                  <div class="category">
+                    <div>
+                      <div>
+                        <span class="title">
+                          {{ item.category.name }}
+                          创意项目
+                        </span>
+                        <Icon
+                          v-if="[1, 5, 6].indexOf(item.status) === -1"
+                          style="margin-left: 12px"
+                          type="md-create"
+                        />
+                      </div>
+                      <div class="date">创建于 {{ date(item.createdat) }}</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div v-if="[1, 5].indexOf(item.status) !== -1" class="operating">
-              <span @click="updateLog(item.id)">更新日志</span>
-              <span @click="answer(item.id)">待回答列表</span>
-            </div>
-            <div v-else class="operating0">
-              <span @click="edit(item.id)">继续编辑</span>
-            </div>
-          </li>
+                <div class="operating0">
+                  <span @click="edit(item.id)">继续编辑</span>
+                  <span @click="delete0(item.id)">删除项目</span>
+                </div>
+              </li>
+            </TabPane>
+            <TabPane label="进行中项目" name="name2">
+              <li v-for="(item, index) in yetList" :key="index">
+                <div
+                  @click="$router.push(`/project-detail/${item.id}`)"
+                  class="content"
+                >
+                  <div class="header-img">
+                    <img
+                      src="../../../assets/default.png"
+                      v-real-img="item.pic"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="category">
+                    <div>
+                      <div>
+                        <span class="title">
+                          {{ item.category.name }}
+                          创意项目
+                        </span>
+                        <Icon
+                          v-if="[1, 5, 6].indexOf(item.status) === -1"
+                          style="margin-left: 12px"
+                          type="md-create"
+                        />
+                      </div>
+                      <div class="date">创建于 {{ date(item.createdat) }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="operating">
+                  <span @click="updateLog(item.id)">更新日志</span>
+                  <span @click="answer(item.id)">待答列表</span>
+                </div>
+              </li>
+            </TabPane>
+            <TabPane label="已结束项目" name="name3">
+              <li v-for="(item, index) in doneList" :key="index">
+                <div
+                  @click="$router.push(`/project-detail/${item.id}`)"
+                  class="content"
+                >
+                  <div class="header-img">
+                    <img
+                      src="../../../assets/default.png"
+                      v-real-img="item.pic"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="category">
+                    <div>
+                      <div>
+                        <span class="title">
+                          {{ item.category.name }}
+                          创意项目
+                          {{
+                            item.getpoint >= item.targetpoint
+                              ? "（成功）"
+                              : "（失败）"
+                          }}
+                        </span>
+                        <Icon
+                          v-if="[1, 5, 6].indexOf(item.status) === -1"
+                          style="margin-left: 12px"
+                          type="md-create"
+                        />
+                      </div>
+                      <div class="date">创建于 {{ date(item.createdat) }}</div>
+                      <div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="operating">
+                  <span @click="updateLog(item.id)">更新日志</span>
+                  <span class="support-table" @click="sponsor(item.id)">
+                    支持者表
+                  </span>
+                  <span
+                    v-if="item.getpoint >= item.targetpoint"
+                    @click="
+                      addInfo(item.id, item.publishlink, item.publishtitle)
+                    "
+                  >
+                    发布链接
+                  </span>
+                </div>
+              </li>
+            </TabPane>
+          </Tabs>
         </ul>
+        <div class="none-content" v-else>
+          暂无内容，赶快去发起吧。
+        </div>
       </div>
     </div>
     <Modal footer-hide v-model="update_modal" fullscreen :title="title">
@@ -85,6 +177,26 @@
         </ul>
       </div>
     </Modal>
+    <Modal
+      footer-hide
+      width="60"
+      v-model="sponsor_list_show"
+      title="赞助者列表"
+    >
+      <Table
+        v-if="sponsor_list.length"
+        :columns="columns"
+        :data="sponsor_list_filter"
+      ></Table>
+    </Modal>
+    <Modal v-model="add_info_show" title="添加信息" @on-ok="comfirm_add">
+      <Input v-model="publishlink" placeholder="该项目的主页。" />
+      <Input
+        v-model="publishtitle"
+        placeholder="该项目的发布标题（简短）"
+        style="margin-top: 24px"
+      />
+    </Modal>
   </div>
 </template>
 <script>
@@ -98,7 +210,8 @@ import {
   waitReply,
   replyQuz
 } from "../../../services/api/user";
-import { uploadFile } from "../../../services/api";
+import { uploadFile, updateProject0 } from "../../../services/api";
+import { deleteProject, sponsorList } from "../../../services/api/project";
 const Editer = require("tui-editor");
 export default {
   name: "UserSetting",
@@ -113,7 +226,54 @@ export default {
       quzList: [],
       answerContent: "",
       quzNum: null,
-      title: ""
+      title: "",
+      sponsor_list: [],
+      sponsor_list_show: false,
+      columns: [
+        {
+          title: "赞助者名",
+          key: "sponsor.username",
+          render: (h, params) => {
+            return h("div", params.row.sponsor.username);
+          }
+        },
+        {
+          title: "邮箱",
+          key: "sponsor.email",
+          render: (h, params) => {
+            return h("div", params.row.sponsor.email);
+          }
+        },
+        {
+          title: "地址",
+          key: "sponsor.address",
+          render: (h, params) => {
+            return h("div", params.row.sponsor.address);
+          }
+        },
+        {
+          title: "赞助阶梯",
+          key: "reward.name",
+          render: (h, params) => {
+            return h("div", params.row.reward ? params.row.reward.name : "");
+          }
+        },
+        {
+          title: "实际金额",
+          key: "point"
+        },
+        {
+          title: "时间",
+          key: "createdat",
+          render: (h, params) => {
+            return h("div", this.datetime(params.row.createdat));
+          }
+        }
+      ],
+      add_info_show: false,
+      publishlink: "",
+      publishtitle: "",
+      add_info_id: 0
     };
   },
   methods: {
@@ -296,6 +456,72 @@ export default {
     date(d) {
       let date = new Date(d);
       return date.toLocaleDateString().replace(/\//g, "-");
+    },
+    datetime(d) {
+      let date = new Date(d);
+      return date.toLocaleString().replace(/\//g, "-");
+    },
+    delete0(id) {
+      this.$Modal.confirm({
+        title: "确认删除这个项目？该操作不可逆。",
+        okText: "删除",
+        onOk: () => {
+          deleteProject(id).then(res => {
+            if (res.data) {
+              this.$Notice.success({
+                title: "删除成功"
+              });
+              this.getList();
+            } else {
+              this.$Notice.success({
+                title: "删除失败"
+              });
+            }
+          });
+        }
+      });
+    },
+    sponsor(id) {
+      sponsorList(id).then(res => {
+        this.sponsor_list = res.data;
+        this.sponsor_list_show = true;
+      });
+    },
+    addInfo(id, link, title) {
+      this.add_info_show = id > 0;
+      this.add_info_id = id;
+      this.publishlink = link;
+      this.publishtitle = title;
+    },
+    comfirm_add() {
+      updateProject0(this.add_info_id, {
+        publishlink: this.publishlink,
+        publishtitle: this.publishtitle
+      }).then(res => {
+        if (res.data) {
+          this.$Notice.success({
+            title: "更新成功"
+          });
+        }
+      });
+    }
+  },
+  computed: {
+    doneList() {
+      return this.projectList.filter(project => project.status === 6);
+    },
+    yetList() {
+      return this.projectList.filter(
+        project => [1, 5].indexOf(project.status) !== -1
+      );
+    },
+    editList() {
+      return this.projectList.filter(
+        project => [0, 2, 3, 7].indexOf(project.status) !== -1
+      );
+    },
+    sponsor_list_filter() {
+      return this.sponsor_list.filter(sponsor => sponsor.reward);
     }
   },
   watch: {
@@ -313,10 +539,6 @@ export default {
   },
   beforeDestroy() {
     this.update_modal = false;
-    console.log("beforeDestroy :", 1);
-  },
-  destroyed() {
-    console.log("destroyed :", 1);
   }
 };
 </script>
@@ -363,6 +585,13 @@ li {
   color: #656969;
 }
 
+.operating .support-table {
+  margin-right: 12px;
+}
+.operating .support-table:hover {
+  background-color: #ddd;
+  transform: translateY(2px);
+}
 .operating {
   position: absolute;
   right: 20px;
@@ -373,7 +602,7 @@ li {
 }
 .operating span {
   border: 1px solid #edcdcd;
-  padding: 9px 36px;
+  padding: 5px 18px;
   cursor: pointer;
   transition: all 200ms;
 }
@@ -403,13 +632,21 @@ li {
   display: flex;
   align-items: center;
 }
+.operating0 span:last-of-type {
+  margin-right: 0px;
+  background-color: rgb(185, 32, 5);
+}
+.operating0 span:last-of-type:hover {
+  background-color: rgb(151, 29, 8);
+}
 .operating0 span {
   border: 1px solid #edcdcd;
-  padding: 9px 36px;
+  padding: 5px 18px;
   cursor: pointer;
   transition: all 200ms;
   background-color: #566969;
   color: white;
+  margin-right: 12px;
 }
 .operating0 span:hover {
   background-color: #5d5e5e;
@@ -515,5 +752,14 @@ li {
       }
     }
   }
+}
+.none-content {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.ivu-tabs-tabpane {
+  padding: 15px;
 }
 </style>

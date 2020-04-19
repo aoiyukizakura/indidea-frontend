@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:21:34
- * @LastEditTime: 2020-04-14 21:56:13
+ * @LastEditTime: 2020-04-19 15:01:46
  * @FilePath: \indidea-frontend\src\views\User\UserInfo\UserInfo.vue
  * @Description: 
  -->
@@ -20,8 +20,13 @@
           />
         </div>
         <div class="info-right">
-          <span>{{ userData.username }}</span>
-          <span>{{ userData.status === 2 ? "创意人" : "普通用户" }}</span>
+          <span class="info-right-username">{{ userData.username }}</span>
+          <span class="info-right-role" v-if="!applyStatus">
+            {{ userData.status === 2 ? "创意人" : "普通用户" }}
+          </span>
+          <span class="info-right-role" v-else>
+            申请创意人中
+          </span>
           <p>注册于 {{ date(userData.createdat) }}</p>
           <div class="textarea">
             <textarea name="des" id="des" rows="2" v-model="userData.des">
@@ -40,10 +45,21 @@
           hidden
           @change="uploadAvatar()"
         />
-        <Button type="primary" @click="saveDes" icon="md-document">
+        <Button type="primary" @click="saveDes" icon="md-briefcase">
           保存个人简介
         </Button>
-        <Button type="error" @click="editpass_show = true" icon="md-build">
+        <Button type="primary" @click="editInfo" icon="md-contacts">
+          更改详细信息
+        </Button>
+        <Button
+          v-if="!loading && !applyStatus && userData.status !== 2"
+          type="primary"
+          @click="doApply"
+          icon="md-document"
+        >
+          申请
+        </Button>
+        <Button type="error" @click="editPass" icon="md-build">
           修改密码
         </Button>
       </div>
@@ -79,7 +95,47 @@
         </div>
       </Form>
     </div>
-    <div v-else class="normal-info"></div>
+    <div v-if="editinfo_show" class="normal-info">
+      <Form :model="normalInfo" label-position="left" :label-width="100">
+        <FormItem label="邮箱">
+          <i-input disabled type="text" v-model="normalInfo.input1" clearable />
+        </FormItem>
+        <FormItem label="地址">
+          <i-input
+            placeholder="有了地址，方便收货"
+            type="text"
+            v-model="normalInfo.input2"
+            clearable
+          />
+        </FormItem>
+        <FormItem label="个人网站">
+          <i-input
+            placeholder="自己的个人网站"
+            type="text"
+            v-model="normalInfo.input3"
+            clearable
+          />
+        </FormItem>
+        <div>
+          <Button
+            @click="changeInfo"
+            style="float:right;"
+            type="success"
+            icon="md-checkmark"
+          >
+            提交
+          </Button>
+          <Button
+            style="float:right;margin-right: 18px"
+            type="primary"
+            icon="md-close"
+            @click="editinfo_show = false"
+          >
+            取消
+          </Button>
+        </div>
+      </Form>
+    </div>
   </div>
 </template>
 <script>
@@ -88,7 +144,9 @@ import {
   avatar,
   updateUser,
   // eslint-disable-next-line no-unused-vars
-  updatePass
+  updatePass,
+  checkApplyStatus,
+  doApply
 } from "../../../services/api/user";
 import $ from "jquery";
 import { USER_INFO } from "../../../utils/Constants";
@@ -100,7 +158,11 @@ export default {
     return {
       userData: {},
       formItem: {},
-      editpass_show: false
+      normalInfo: {},
+      editpass_show: false,
+      editinfo_show: true,
+      applyStatus: false,
+      loading: true
     };
   },
   methods: {
@@ -109,7 +171,14 @@ export default {
         if (res.data) {
           this.userData = res.data;
           localStorage.setItem(USER_INFO, JSON.stringify(res.data));
+          this.normalInfo.input1 = this.userData.email;
+          this.normalInfo.input2 = this.userData.address;
+          this.normalInfo.input3 = this.userData.website;
         }
+      });
+      checkApplyStatus().then(res => {
+        this.applyStatus = res.data;
+        this.loading = false;
       });
     },
     date(d) {
@@ -164,6 +233,61 @@ export default {
           this.$Message.success("更新成功");
         }
       });
+    },
+    doApply() {
+      this.$Modal.confirm({
+        title: "确认申请为创意人？",
+        onOk: () => {
+          doApply().then(res => {
+            if (res.data) {
+              this.myData();
+            }
+          });
+        }
+      });
+    },
+    editPass() {
+      this.tabClose();
+      this.editpass_show = true;
+    },
+    editInfo() {
+      this.tabClose();
+      this.editinfo_show = true;
+    },
+    tabClose() {
+      this.editpass_show = false;
+      this.editinfo_show = false;
+    },
+    changeInfo() {
+      if (this.normalInfo.input2 || this.normalInfo.input3) {
+        let query = {
+          address: this.normalInfo.input2,
+          website: this.normalInfo.input3
+        };
+        this.$Modal.confirm({
+          title: "确认更新？",
+          onOk: () => {
+            updateUser(query).then(res => {
+              if (res.data) {
+                this.$Notice.success({
+                  title: "更新成功",
+                  duration: 2
+                });
+              } else {
+                this.$Notice.error({
+                  title: "更新失败",
+                  duration: 2
+                });
+              }
+            });
+          }
+        });
+      } else {
+        this.$Notice.warning({
+          title: "请填写信息",
+          duration: 2
+        });
+      }
     }
   },
   created() {
@@ -222,17 +346,15 @@ export default {
   .info-right {
     padding: 8px;
     width: 50%;
-    & > span {
-      &:first-of-type {
-        font-size: 18px;
-        font-weight: bold;
-        color: #009e74;
-      }
-      &:nth-of-type(2) {
-        font-size: 13px;
-        margin-left: 8px;
-        color: #666;
-      }
+    &-username {
+      font-size: 18px;
+      font-weight: bold;
+      color: #009e74;
+    }
+    &-role {
+      font-size: 13px;
+      margin-left: 8px;
+      color: #666;
     }
     p {
       font-size: 12px;
@@ -267,6 +389,14 @@ export default {
   }
 }
 .edit-password {
+  // max-height: 0;
+  margin-top: 36px;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 2px rgba($color: #000000, $alpha: 0.17);
+  padding: 36px 60px 24px;
+  overflow: hidden;
+}
+.normal-info {
   // max-height: 0;
   margin-top: 36px;
   border: 1px solid #ddd;

@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-04-04 12:56:18
+ * @LastEditTime: 2020-04-19 21:00:23
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\ProjectDetail.vue
  * @Description: 
  -->
@@ -100,14 +100,26 @@
                   >
                     这就是最吼滴，支持
                   </Button>
-                  <Button
-                    long
-                    disabled
-                    class="btn-project-support-disabled"
-                    v-else
-                  >
-                    项目已结束
-                  </Button>
+                  <template v-else>
+                    <template v-if="projectData.publishtitle">
+                      <Button
+                        long
+                        class="btn-project-support"
+                        @click="toProductPage(projectData.publishlink)"
+                      >
+                        {{ projectData.publishtitle }}
+                      </Button>
+                    </template>
+                    <template v-else>
+                      <Button
+                        long
+                        disabled
+                        class="btn-project-support-disabled"
+                      >
+                        项目已结束
+                      </Button>
+                    </template>
+                  </template>
                   <Button
                     icon="md-heart-outline"
                     long
@@ -292,9 +304,10 @@ export default {
     },
     playVideo() {
       this.videoVisible = true;
-      this.$Message.info("已为您静音播放");
+      // this.$Message.info("已为您静音播放");
       this.$nextTick(() => {
-        this.$refs["video"].muted = true;
+        // this.$refs["video"].muted = true;
+        this.$refs["video"].volume = 0.5;
         this.$refs["video"].play();
       });
     },
@@ -310,6 +323,15 @@ export default {
         this.jumpToLoading = false;
         this.$refs.projectContentMenu.scrollIntoView();
       }, 500);
+    },
+    toProductPage(link) {
+      if (link) {
+        if ("http".indexOf(link) === -1) {
+          window.open(`http://${link}`, "_blank");
+        } else {
+          window.open(`${link}`, "_blank");
+        }
+      }
     }
   },
   computed: {

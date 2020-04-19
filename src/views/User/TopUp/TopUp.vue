@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-28 16:22:12
- * @LastEditTime: 2020-03-29 19:27:43
+ * @LastEditTime: 2020-04-19 14:22:41
  * @FilePath: \indidea-frontend\src\views\User\TopUp\TopUp.vue
  * @Description: 
  -->
@@ -47,6 +47,13 @@ export default {
       }
     },
     doTopUp() {
+      if (this.point < 0) {
+        this.$Notice.error({
+          title: "金额错误！",
+          desc: "金额只能是正整数",
+          duration: 2
+        });
+      }
       if (this.point !== 0 && this.point != null && this.point !== "") {
         addPoint(this.point).then(res => {
           if (res.data) {
@@ -57,7 +64,11 @@ export default {
           }
         });
       } else {
-        this.$Message.info("请输入金额");
+        this.$Notice.error({
+          title: "请输入金额！",
+          desc: "金额不能为空",
+          duration: 2
+        });
       }
     }
   },

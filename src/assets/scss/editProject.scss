@@ -41,13 +41,9 @@ $aoi: #1c9482;
     }
   }
 }
-.main-content {
-  padding-bottom: 10rem;
-}
-
-.main-content-row {
-  .ivu-col {
-    // background-color: sandybrown;
+.basic-div {
+  .main-content {
+    padding-bottom: 10rem;
   }
 }
 
@@ -139,7 +135,7 @@ $aoi: #1c9482;
       background-color: $aoi;
       color: white;
     }
-    .ivu-btn[disabled]{
+    .ivu-btn[disabled] {
       background-color: #f7f7f7 !important;
       color: #c5c8ce;
     }
@@ -186,6 +182,5 @@ $aoi: #1c9482;
     color: #656969;
     font-size: 14px;
     line-height: 24px;
-
   }
 }

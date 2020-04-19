@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:52:50
- * @LastEditTime: 2020-04-14 22:07:02
+ * @LastEditTime: 2020-04-19 14:33:31
  * @FilePath: \indidea-frontend\src\views\User\User.vue
  * @Description: 
  -->
@@ -48,7 +48,11 @@
                 <Icon type="md-water" />
                 已赞助
               </MenuItem>
-              <MenuItem name="setting" to="setting">
+              <MenuItem
+                v-if="userInfo.status === 2"
+                name="setting"
+                to="setting"
+              >
                 <Icon type="md-leaf" />
                 我发起的
               </MenuItem>

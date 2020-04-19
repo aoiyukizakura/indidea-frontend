@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-03 11:40:56
- * @LastEditTime: 2020-04-15 00:39:29
+ * @LastEditTime: 2020-04-19 17:19:42
  * @FilePath: \indidea-frontend\src\views\EditProject.vue
  * @Description: 详细编辑project
  -->
@@ -213,9 +213,11 @@
         </Row>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 <script>
+import Footer from "../components/Footer/Footer";
 import {
   getProjectByFlagById,
   waitCheckProject,
@@ -229,6 +231,9 @@ const _ = require("lodash");
 
 export default {
   name: "EditProject",
+  components: {
+    Footer
+  },
   data() {
     return {
       projectData: {

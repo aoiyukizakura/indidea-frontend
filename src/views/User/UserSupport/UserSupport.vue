@@ -1,14 +1,14 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 22:04:20
- * @LastEditTime: 2020-03-29 19:40:44
+ * @LastEditTime: 2020-04-19 14:24:50
  * @FilePath: \indidea-frontend\src\views\User\UserSupport\UserSupport.vue
  * @Description: 
  -->
 <template>
   <div>
     <div>
-      <ul>
+      <ul v-if="projectList.length">
         <li class="li" v-for="(item, index) in projectList" :key="index">
           <div class="project-list">
             <div
@@ -55,6 +55,7 @@
           </div>
         </li>
       </ul>
+      <div class="no-content" v-else>没有内容</div>
     </div>
     <Modal :width="50" title="支持记录" v-model="modal">
       <div>
@@ -243,5 +244,11 @@ ul {
       }
     }
   }
+}
+.no-content {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 </style>

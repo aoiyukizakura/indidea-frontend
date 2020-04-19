@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-03-28 15:52:20
- * @LastEditTime: 2020-03-30 21:42:30
+ * @LastEditTime: 2020-04-19 16:47:10
  * @FilePath: \indidea-frontend\src\services\api\user.js
  * @Description:
  */
@@ -31,6 +31,17 @@ export const user = userId => {
     method: "get"
   });
 };
+/**
+ * 更新用户
+ * @param {    
+    String username
+    String website
+    String address
+    String des
+    String avatar
+    String password
+  } query 查询字段
+ */
 export const updateUser = query => {
   return request({
     url: `/api/users`,
@@ -176,5 +187,23 @@ export const supportHistory = projectId => {
     url: "/api/users/supportHistory",
     method: "get",
     params: { projectId }
+  });
+};
+/**
+ * 获取用户的申请状态
+ */
+export const checkApplyStatus = () => {
+  return request({
+    url: "/api/users/checkApplyStatus",
+    method: "get"
+  });
+};
+/**
+ * 申请
+ */
+export const doApply = () => {
+  return request({
+    url: "/api/users/doApply",
+    method: "post"
   });
 };
