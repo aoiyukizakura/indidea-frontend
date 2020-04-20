@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 22:00:20
- * @LastEditTime: 2020-04-19 20:43:49
+ * @LastEditTime: 2020-04-21 01:41:14
  * @FilePath: \indidea-frontend\src\views\User\UserSetting\UserSetting.vue
  * @Description: 
  -->
@@ -12,125 +12,146 @@
         <ul v-if="projectList.length">
           <Tabs value="name1">
             <TabPane label="草稿项目" name="name1">
-              <li v-for="(item, index) in editList" :key="index">
-                <div class="content">
-                  <div class="header-img">
-                    <img
-                      src="../../../assets/default.png"
-                      v-real-img="item.pic"
-                      alt="..."
-                    />
-                  </div>
-                  <div class="category">
-                    <div>
+              <template v-if="editList.length">
+                <li v-for="(item, index) in editList" :key="index">
+                  <div class="content">
+                    <div class="header-img">
+                      <img
+                        src="../../../assets/default.png"
+                        v-real-img="item.pic"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="category">
                       <div>
-                        <span class="title">
-                          {{ item.category.name }}
-                          创意项目
-                        </span>
-                        <Icon
-                          v-if="[1, 5, 6].indexOf(item.status) === -1"
-                          style="margin-left: 12px"
-                          type="md-create"
-                        />
+                        <div>
+                          <span class="title">
+                            {{ item.category.name }}
+                            创意项目
+                          </span>
+                          <Icon
+                            v-if="[1, 5, 6].indexOf(item.status) === -1"
+                            style="margin-left: 12px"
+                            type="md-create"
+                          />
+                        </div>
+                        <div class="date">
+                          创建于 {{ date(item.createdat) }}
+                        </div>
                       </div>
-                      <div class="date">创建于 {{ date(item.createdat) }}</div>
                     </div>
                   </div>
-                </div>
-                <div class="operating0">
-                  <span @click="edit(item.id)">继续编辑</span>
-                  <span @click="delete0(item.id)">删除项目</span>
-                </div>
-              </li>
+                  <div class="operating0">
+                    <span @click="edit(item.id)">继续编辑</span>
+                    <span @click="delete0(item.id)">删除项目</span>
+                  </div>
+                </li>
+              </template>
+              <template v-else>
+                <div class="none-content">暂无数据</div>
+              </template>
             </TabPane>
             <TabPane label="进行中项目" name="name2">
-              <li v-for="(item, index) in yetList" :key="index">
-                <div
-                  @click="$router.push(`/project-detail/${item.id}`)"
-                  class="content"
-                >
-                  <div class="header-img">
-                    <img
-                      src="../../../assets/default.png"
-                      v-real-img="item.pic"
-                      alt="..."
-                    />
-                  </div>
-                  <div class="category">
-                    <div>
+              <template v-if="yetList.length">
+                <li v-for="(item, index) in yetList" :key="index">
+                  <div
+                    @click="$router.push(`/project-detail/${item.id}`)"
+                    class="content"
+                  >
+                    <div class="header-img">
+                      <img
+                        src="../../../assets/default.png"
+                        v-real-img="item.pic"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="category">
                       <div>
-                        <span class="title">
-                          {{ item.category.name }}
-                          创意项目
-                        </span>
-                        <Icon
-                          v-if="[1, 5, 6].indexOf(item.status) === -1"
-                          style="margin-left: 12px"
-                          type="md-create"
-                        />
+                        <div>
+                          <span class="title">
+                            {{ item.category.name }}
+                            创意项目
+                          </span>
+                          <Icon
+                            v-if="[1, 5, 6].indexOf(item.status) === -1"
+                            style="margin-left: 12px"
+                            type="md-create"
+                          />
+                        </div>
+                        <div class="date">
+                          创建于 {{ date(item.createdat) }}
+                        </div>
                       </div>
-                      <div class="date">创建于 {{ date(item.createdat) }}</div>
                     </div>
                   </div>
-                </div>
-                <div class="operating">
-                  <span @click="updateLog(item.id)">更新日志</span>
-                  <span @click="answer(item.id)">待答列表</span>
-                </div>
-              </li>
+                  <div class="operating">
+                    <span @click="updateLog(item.id)">更新日志</span>
+                    <span @click="answer(item.id)">待答列表</span>
+                  </div>
+                </li>
+              </template>
+              <template v-else>
+                <div class="none-content">暂无数据</div>
+              </template>
             </TabPane>
             <TabPane label="已结束项目" name="name3">
-              <li v-for="(item, index) in doneList" :key="index">
-                <div
-                  @click="$router.push(`/project-detail/${item.id}`)"
-                  class="content"
-                >
-                  <div class="header-img">
-                    <img
-                      src="../../../assets/default.png"
-                      v-real-img="item.pic"
-                      alt="..."
-                    />
-                  </div>
-                  <div class="category">
-                    <div>
+              <template v-if="doneList.length">
+                <li v-for="(item, index) in doneList" :key="index">
+                  <div
+                    @click="$router.push(`/project-detail/${item.id}`)"
+                    class="content"
+                  >
+                    <div class="header-img">
+                      <img
+                        src="../../../assets/default.png"
+                        v-real-img="item.pic"
+                        alt="..."
+                      />
+                    </div>
+                    <div class="category">
                       <div>
-                        <span class="title">
-                          {{ item.category.name }}
-                          创意项目
-                          {{
-                            item.getpoint >= item.targetpoint
-                              ? "（成功）"
-                              : "（失败）"
-                          }}
-                        </span>
-                        <Icon
-                          v-if="[1, 5, 6].indexOf(item.status) === -1"
-                          style="margin-left: 12px"
-                          type="md-create"
-                        />
+                        <div>
+                          <span class="title">
+                            {{ item.category.name }}
+                            创意项目
+                            {{
+                              item.getpoint >= item.targetpoint
+                                ? "（成功）"
+                                : "（失败）"
+                            }}
+                          </span>
+                          <Icon
+                            v-if="[1, 5, 6].indexOf(item.status) === -1"
+                            style="margin-left: 12px"
+                            type="md-create"
+                          />
+                        </div>
+                        <div class="date">
+                          创建于 {{ date(item.createdat) }}
+                        </div>
+                        <div></div>
                       </div>
-                      <div class="date">创建于 {{ date(item.createdat) }}</div>
-                      <div></div>
                     </div>
                   </div>
-                </div>
-                <div class="operating">
-                  <span @click="updateLog(item.id)">更新日志</span>
-                  <span class="support-table" @click="sponsor(item.id)">
-                    支持者表
-                  </span>
-                  <span
-                    v-if="item.getpoint >= item.targetpoint"
-                    @click="
-                      addInfo(item.id, item.publishlink, item.publishtitle)
-                    "
-                  >
-                    发布链接
-                  </span>
-                </div>
-              </li>
+                  <div class="operating">
+                    <span @click="updateLog(item.id)">更新日志</span>
+                    <span class="support-table" @click="sponsor(item.id)">
+                      支持者表
+                    </span>
+                    <span
+                      v-if="item.getpoint >= item.targetpoint"
+                      @click="
+                        addInfo(item.id, item.publishlink, item.publishtitle)
+                      "
+                    >
+                      发布链接
+                    </span>
+                  </div>
+                </li>
+              </template>
+              <template v-else>
+                <div class="none-content">暂无数据</div>
+              </template>
             </TabPane>
           </Tabs>
         </ul>
