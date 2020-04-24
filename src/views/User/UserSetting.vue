@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 22:00:20
- * @LastEditTime: 2020-04-21 01:41:14
- * @FilePath: \indidea-frontend\src\views\User\UserSetting\UserSetting.vue
+ * @LastEditTime: 2020-04-24 14:59:38
+ * @FilePath: \indidea-frontend\src\views\User\UserSetting.vue
  * @Description: 
  -->
 <template>
@@ -17,7 +17,7 @@
                   <div class="content">
                     <div class="header-img">
                       <img
-                        src="../../../assets/default.png"
+                        src="../../assets/default.png"
                         v-real-img="item.pic"
                         alt="..."
                       />
@@ -60,7 +60,7 @@
                   >
                     <div class="header-img">
                       <img
-                        src="../../../assets/default.png"
+                        src="../../assets/default.png"
                         v-real-img="item.pic"
                         alt="..."
                       />
@@ -103,7 +103,7 @@
                   >
                     <div class="header-img">
                       <img
-                        src="../../../assets/default.png"
+                        src="../../assets/default.png"
                         v-real-img="item.pic"
                         alt="..."
                       />
@@ -230,9 +230,9 @@ import {
   updateLog,
   waitReply,
   replyQuz
-} from "../../../services/api/user";
-import { uploadFile, updateProject0 } from "../../../services/api";
-import { deleteProject, sponsorList } from "../../../services/api/project";
+} from "../../services/api/user";
+import { uploadFile, updateProject0 } from "../../services/api";
+import { deleteProject, sponsorList } from "../../services/api/project";
 const Editer = require("tui-editor");
 export default {
   name: "UserSetting",

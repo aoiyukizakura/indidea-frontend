@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "../views/Home/index.vue";
 
 Vue.use(VueRouter);
 
@@ -11,36 +11,19 @@ const routes = [
     component: Home
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  },
-  {
     path: "/login",
     name: "login",
-    component: () => import("../views/Login.vue")
+    component: () => import("../views/Login/Login.vue")
   },
   {
     path: "/register",
     name: "register",
-    component: () => import("../views/Register.vue")
-  },
-  {
-    path: "/mine",
-    name: "mine",
-    component: () => import("../views/Mine.vue"),
-    meta: {
-      auth: true
-    }
+    component: () => import("../views/Login/Register.vue")
   },
   {
     path: "/start",
     name: "start",
-    component: () => import("../views/StartProject.vue"),
+    component: () => import("../views/StartProject/index.vue"),
     meta: {
       auth: true
     }
@@ -48,7 +31,7 @@ const routes = [
   {
     path: "/editProject/:projectId",
     name: "editProject",
-    component: () => import("../views/EditProject.vue"),
+    component: () => import("../views/EditProject/index.vue"),
     meta: {
       auth: true
     }
@@ -56,7 +39,7 @@ const routes = [
   {
     path: "/editDetail/:projectId",
     name: "ediDetail",
-    component: () => import("../views/EditDetail.vue"),
+    component: () => import("../views/EditDetail/index.vue"),
     redirect: "/editDetail/:projectId/basicInfo",
     meta: {
       auth: true
@@ -65,35 +48,35 @@ const routes = [
       {
         path: "basicInfo",
         name: "basicInfo",
-        component: () => import("../views/editdetail/Basic.vue")
+        component: () => import("../views/EditDetail/Basic.vue")
       },
       {
         path: "rewardInfo",
         name: "rewardInfo",
-        component: () => import("../views/editdetail/Reward.vue")
+        component: () => import("../views/EditDetail/Reward.vue")
       },
       {
         path: "storyInfo",
         name: "storyInfo",
-        component: () => import("../views/editdetail/Story.vue")
+        component: () => import("../views/EditDetail/Story.vue")
       }
     ]
   },
   {
     path: "/search",
     name: "search",
-    component: () => import("../views/Search/Search.vue")
+    component: () => import("../views/Search/index.vue")
   },
   {
     path: "/project-detail/:projectId",
     name: "projectDetail",
-    component: () => import("../views/ProjectDetail/ProjectDetail.vue"),
+    component: () => import("../views/ProjectDetail/index.vue"),
     redirect: "/project-detail/:projectId/Story",
     children: [
       {
         path: "Story",
         name: "Story",
-        component: () => import("../views/ProjectDetail/children/Story.vue"),
+        component: () => import("../views/ProjectDetail/Story.vue"),
         meta: {
           notTop: true
         }
@@ -101,7 +84,7 @@ const routes = [
       {
         path: "FQA",
         name: "FQA",
-        component: () => import("../views/ProjectDetail/children/FQA.vue"),
+        component: () => import("../views/ProjectDetail/FQA.vue"),
         meta: {
           notTop: true
         }
@@ -109,7 +92,7 @@ const routes = [
       {
         path: "Log",
         name: "Log",
-        component: () => import("../views/ProjectDetail/children/Log.vue"),
+        component: () => import("../views/ProjectDetail/Log.vue"),
         meta: {
           notTop: true
         }
@@ -117,7 +100,7 @@ const routes = [
       {
         path: "Msgboard",
         name: "Msgboard",
-        component: () => import("../views/ProjectDetail/children/Msgboard.vue"),
+        component: () => import("../views/ProjectDetail/Msgboard.vue"),
         meta: {
           notTop: true
         }
@@ -127,7 +110,7 @@ const routes = [
   {
     path: "/user",
     name: "user",
-    component: () => import("../views/User/User.vue"),
+    component: () => import("../views/User/index.vue"),
     redirect: "/user/user-info",
     meta: {
       auth: true
@@ -136,7 +119,7 @@ const routes = [
       {
         path: "myInfo",
         name: "myInfo",
-        component: () => import("../views/User/UserInfo/UserInfo.vue"),
+        component: () => import("../views/User/UserInfo.vue"),
         meta: {
           auth: true
         }
@@ -144,7 +127,7 @@ const routes = [
       {
         path: "setting",
         name: "setting",
-        component: () => import("../views/User/UserSetting/UserSetting.vue"),
+        component: () => import("../views/User/UserSetting.vue"),
         meta: {
           auth: true
         }
@@ -152,7 +135,7 @@ const routes = [
       {
         path: "saved-project",
         name: "saved-project",
-        component: () => import("../views/User/UserSaved/UserSaved.vue"),
+        component: () => import("../views/User/UserSaved.vue"),
         meta: {
           auth: true
         }
@@ -160,7 +143,7 @@ const routes = [
       {
         path: "user-support",
         name: "user-support",
-        component: () => import("../views/User/UserSupport/UserSupport.vue"),
+        component: () => import("../views/User/UserSupport.vue"),
         meta: {
           auth: true
         }
@@ -168,7 +151,7 @@ const routes = [
       {
         path: "point-history",
         name: "point-history",
-        component: () => import("../views/User/PointRecord/PointRecord.vue"),
+        component: () => import("../views/User/PointRecord.vue"),
         meta: {
           auth: true
         }
@@ -176,7 +159,7 @@ const routes = [
       {
         path: "top-up",
         name: "top-up",
-        component: () => import("../views/User/TopUp/TopUp.vue"),
+        component: () => import("../views/User/TopUp.vue"),
         meta: {
           auth: true
         }
@@ -186,7 +169,7 @@ const routes = [
   {
     path: "/more",
     name: "more",
-    component: () => import("../views/More/More.vue")
+    component: () => import("../views/More/index.vue")
   },
   {
     path: "*",
@@ -196,7 +179,7 @@ const routes = [
   {
     path: "/404",
     name: "page404",
-    component: () => import("../views/404.vue")
+    component: () => import("../views/404/index.vue")
   }
 ];
 

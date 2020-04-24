@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-01 17:40:20
- * @LastEditTime: 2020-04-04 12:36:59
- * @FilePath: \indidea-frontend\src\views\StartProject.vue
+ * @LastEditTime: 2020-04-24 15:00:00
+ * @FilePath: \indidea-frontend\src\views\StartProject\index.vue
  * @Description: 发起项目
  -->
 <template>
@@ -45,7 +45,7 @@
               @on-change="inputChange"
             />
             <div v-if="content.img" class="img-box">
-              <img src="../assets/img/nyan-cat-gif-png-1.gif" />
+              <img src="../../assets/img/nyan-cat-gif-png-1.gif" />
             </div>
           </div>
         </div>
@@ -73,8 +73,8 @@
   </div>
 </template>
 <script>
-import "../assets/scss/start-project.scss";
-import { category, createProject } from "../services/api";
+import "../../assets/scss/start-project.scss";
+import { category, createProject } from "../../services/api";
 export default {
   name: "StartProject",
   data() {

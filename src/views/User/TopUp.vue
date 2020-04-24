@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-import { myInfo, addPoint } from "../../../services/api/user";
+import { myInfo, addPoint } from "../../services/api/user";
 export default {
   name: "TopUp",
   data() {

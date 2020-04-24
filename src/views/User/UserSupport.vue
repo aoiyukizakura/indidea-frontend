@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 22:04:20
- * @LastEditTime: 2020-04-19 14:24:50
- * @FilePath: \indidea-frontend\src\views\User\UserSupport\UserSupport.vue
+ * @LastEditTime: 2020-04-24 14:57:28
+ * @FilePath: \indidea-frontend\src\views\User\UserSupport.vue
  * @Description: 
  -->
 <template>
@@ -16,11 +16,10 @@
               class="left-part"
             >
               <img
-                src="../../../assets/default.png"
+                src="../../assets/default.png"
                 alt="..."
                 v-real-img="item.project.pic"
               />
-              <!-- <img src="../../../assets/default.png" alt="avatar" /> -->
             </div>
             <div class="right-part">
               <div class="top-part">
@@ -65,7 +64,7 @@
   </div>
 </template>
 <script>
-import { mySupport, supportHistory } from "../../../services/api/user";
+import { mySupport, supportHistory } from "../../services/api/user";
 export default {
   name: "UserSupport",
   data() {

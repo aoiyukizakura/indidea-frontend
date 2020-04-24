@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-03 11:40:56
- * @LastEditTime: 2020-04-19 17:19:42
- * @FilePath: \indidea-frontend\src\views\EditProject.vue
+ * @LastEditTime: 2020-04-24 15:28:39
+ * @FilePath: \indidea-frontend\src\views\EditProject\index.vue
  * @Description: 详细编辑project
  -->
 <template>
@@ -217,15 +217,15 @@
   </div>
 </template>
 <script>
-import Footer from "../components/Footer/Footer";
+import Footer from "../../components/Footer/index";
 import {
   getProjectByFlagById,
   waitCheckProject,
   backToEdit,
   sendProject
-} from "../services/api";
-import { rewardListByProjectId } from "../services/api/project";
-import "../assets/scss/editProject.scss";
+} from "../../services/api";
+import { rewardListByProjectId } from "../../services/api/project";
+import "../../assets/scss/editProject.scss";
 
 const _ = require("lodash");
 

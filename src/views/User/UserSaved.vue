@@ -7,7 +7,7 @@
             <div @click="toDetail(item.project.id)">
               <div class="content-header-img">
                 <img
-                  src="../../../assets/default.png"
+                  src="../../assets/default.png"
                   alt="..a1"
                   v-real-img="item.project.pic"
                 />
@@ -46,14 +46,14 @@
       <span @click="loading_more" v-if="!loading">
         {{ total == saveList.length ? "没有了" : "加载更多" }}
       </span>
-      <img v-else src="../../../assets/loading2.gif" alt="loading" />
+      <img v-else src="../../assets/loading2.gif" alt="loading" />
     </div>
   </div>
 </template>
 <script>
-import { myFavProject } from "../../../services/api/user";
+import { myFavProject } from "../../services/api/user";
 // eslint-disable-next-line no-unused-vars
-import { saveProject } from "../../../services/api/project";
+import { saveProject } from "../../services/api/project";
 export default {
   name: "UserSaved",
   data() {

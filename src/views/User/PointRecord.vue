@@ -8,12 +8,12 @@
       <span @click="loading_more" v-if="!loading">
         {{ total == pList.length ? "没有了" : "加载更多" }}
       </span>
-      <img v-else src="../../../assets/loading2.gif" alt="loading" />
+      <img v-else src="../../assets/loading2.gif" alt="loading" />
     </div>
   </div>
 </template>
 <script>
-import { pointList } from "../../../services/api/user";
+import { pointList } from "../../services/api/user";
 export default {
   name: "PointRecord",
   data() {

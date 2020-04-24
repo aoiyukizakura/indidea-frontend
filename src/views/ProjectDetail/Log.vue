@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:58
- * @LastEditTime: 2020-03-30 14:04:51
- * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Log.vue
+ * @LastEditTime: 2020-04-24 14:54:54
+ * @FilePath: \indidea-frontend\src\views\ProjectDetail\Log.vue
  * @Description: 
  -->
 <template>
@@ -21,7 +21,7 @@
                   <h2>{{ item.title }}</h2>
                   <div>
                     <img
-                      src="../../../assets/default.png"
+                      src="../../assets/default.png"
                       v-real-img="item.project.owner.avatar"
                     />
                     <div>
@@ -55,7 +55,7 @@
                   <h2>{{ showItem.title }}</h2>
                   <div>
                     <img
-                      src="../../../assets/default.png"
+                      src="../../assets/default.png"
                       v-real-img="showItem.project.owner.avatar"
                     />
                     <div>
@@ -71,7 +71,7 @@
         </Row>
       </template>
       <div v-else class="fake">
-        <img src="../../../assets/loading2.gif" alt=".." />
+        <img src="../../assets/loading2.gif" alt=".." />
       </div>
       <Row>
         <i-col class="list-col" span="16" offset="4">
@@ -84,7 +84,7 @@
   </div>
 </template>
 <script>
-import { logList } from "../../../services/api/project";
+import { logList } from "@/services/api/project";
 export default {
   name: "Log",
   data() {

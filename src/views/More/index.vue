@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-04-02 15:53:56
- * @LastEditTime: 2020-04-18 23:28:39
- * @FilePath: \indidea-frontend\src\views\More\More.vue
+ * @LastEditTime: 2020-04-24 15:30:53
+ * @FilePath: \indidea-frontend\src\views\More\index.vue
  * @Description: 
  -->
 <template>
@@ -177,9 +177,9 @@
 </template>
 <script>
 import "../../assets/scss/post-more.scss";
-import MutipartUpload from "../../components/MutiUpload/MutipartUpload";
-import PostList from "../../components/PostList/PostList";
-import Footer from "../../components/Footer/Footer";
+import MutipartUpload from "../../components/MutiUpload/index";
+import PostList from "../../components/PostList/index";
+import Footer from "../../components/Footer/index";
 import {
   postList,
   doLike,

@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:09:52
- * @LastEditTime: 2020-03-30 14:04:25
- * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Msgboard.vue
+ * @LastEditTime: 2020-04-24 14:55:15
+ * @FilePath: \indidea-frontend\src\views\ProjectDetail\Msgboard.vue
  * @Description: 
  -->
 <template>
@@ -42,7 +42,7 @@
                     <div class="msg-list-content-header">
                       <div>
                         <img
-                          src="../../../assets/default.png"
+                          src="../../assets/default.png"
                           v-real-img="item.user.avatar"
                           alt=".."
                         />
@@ -61,7 +61,7 @@
             </div>
           </template>
           <div v-else class="fake">
-            <img src="../../../assets/loading2.gif" alt="loading..." />
+            <img src="../../assets/loading2.gif" alt="loading..." />
           </div>
         </div>
       </i-col>
@@ -78,8 +78,8 @@
   </div>
 </template>
 <script>
-import { msgList, addMsg } from "../../../services/api/project";
-import { TOKEN } from "../../../utils/Constants";
+import { msgList, addMsg } from "@/services/api/project";
+import { TOKEN } from "@/utils/Constants";
 export default {
   name: "Msgboard",
   data() {

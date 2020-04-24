@@ -2,8 +2,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-04 18:12:11
- * @LastEditTime: 2020-04-17 11:08:45
- * @FilePath: \indidea-frontend\src\views\EditDetail.vue
+ * @LastEditTime: 2020-04-24 15:01:00
+ * @FilePath: \indidea-frontend\src\views\EditDetail\index.vue
  * @Description: 
  -->
 <template>
@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-import "../assets/scss/editDetail.scss";
+import "../../assets/scss/editDetail.scss";
 export default {
   name: "EditDetail",
   data() {

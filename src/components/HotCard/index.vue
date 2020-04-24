@@ -1,14 +1,18 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-02-29 00:17:40
- * @LastEditTime: 2020-03-29 15:58:40
+ * @LastEditTime: 2020-04-24 15:07:28
  * @FilePath: \indidea-frontend\src\components\HotCard\HotCard.vue
  * @Description: 首页的最近最热 卡片组件
  -->
 <template>
   <div class="hover-targer-list">
     <div class="img-target">
-      <img src="@/assets/default.png" v-real-img="project.pic" />
+      <img
+        v-if="project.pic"
+        src="@/assets/default.png"
+        v-real-img="project.pic"
+      />
       <i-progress
         :percent="(project.getpoint / project.targetpoint) * 100"
         :stroke-width="6"

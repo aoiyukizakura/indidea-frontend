@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:07:43
- * @LastEditTime: 2020-03-30 14:04:03
- * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\Story.vue
+ * @LastEditTime: 2020-04-24 15:31:19
+ * @FilePath: \indidea-frontend\src\views\ProjectDetail\Story.vue
  * @Description: 
  -->
 <template>
@@ -49,7 +49,7 @@
           <div class="owner-card">
             <div class="hide-card">
               <img
-                src="../../../assets/default.png"
+                src="../../assets/default.png"
                 alt=""
                 v-real-img="projectData.owner.avatar"
               />
@@ -107,14 +107,14 @@ import {
   // eslint-disable-next-line no-unused-vars
   supportProject,
   report
-} from "../../../services/api/project";
+} from "../../services/api/project";
 import "tui-editor/dist/tui-editor.css"; // editor ui
 import "tui-editor/dist/tui-editor-contents.css"; // editor content
-import RewardCard from "../../../components/RewardCard/RewardCard";
+import RewardCard from "../../components/RewardCard/index";
 // eslint-disable-next-line no-unused-vars
-import { USER_DATA } from "../../../utils/Constants";
-import {} from "../../../services/api";
-import { USER_LOGIN } from "../../../utils/FunctionUtils";
+import { USER_DATA } from "../../utils/Constants";
+import {} from "../../services/api";
+import { USER_LOGIN } from "../../utils/FunctionUtils";
 
 const Viewer = require("tui-editor/dist/tui-editor-Viewer");
 const _ = require("lodash");

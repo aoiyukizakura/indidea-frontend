@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-04-19 21:00:23
- * @FilePath: \indidea-frontend\src\views\ProjectDetail\ProjectDetail.vue
+ * @LastEditTime: 2020-04-24 15:29:29
+ * @FilePath: \indidea-frontend\src\views\ProjectDetail\index.vue
  * @Description: 
  -->
 <template>
@@ -77,7 +77,7 @@
                     <span>次被支持</span>
                   </div>
                   <div class="project-data-normal">
-                    <template v-if="endDay >= 0">
+                    <template v-if="endDay >= 0 && projectData.status != 6">
                       <div>
                         <span> {{ endDay }} </span>
                       </div>
@@ -96,7 +96,7 @@
                     class="btn-project-support"
                     @click="jumpToSupport"
                     :loading="jumpToLoading"
-                    v-if="endDay >= 0"
+                    v-if="endDay >= 0 && projectData.status != 6"
                   >
                     这就是最吼滴，支持
                   </Button>
@@ -171,9 +171,9 @@
   </div>
 </template>
 <script>
-import {} from "../../services/api";
-import "../../assets/scss/project/project-detail.scss";
-import Footer from "@/components/Footer/Footer";
+import {} from "@/services/api";
+import "@/assets/scss/project/project-detail.scss";
+import Footer from "@/components/Footer/index";
 // import $ from "jquery";
 import {
   // eslint-disable-next-line no-unused-vars
@@ -184,8 +184,8 @@ import {
   saveStatus,
   saveProject,
   getProjectWithoutHit
-} from "../../services/api/project";
-import { USER_LOGIN } from "../../utils/FunctionUtils";
+} from "@/services/api/project";
+import { USER_LOGIN } from "@/utils/FunctionUtils";
 export default {
   name: "ProjectDetail",
   data() {

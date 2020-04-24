@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-20 11:08:30
- * @LastEditTime: 2020-03-30 14:05:21
- * @FilePath: \indidea-frontend\src\views\ProjectDetail\children\FQA.vue
+ * @LastEditTime: 2020-04-24 14:58:01
+ * @FilePath: \indidea-frontend\src\views\ProjectDetail\FQA.vue
  * @Description: 
  -->
 <template>
@@ -74,13 +74,13 @@
       </Modal>
     </template>
     <div class="fake" v-else>
-      <img src="../../../assets/loading2.gif" alt=".." />
+      <img src="../../assets/loading2.gif" alt=".." />
     </div>
   </div>
 </template>
 <script>
-import { quzList, addQuz } from "../../../services/api/project";
-import { TOKEN } from "../../../utils/Constants";
+import { quzList, addQuz } from "@/services/api/project";
+import { TOKEN } from "@/utils/Constants";
 export default {
   name: "FQA",
   data() {

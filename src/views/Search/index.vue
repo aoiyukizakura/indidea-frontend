@@ -115,7 +115,7 @@
 
 <script>
 import "../../assets/scss/search.scss";
-import Footer from "../../components/Footer/Footer";
+import Footer from "../../components/Footer/index";
 import ResultCard from "../../components/Search/ResultCard";
 import { searchProject } from "../../services/api/project";
 import { category } from "../../services/api";

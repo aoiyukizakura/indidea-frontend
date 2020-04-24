@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:52:50
- * @LastEditTime: 2020-04-19 14:33:31
- * @FilePath: \indidea-frontend\src\views\User\User.vue
+ * @LastEditTime: 2020-04-24 15:29:46
+ * @FilePath: \indidea-frontend\src\views\User\index.vue
  * @Description: 
  -->
 <template>
@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-import Footer from "../../components/Footer/Footer";
+import Footer from "../../components/Footer/index";
 import { myInfo, supportNum } from "../../services/api/user";
 export default {
   name: "User",

@@ -15,7 +15,7 @@
                   "
                 >
                   <img
-                    src="../assets/default.png"
+                    src="../../assets/default.png"
                     v-real-img="featuredProjectData.pic"
                     alt
                   />
@@ -130,7 +130,7 @@
                       :gutter="16"
                     >
                       <i-col v-for="m in 4" :key="m" span="6">
-                        <template v-if="topHitData.length">
+                        <template v-if="topHitData[(n - 1) * 4 + m - 1]">
                           <HotCard
                             :project="topHitData[(n - 1) * 4 + m - 1]"
                             @click.native="
@@ -161,19 +161,19 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 // eslint-disable-next-line no-unused-vars
-import { TOKEN, USER_INFO } from "../utils/Constants";
-import ProjectList from "../components/ProjectList/ProjectList";
+import { TOKEN, USER_INFO } from "../../utils/Constants";
+import ProjectList from "../../components/ProjectList/index";
 // eslint-disable-next-line no-unused-vars
 import {
   getTop9Projects,
   getFeatured,
   getTopHitProject,
   category
-} from "../services/api";
+} from "../../services/api";
 import { slider, slideritem } from "vue-concise-slider";
-import HotCard from "../components/HotCard/HotCard";
-import SortCard from "../components/SortCard/SortCard";
-import Footer from "@/components/Footer/Footer";
+import HotCard from "../../components/HotCard/index";
+import SortCard from "../../components/SortCard/index";
+import Footer from "@/components/Footer/index";
 
 export default {
   name: "Home",

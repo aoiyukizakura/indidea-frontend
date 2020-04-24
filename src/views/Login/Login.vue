@@ -23,14 +23,14 @@
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
-import { login, user } from "../services/api";
+import { login, user } from "../../services/api";
 import {
   USER_EMAIL,
   USER_PASSWORD,
   REMEMBER_STATUS,
   TOKEN,
   USER_INFO
-} from "../utils/Constants";
+} from "../../utils/Constants";
 
 export default {
   name: "Login",

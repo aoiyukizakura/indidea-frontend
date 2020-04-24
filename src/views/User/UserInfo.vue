@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-27 21:21:34
- * @LastEditTime: 2020-04-19 15:01:46
- * @FilePath: \indidea-frontend\src\views\User\UserInfo\UserInfo.vue
+ * @LastEditTime: 2020-04-24 14:59:08
+ * @FilePath: \indidea-frontend\src\views\User\UserInfo.vue
  * @Description: 
  -->
 <template>
@@ -14,7 +14,7 @@
       <div class="info-content">
         <div class="avatar">
           <img
-            src="../../../assets/default.png"
+            src="../../assets/default.png"
             v-real-img="userData.avatar"
             alt="..."
           />
@@ -147,11 +147,11 @@ import {
   updatePass,
   checkApplyStatus,
   doApply
-} from "../../../services/api/user";
+} from "../../services/api/user";
 import $ from "jquery";
-import { USER_INFO } from "../../../utils/Constants";
+import { USER_INFO } from "../../utils/Constants";
 // eslint-disable-next-line no-unused-vars
-import { LOGIN_OUT } from "../../../utils/FunctionUtils";
+import { LOGIN_OUT } from "../../utils/FunctionUtils";
 export default {
   name: "UserInfo",
   data() {

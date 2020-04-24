@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import { register } from "../services/api";
+import { register } from "../../services/api";
 export default {
   name: "Register",
   data() {
