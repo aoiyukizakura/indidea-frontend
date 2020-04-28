@@ -1,8 +1,8 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-04-02 16:05:32
- * @LastEditTime: 2020-04-03 00:58:44
- * @FilePath: \indidea-frontend\src\components\MutiUpload\MutipartUpload.vue
+ * @LastEditTime: 2020-04-28 22:32:22
+ * @FilePath: \indidea-frontend\src\components\MutiUpload\index.vue
  * @Description: 
  -->
 <template>
@@ -112,9 +112,9 @@ export default {
     },
     clearAll() {
       const fileList = this.$refs.upload.fileList;
-      fileList.forEach(element => {
-        this.handleRemove(element);
-      });
+      if (fileList.length) {
+        this.$refs.upload.fileList.splice(0, fileList.length);
+      }
     }
   },
   mounted() {

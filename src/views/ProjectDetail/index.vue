@@ -1,7 +1,7 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-03-19 12:06:15
- * @LastEditTime: 2020-04-24 15:29:29
+ * @LastEditTime: 2020-04-28 16:48:50
  * @FilePath: \indidea-frontend\src\views\ProjectDetail\index.vue
  * @Description: 
  -->
@@ -137,7 +137,7 @@
       <div ref="projectContentMenu" class="project-content">
         <div :class="'project-content-menu ' + (menuFixed ? 'fixed-menu' : '')">
           <div class="base-container">
-            <Row>
+            <Row type="flex" align="middle">
               <i-col class="menu" span="16">
                 <span
                   v-for="item in menuList"
@@ -151,8 +151,13 @@
                   {{ item.name }}
                 </span>
               </i-col>
-              <i-col span="8">
-                <!-- TODO: !上滑出现按钮 -->
+              <i-col class="community" span="8">
+                <span
+                  :class="'btn-community ' + (menuFixed ? 'bottom-show' : '')"
+                  @click="goTo('more', projectData.id)"
+                >
+                  发现项目社区
+                </span>
               </i-col>
             </Row>
           </div>
@@ -283,7 +288,7 @@ export default {
           this.$refs.projectContentMenu.getBoundingClientRect().top
         );
       }
-      if (navTop < 0) {
+      if (navTop <= 0) {
         this.menuFixed = true;
       } else {
         this.menuFixed = false;
@@ -297,10 +302,19 @@ export default {
       this.saveStatus();
     },
     // eslint-disable-next-line no-unused-vars
-    goTo(path) {
-      this.$router.push({
-        name: path
-      });
+    goTo(path, params) {
+      if (!params) {
+        this.$router.push({
+          name: path
+        });
+      } else {
+        this.$router.push({
+          name: path,
+          query: {
+            project_id: params
+          }
+        });
+      }
     },
     playVideo() {
       this.videoVisible = true;

@@ -1,61 +1,80 @@
 <!--
  * @Author: Morpho Sylvie
  * @Date: 2020-04-02 15:53:56
- * @LastEditTime: 2020-04-24 15:30:53
+ * @LastEditTime: 2020-04-28 22:13:53
  * @FilePath: \indidea-frontend\src\views\More\index.vue
  * @Description: 
  -->
 <template>
-  <div>
+  <div class="more-main">
     <div class="post-main">
-      <div class="send-part">
-        <textarea name="post" id="post" rows="4" v-model="post"></textarea>
-        <Row class="send-part-bottom" type="flex">
-          <i-col class="the-dark-sider">
-            <MutipartUpload
-              ref="upload"
-              @imagesList="getImages"
-            ></MutipartUpload>
-            <Button type="success" @click="sendPost">发送</Button>
-          </i-col>
-          <i-col class="the-chosen-one">
-            <Select
-              @on-change="projectChange($event)"
-              v-model="project_id"
-              filterable
-              remote
-              :remote-method="remoteMethod"
-              :loading="loading1"
-              style="width:300px"
-              size="large"
-              placeholder="可选择一个话题项目"
-              clearable
-            >
-              <Option
-                v-for="item in projectList"
-                :value="item.id"
-                :key="item.id"
-                >{{ item.title }}</Option
+      <template v-if="!projectId_community">
+        <div class="send-part">
+          <i-input
+            type="textarea"
+            name="post"
+            id="post"
+            :rows="3"
+            v-model="post"
+            maxlength="150"
+            show-word-limit
+            placeholder="给大家分享一下你所喜欢的项目或者故事吧！"
+          ></i-input>
+          <Row class="send-part-bottom" type="flex">
+            <i-col class="the-dark-sider">
+              <MutipartUpload
+                ref="upload"
+                @imagesList="getImages"
+              ></MutipartUpload>
+              <Button type="success" @click="sendPost">发送</Button>
+            </i-col>
+            <i-col class="the-chosen-one">
+              <Select
+                @on-change="projectChange($event)"
+                v-model="project_id"
+                filterable
+                remote
+                :remote-method="remoteMethod"
+                :loading="loading1"
+                style="width:300px"
+                size="large"
+                placeholder="可选择一个话题项目"
+                clearable
               >
-            </Select>
-          </i-col>
-        </Row>
-      </div>
+                <Option
+                  v-for="item in projectList"
+                  :value="item.id"
+                  :key="item.id"
+                  >{{ item.title }}</Option
+                >
+              </Select>
+            </i-col>
+          </Row>
+        </div>
+      </template>
       <div class="list-part">
         <div class="list-part-title">
-          <h3>发现</h3>
-          <Select
-            @on-change="change($event)"
-            v-model="status"
-            style="width:200px"
-          >
-            <Option
-              v-for="item in postCategoryList"
-              :value="item.value"
-              :key="item.value"
-              >{{ item.label }}</Option
+          <template v-if="!projectId_community">
+            <h3>发现</h3>
+            <Select
+              @on-change="change($event)"
+              v-model="status"
+              style="width:200px"
             >
-          </Select>
+              <Option
+                v-for="item in postCategoryList"
+                :value="item.value"
+                :key="item.value"
+                >{{ item.label }}</Option
+              >
+            </Select>
+          </template>
+          <template v-else>
+            <hgroup>
+              <h3>社区内容：</h3>
+              <h2>“{{ project_title }}”</h2>
+            </hgroup>
+          </template>
         </div>
         <List v-if="reload_show" item-layout="vertical" :split="false">
           <ListItem v-for="(item, index) in postList" :key="index">
@@ -79,7 +98,7 @@
             {{ item.content }}
             <template slot="action">
               <li class="post-action">
-                <div @click="like_post(item.id)">
+                <div @click="like_post(item.id, index)">
                   <Icon
                     :type="
                       'ios-thumbs-up' +
@@ -172,7 +191,7 @@
         v-real-img="preview_img"
       />
     </Modal>
-    <Footer></Footer>
+    <Footer class="footer"></Footer>
   </div>
 </template>
 <script>
@@ -187,9 +206,10 @@ import {
   doComment,
   // eslint-disable-next-line no-unused-vars
   doPost,
-  deletePost
+  deletePost,
+  communityList
 } from "../../services/api/post";
-import { searchProject } from "../../services/api/project";
+import { searchProject, getProjectById } from "../../services/api/project";
 
 export default {
   name: "More",
@@ -197,7 +217,7 @@ export default {
     return {
       status: 0,
       page: 1,
-      pageSize: 10,
+      pageSize: 8,
       postList: [],
       comment_show: false,
       comment_list: [],
@@ -233,7 +253,9 @@ export default {
         categoryId: 0,
         status: 1,
         page: 0
-      }
+      },
+      projectId_community: null,
+      project_title: null
     };
   },
   components: {
@@ -255,13 +277,31 @@ export default {
       }
     },
     getList() {
-      postList(this.status, this.page, this.pageSize).then(res => {
-        if (res.data) {
-          this.postList = res.data;
-        }
-      });
+      if (!this.projectId_community) {
+        postList(this.status, this.page, this.pageSize).then(res => {
+          if (res.data) {
+            this.postList.push.apply(this.postList, res.data);
+          }
+        });
+      } else {
+        getProjectById(this.projectId_community).then(res => {
+          if (res.data) {
+            this.project_title = res.data.title;
+          } else {
+            this.$router.replace("/more");
+          }
+        });
+        communityList(this.projectId_community, this.page, this.pageSize).then(
+          res => {
+            if (res.data) {
+              this.postList.push.apply(this.postList, res.data);
+            }
+          }
+        );
+      }
     },
     init() {
+      this.projectId_community = this.$route.query.project_id || null;
       this.getList();
     },
     imageList(imgs) {
@@ -272,10 +312,16 @@ export default {
       let date = new Date(d);
       return date.toLocaleString().replace(/\//g, "-");
     },
-    like_post(id) {
+    like_post(id, index) {
       doLike(id).then(res => {
         if (res.data) {
-          this.getList();
+          if (this.postList[index].like_check == 1) {
+            this.postList[index].like_check = 0;
+            this.postList[index].like_count--;
+          } else {
+            this.postList[index].like_check = 1;
+            this.postList[index].like_count++;
+          }
         }
       });
     },
@@ -321,6 +367,7 @@ export default {
             if (res.data) {
               this.post = "";
               this.project_id = null;
+              this.postList = [];
               this.reload();
               this.getList();
             }
@@ -330,6 +377,7 @@ export default {
             if (res.data) {
               this.post = "";
               this.project_id = null;
+              this.postList = [];
               this.reload();
               this.getList();
             }
@@ -346,6 +394,7 @@ export default {
     },
     change(value) {
       this.status = value;
+      this.postList = [];
       this.reload();
       this.getList();
     },
@@ -386,6 +435,7 @@ export default {
           deletePost(id).then(res => {
             if (res.data) {
               this.$Message.success("删除成功");
+              this.postList = [];
               this.reload();
               this.getList();
             }
@@ -413,6 +463,13 @@ export default {
   },
   created() {
     this.init();
+  },
+  watch: {
+    $route(to) {
+      if (to.name === "more") {
+        location.reload();
+      }
+    }
   }
 };
 </script>

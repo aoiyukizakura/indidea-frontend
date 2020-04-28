@@ -1,7 +1,7 @@
 /*
  * @Author: Morpho Sylvie
  * @Date: 2020-04-02 15:28:42
- * @LastEditTime: 2020-04-18 22:58:52
+ * @LastEditTime: 2020-04-28 14:56:50
  * @FilePath: \indidea-frontend\src\services\api\post.js
  * @Description:
  */
@@ -21,6 +21,18 @@ export const postList = (status, page, pageSize) => {
     }
   });
 };
+
+export const communityList = (projectId, page, pageSize) => {
+  return request({
+    url: `/api/post/community/${projectId}`,
+    method: "get",
+    params: {
+      page,
+      pageSize
+    }
+  });
+};
+
 /**
  * 获取某个post的评论列表
  * @param {Number} postId postId

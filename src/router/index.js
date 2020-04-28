@@ -169,7 +169,10 @@ const routes = [
   {
     path: "/more",
     name: "more",
-    component: () => import("../views/More/index.vue")
+    component: () => import("../views/More/index.vue"),
+    meta: {
+      auth: true
+    }
   },
   {
     path: "*",

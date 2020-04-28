@@ -15,7 +15,7 @@
         :xs="12"
         class="left-nav"
       >
-        <div @click="$router.push(`/more`)">发现</div>
+        <div @click="$router.push(`/more`)">发现社区</div>
         <div @click="getstart">发起众筹</div>
       </i-col>
       <i-col :md="3" :sm="{ span: 12 }" :xs="12" class="nav-right">

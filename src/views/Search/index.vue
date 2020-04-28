@@ -6,7 +6,7 @@
  * @Description: 
  -->
 <template>
-  <div>
+  <div class="search">
     <div class="search-header">
       <div>
         <div class="search-container">
