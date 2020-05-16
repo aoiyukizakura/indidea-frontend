@@ -177,24 +177,27 @@
       </div>
       <div v-else class="an-info">
         <ul>
-          <li v-for="(item, index) in quzList" :key="index">
-            <div class="an-info-content">
-              <div class="quz-content" @click="answerQuz(index)">
-                {{ item.quzcontent }}
-              </div>
-              <div class="an-content" v-if="quzNum === index">
-                <textarea
-                  placeholder="在此输入你的回答"
-                  rows="3"
-                  type="text"
-                  v-model="answerContent"
-                />
-                <div @click="doAnswer(item.id)">
-                  <span>回答</span>
+          <template v-if="quzList.length">
+            <li v-for="(item, index) in quzList" :key="index">
+              <div class="an-info-content">
+                <div class="quz-content" @click="answerQuz(index)">
+                  {{ item.quzcontent }}
+                </div>
+                <div class="an-content" v-if="quzNum === index">
+                  <textarea
+                    placeholder="在此输入你的回答"
+                    rows="3"
+                    type="text"
+                    v-model="answerContent"
+                  />
+                  <div @click="doAnswer(item.id)">
+                    <span>回答</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
+            </li>
+          </template>
+          <li v-else>暂无数据</li>
         </ul>
       </div>
     </Modal>

@@ -1,10 +1,3 @@
-<!--
- * @Author: Morpho Sylvie
- * @Date: 2020-04-02 15:53:56
- * @LastEditTime: 2020-04-28 22:13:53
- * @FilePath: \indidea-frontend\src\views\More\index.vue
- * @Description: 
- -->
 <template>
   <div class="more-main">
     <div class="post-main">

@@ -269,7 +269,11 @@ export default {
         projectId: this.$route.params.projectId,
         flag: 0
       }).then(res => {
-        this.projectData = res.data;
+        if (res.data) {
+          this.projectData = res.data;
+        } else {
+          this.$router.replace("/");
+        }
         if (
           res.data.status === 1 &&
           res.data.status === 5 &&

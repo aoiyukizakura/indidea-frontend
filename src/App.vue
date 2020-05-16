@@ -65,36 +65,41 @@
       <Divider />
       <p class="pstyle">我发起的方案</p>
       <div class="drawer-profile">
-        <Row v-for="(project, index) in myProjects" :key="index">
-          <i-col span="4">
-            <img src="./assets/default.png" v-real-img="project.pic" />
-          </i-col>
-          <template
-            v-if="
-              project.status !== 1 &&
-                project.status !== 5 &&
-                project.status !== 6
-            "
-          >
-            <i-col span="16" push="1">
-              <router-link
-                v-on:click.native="show = false"
-                :to="'/editProject/' + project.id"
-                >{{ project.category.name }} 的方案</router-link
-              >
+        <template v-if="myProjects.length">
+          <Row v-for="(project, index) in myProjects" :key="index">
+            <i-col span="4">
+              <img src="./assets/default.png" v-real-img="project.pic" />
             </i-col>
-            <Icon size="18" type="md-create" />
-          </template>
-          <template v-else>
-            <i-col span="16" push="1">
-              <router-link
-                v-on:click.native="show = false"
-                :to="'/project-detail/' + project.id"
-                >{{ project.category.name }} 的方案</router-link
-              >
-            </i-col>
-          </template>
-        </Row>
+            <template
+              v-if="
+                project.status !== 1 &&
+                  project.status !== 5 &&
+                  project.status !== 6
+              "
+            >
+              <i-col span="16" push="1">
+                <router-link
+                  v-on:click.native="show = false"
+                  :to="'/editProject/' + project.id"
+                  >{{ project.category.name }} 的方案</router-link
+                >
+              </i-col>
+              <Icon size="18" type="md-create" />
+            </template>
+            <template v-else>
+              <i-col span="16" push="1">
+                <router-link
+                  v-on:click.native="show = false"
+                  :to="'/project-detail/' + project.id"
+                  >{{ project.category.name }} 的方案</router-link
+                >
+              </i-col>
+            </template>
+          </Row>
+        </template>
+        <template v-else>
+          <div>暂无数据</div>
+        </template>
       </div>
       <Divider />
       <div class="btn-create-project">

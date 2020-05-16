@@ -20,7 +20,9 @@
           />
         </div>
         <div class="info-right">
-          <span class="info-right-username">{{ userData.username }}</span>
+          <span @click="showApplyHistory" class="info-right-username">
+            {{ userData.username }}
+          </span>
           <span class="info-right-role" v-if="!applyStatus">
             {{ userData.status === 2 ? "创意人" : "普通用户" }}
           </span>
@@ -136,6 +138,11 @@
         </div>
       </Form>
     </div>
+    <Modal :width="50" title="申请记录" v-model="modal">
+      <div>
+        <Table :columns="columns" :data="apply_historyList"></Table>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -146,7 +153,8 @@ import {
   // eslint-disable-next-line no-unused-vars
   updatePass,
   checkApplyStatus,
-  doApply
+  doApply,
+  myApplyList
 } from "../../services/api/user";
 import $ from "jquery";
 import { USER_INFO } from "../../utils/Constants";
@@ -162,7 +170,33 @@ export default {
       editpass_show: false,
       editinfo_show: true,
       applyStatus: false,
-      loading: true
+      loading: true,
+      modal: false,
+      columns: [
+        {
+          title: "状态",
+          key: "status",
+          render: (h, params) => {
+            let status = params.row.status;
+            return h("div", status ? "申请成功" : "申请失败");
+          }
+        },
+        {
+          title: "申请时间",
+          key: "createdat",
+          render: (h, params) => {
+            return h("div", this.date(params.row.createdat));
+          }
+        },
+        {
+          title: "处理时间",
+          key: "createdat",
+          render: (h, params) => {
+            return h("div", this.date(params.row.updatedat));
+          }
+        }
+      ],
+      apply_historyList: []
     };
   },
   methods: {
@@ -210,6 +244,10 @@ export default {
         this.$Message.info("俩次输入密码不符");
         return;
       } else {
+        if (this.formItem.input1 === this.formItem.input3) {
+          this.$Message.info("不能与原始密码相同");
+          return;
+        }
         if (p.test(this.formItem.input3)) {
           updatePass(this.formItem.input1, this.formItem.input3).then(res => {
             if (res.data) {
@@ -219,6 +257,8 @@ export default {
               this.$Message.info("更新失败");
             }
           });
+        } else {
+          this.$Message.info("不少于6字符且包含字符和数字");
         }
       }
     },
@@ -288,6 +328,14 @@ export default {
           duration: 2
         });
       }
+    },
+    showApplyHistory() {
+      this.modal = true;
+      myApplyList().then(res => {
+        if (res.code === 200) {
+          this.apply_historyList = res.data;
+        }
+      });
     }
   },
   created() {
@@ -350,6 +398,10 @@ export default {
       font-size: 18px;
       font-weight: bold;
       color: #009e74;
+      cursor: pointer;
+      &:hover {
+        color: #0f7c5f;
+      }
     }
     &-role {
       font-size: 13px;

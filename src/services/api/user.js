@@ -207,3 +207,12 @@ export const doApply = () => {
     method: "post"
   });
 };
+/**
+ * 申请列表
+ */
+export const myApplyList = () => {
+  return request({
+    url: "/api/users/myApplyList",
+    method: "get"
+  });
+};
